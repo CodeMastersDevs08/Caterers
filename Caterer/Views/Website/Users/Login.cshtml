@@ -1,0 +1,132 @@
+﻿@model Caterer.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Login Page</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 100px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-check {
+            margin-bottom: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn-login {
+            background-color: #dc3545;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-login:hover {
+                background-color: #c82333;
+            }
+
+        .form-control,
+        .btn {
+            border-radius: 4px;
+        }
+
+        .form-check-label {
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            font-size: 24px;
+            margin: 0 10px;
+            color: #343a40;
+            transition: color 0.3s ease;
+        }
+
+            .social-icon:hover {
+                color: #dc3545;
+            }
+    </style>
+</head>
+<body class="" style="background-color: #e4eefc;">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="container position-sticky z-index-sticky top-0">
+        <div class="row">
+            <div class="col-12">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="login-container">
+          
+                <div class="text-center">
+                    <img src="/Img/WhatsApp Image 2024-01-12 at 11.18.42 AM.jpeg" alt="Caters Logo" style="width: 150px; height: 100px; ">
+                </div>
+            <h2 class="text-center mb-4">Login</h2>
+            <form asp-action="Login" method="post" autocomplete="off">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="Email" class="form-control" placeholder="Email" aria-label="Email" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" aria-label="Password" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-check mb-3">
+                    <input asp-for="RememberMe" class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-login btn-block">Sign in</button>
+                </div>
+            </form>
+            <div class="social-icons mt-4">
+                <i class="fab fa-facebook social-icon"></i>
+                <i class="fab fa-twitter social-icon"></i>
+                <i class="fab fa-linkedin social-icon"></i>
+                <i class="fab fa-instagram social-icon"></i>
+            </div>
+            <div class="extra-content text-center mt-4">
+                
+                <a class="btn btn-success" type="button" href="@Url.Action("RegisterClient", "Users")" style="color: aliceblue;">Create new account</a>
+                <a class="btn btn-secondary" asp-controller="Websites" asp-action="WebsiteHome">Go To Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script> <!-- Replace with your FontAwesome kit link -->
+
+</body>
+</html>

@@ -1,0 +1,1324 @@
+﻿@model Caterer.Models.Restaurant
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_SuperAdminDashboard.cshtml";
+}
+<style>
+    .nav-pills .nav-item {
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+
+    #tabs-menagment-main {
+        background-color: rgb(99, 184, 171);
+        transition: background-color 0.3s ease;
+        color: #000;
+        margin-right: 10PX;
+    }
+
+    #res_menagment {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 8px;
+    }
+
+        #res_menagment li {
+            margin-bottom: 1px;
+        }
+
+            #res_menagment li a {
+                text-decoration: none;
+                color: #333;
+                padding: 8px 16px;
+                display: block;
+                transition: background-color 0.3s ease;
+            }
+
+                #res_menagment li a:hover {
+                    background-color: wheat;
+                    color: #000;
+                }
+</style>
+<div class="container-fluid py-6">
+    <div class="pb-3 pt-4 pt-md-6">
+        <div class="container-fluid ">
+            <div class="nav-wrapper ">
+                <ul class="nav nav-pills nav-fill flex-column flex-md-row " id="res_menagment" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-menagment-main" onclick="toggleSection('management')"><i class="ni ni-badge mr-2"></i>  Restaurant Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-menagment-main" onclick="toggleSection('settings')"><i class="ni ni-money-coins mr-2"></i>  Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-menagment-main" onclick="toggleSection('hours')"><i class="ni ni-time-alarm mr-2"></i>  Working Hours</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0 " id="tabs-menagment-main" onclick="toggleSection('location')"><i class="ni ni-square-pin mr-2"></i>  Location</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-menagment-main" onclick="toggleSection('financeContainer')"><i class="ni ni-money-coins mr-2"></i>  Finance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mb-sm-3 mb-md-0" id="tabs-menagment-main" onclick="toggleSection('planContainer')"><i class="ni ni-money-coins mr-2"></i>  Plans</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5>Restaurant</h5>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary text-right btn-sm ms-auto mb-2" asp-controller="Restaurants" asp-action="SuperAdminRestaurantList">Back to list</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="SuperAdminRestaurantEdit" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="RestaurantId" />
+                            @*     @RESTAURANT MANAGEMENT START@*@
+                            <input asp-for="ResId" type="hidden" value="0" class="form-control" />
+                            <div class="row" id="management">
+                                <div class="col-12">
+                                    <div class="card mb-4">
+                                        <div class="card-header pb-0">
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-8">
+                                                    <h5>Restaurant Information</h5>
+                                                </div>
+                                                <div class="col-md-12 col-lg-4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="form-group" style="display:none">
+                                                    <label asp-for="Role" class="control-label">Role</label>
+                                                    <input asp-for="Role" class="form-control" value="Restaurant" />
+                                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label asp-for="RestaurantName" for="example-text-input" class="form-control-label">Restaurant Name</label>
+                                                        <input asp-for="RestaurantName" class="form-control" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="Minimum" class="form-control-label">Minimum order</label>
+                                                        <input class="form-control" asp-for="Minimum" type="text" placeholder="Please Enter Slug">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="Description" class="form-control-label">Restaurant description</label>
+                                                        <input class="form-control" asp-for="Description" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="TakeawayMin" class="form-control-label">Takeaway Minimum order</label>
+                                                        <input class="form-control" asp-for="TakeawayMin" type="text" placeholder="Please Enter Slug">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="Address" class="form-control-label">Restaurant address</label>
+                                                        <input class="form-control" asp-for="Address" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="Minutes" class="form-control-label">Minutes</label>
+                                                        <Select asp-for="Minutes" class="form-control">
+                                                            <option disabled>Select Minutes</option>
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                            <option>6</option>
+                                                            <option>7</option>
+                                                            <option>8</option>
+                                                            <option>9</option>
+                                                            <option>10</option>
+                                                        </Select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="OwnerPhone" class="form-control-label">Restaurant phone</label>
+                                                        <input class="form-control" asp-for="OwnerPhone" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label asp-for="Delivery" for="example-text-input" class="form-control-label">Delivery Charges</label>
+                                                        <input asp-for="Delivery" required class="form-control" required placeholder="Please Enter Delivery Charge">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label asp-for="Buffet" for="example-text-input" class="form-control-label">Buffet Setup Charges</label>
+                                                        <input asp-for="Buffet" required class="form-control" placeholder="Please Enter Buffet Setup Charge">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <!-- Assuming you want the second element to take the same width -->
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="TaxId" class="form-control-label">Service Tax %</label>
+                                                        <input class="form-control" asp-for="ServiceTax" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                              
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="Fee" class="form-control-label">Platform Fee percent</label>
+                                                        <input class="form-control" asp-for="Fee" type="number" placeholder="Please Select Tax">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="StaticFee" class="form-control-label">Platform Static fee </label>
+                                                        <input class="form-control" asp-for="StaticFee" type="number" placeholder="30">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="AutoRejectWaitTime" class="form-control-label">Auto Reject Waiting time  </label>
+                                                        <input class="form-control" asp-for="AutoRejectWaitTime" type="" placeholder="₹0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="StripeFee" class="form-control-label">Stripe Fee</label>
+                                                        <input class="form-control" asp-for="StripeFee" type="number" placeholder="Please Select Tax">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="StripeStaticFee" class="form-control-label">Stripe Static fee </label>
+                                                        <input class="form-control" asp-for="StripeStaticFee" type="number" placeholder="30">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="QRPaymentWaitTime" class="form-control-label">Qr Payment Waiting time  </label>
+                                                        <input class="form-control" asp-for="QRPaymentWaitTime" type="" placeholder="₹0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PayNowFee" class="form-control-label">Paynow Fee</label>
+                                                        <input class="form-control" asp-for="PayNowFee" type="number" placeholder="Please Select Tax">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PayNowStaticFee" class="form-control-label">Paynow Static fee </label>
+                                                        <input class="form-control" asp-for="PayNowStaticFee" type="number" placeholder="30">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="AverageOrderPrepareTimeInMinutes" class="form-control-label">Average order prepare time in minutes  </label>
+                                                        <select asp-for="AverageOrderPrepareTimeInMinutes" class="form-control">
+                                                            <option disabled>Selected Average order prepare time In minutes</option>
+                                                            <option>0</option>
+                                                            <option>5</option>
+                                                            <option>10</option>
+                                                            <option>15</option>
+                                                            <option>20</option>
+                                                            <option>25</option>
+                                                            <option>30</option>
+                                                            <option>35</option>
+                                                            <option>40</option>
+                                                            <option>45</option>
+                                                            <option>50</option>
+                                                            <option>55</option>
+                                                            <option>60</option>
+                                                            <option>65</option>
+                                                            <option>70</option>
+                                                            <option>75</option>
+                                                            <option>85</option>
+                                                            <option>90</option>
+                                                            <option>95</option>
+                                                            <option>100</option>
+                                                            <option>105</option>
+                                                            <option>110</option>
+                                                            <option>115</option>
+                                                            <option>120</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="TimeSlotSeparatedInMinutes" class="form-control-label">Time slots separated in minutes</label>
+                                                        <select asp-for="TimeSlotSeparatedInMinutes" class="form-control">
+                                                            <option disabled>Selected Time slot separated in minutes</option>
+                                                            <option>0</option>
+                                                            <option>5</option>
+                                                            <option>10</option>
+                                                            <option>15</option>
+                                                            <option>20</option>
+                                                            <option>25</option>
+                                                            <option>30</option>
+                                                            <option>35</option>
+                                                            <option>40</option>
+                                                            <option>45</option>
+                                                            <option>50</option>
+                                                            <option>55</option>
+                                                            <option>60</option>
+                                                            <option>65</option>
+                                                            <option>70</option>
+                                                            <option>75</option>
+                                                            <option>85</option>
+                                                            <option>90</option>
+                                                            <option>95</option>
+                                                            <option>100</option>
+                                                            <option>105</option>
+                                                            <option>110</option>
+                                                            <option>115</option>
+                                                            <option>120</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="TimeSlotSeparatedInMinutes" class="form-control-label">Opening time interval in minutes</label>
+                                                        <input class="form-control" asp-for="TimeSlotSeparatedInMinutes" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="DeliveryPreparationTime" class="form-control-label">Delivery preparation time</label>
+                                                        <input class="form-control" asp-for="DeliveryPreparationTime" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" style="display:none;">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="ServiceTax" class="form-control-label">Default tax value</label>
+                                                        <select asp-for="TaxId" asp-items="new SelectList(Model.TaxName ?? new List<Tax>(), nameof(Tax.TaxId), nameof(Tax.TaxPercentage))" class="form-control pro-edt-select form-control-primary">
+                                                            <option>Select Tax</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="StripeServiceTax" class="form-control-label">Stripe Service Charge</label>
+                                                        <input class="form-control" asp-for="StripeServiceTax" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PayNowServiceTax" class="form-control-label">Paynow Service Charge</label>
+                                                        <input class="form-control" asp-for="PayNowServiceTax" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="ServiceTaxDineIn" class="form-control-label">Dine-in Service Tax</label>
+                                                        <input class="form-control" asp-for="ServiceTaxDineIn" type="text" placeholder="Please Enter Name">
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="FreeDeliveryCost" class="form-control-label">Free Delivery Cost</label>
+                                                        <input class="form-control" asp-for="FreeDeliveryCost" type="text" placeholder="Please Enter Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="Currency" class="form-control-label">Currency</label>
+                                                        <input class="form-control" asp-for="Currency" type="text" placeholder="Please Enter Slug">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="DefaultLanguage" class="form-control-label">Default Language  </label>
+                                                        <input class="form-control" type="text" asp-for="DefaultLanguage" placeholder="Please Enter Slug">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="Logo" class="control-label">Restaurant Image</label> <br />
+                                                        <label><span>JPEG 590 x 400 recommended</span></label><br />
+                                                        <input asp-for="Logo" type="hidden" class="form-control" />
+
+                                                        @if (!string.IsNullOrEmpty(Model.Logo))
+                                                        {
+                                                            <img id="logoPreview" src="~/Images/RestaurantLogo/@Model.Logo" style="width:100px; border-radius:10px; height:80px" />
+                                                        }
+                                                        <br />
+                                                        <br />
+                                                        <label class="btn btn-default">
+                                                            Change Image
+                                                            <input asp-for="Logo" type="file" name="ProductImage" accept=".png,.jpeg,.jpg" class="d-none" onchange="previewImage(this, 'logoPreview')" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="Cover" class="control-label">Restaurant Cover Image</label> <br />
+                                                        <label><span>JPEG 2000 x 1000 recommended</span></label><br />
+                                                        <input asp-for="Cover" type="hidden" class="form-control" />
+
+                                                        @if (!string.IsNullOrEmpty(Model.Cover))
+                                                        {
+                                                            <img id="coverPreview" src="/Images/RestaurantCover/@Model.Cover" style="width:180px; border-radius:10px; height:80px" />
+                                                        }
+                                                        <br />
+                                                        <br />
+                                                        <label class="btn btn-default">
+                                                            Change Image
+                                                            <input asp-for="Cover" type="file" name="coverimg" accept=".png,.jpeg,.jpg" class="d-none" onchange="previewImage(this, 'coverPreview')" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <h5>OWNER INFORMATION</h5>
+                                                    <hr class="horizontal dark">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">  Name</label>
+                                                            <input class="form-control" disabled asp-for="OwnerName" type="text">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">  Email</label>
+                                                            <input class="form-control" disabled asp-for="OwnerEmail" type="text">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">  Phone</label>
+                                                            <input class="form-control" disabled asp-for="OwnerPhone" type="text">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="example-text-input" class="form-control-label">Password</label>
+                                                            <input asp-for="Password" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*  RESTAURANT MANAGEMENT End*@
+
+                            @*SETTINGS MANAGEMENT START*@
+                            <div class="row" id="settings">
+                                <div class="col-12">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-switch">
+                                                        <input class="custom-control-input float-end" type="checkbox" asp-for="IsFeatured" id="featuredToggle">
+                                                        <label class="custom-control-label" for="featuredToggle">@Html.DisplayNameFor(model => model.IsFeatured)</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox" asp-for="Active" id="fcustomCheck1">
+                                                        <label for="fcustomCheck1 " class="custom-control-label">Active</label>
+                                                       
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="CanAutoReject" type="checkbox" id="autoRejectToggle">
+                                                        <label for="autoRejectToggle" class="custom-control-label">Enable Auto Reject</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="CanAutoAccept" type="checkbox" id="autoAcceptToggle">
+                                                        <label for="autoAcceptToggle" class="custom-control-label">Enable Auto Accept</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="CanPickup" type="checkbox" id="pickupToggle">
+                                                        <label for="pickupToggle" class="custom-control-label">Pickup</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="CanDeliver" type="checkbox" id="deliveryToggle">
+                                                        <label for="deliveryToggle" class="custom-control-label">Delivery</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="CanFreeDeliver" type="checkbox" id="freeDeliveryToggle">
+                                                        <label for="freeDeliveryToggle" class="custom-control-label">Free Delivery</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="CanPreorder" type="checkbox" id="preorderToggle">
+                                                        <label for="preorderToggle" class="custom-control-label">Pre Order</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Disableordering" type="checkbox" id="disableOrderingToggle">
+                                                        <label for="disableOrderingToggle" class="custom-control-label">Disable Ordering</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox" asp-for="CanDineIn" id="dineInToggle">
+                                                        <label for="dineInToggle" class="custom-control-label">Dine In</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox" asp-for="DisableCOD" id="disableCODToggle">
+                                                        <label for="disableCODToggle" class="custom-control-label">Disable Cash On Delivery</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="DisableCardpayment" type="checkbox" id="disableCardPaymentToggle">
+                                                        <label for="disableCardPaymentToggle" class="custom-control-label">Disable Card Payment</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="DisablePayNow" type="checkbox" id="disablePayNowToggle">
+                                                        <label for="disablePayNowToggle" class="custom-control-label">Disable Paynow</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="CanSelfDelivery" type="checkbox" id="selfDeliveryToggle">
+                                                        <label for="selfDeliveryToggle" class="custom-control-label">Self Delivery</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Halal" type="checkbox" id="halalToggle">
+                                                        <label for="halalToggle" class="custom-control-label">Halal</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="NonHalal" type="checkbox" id="nonHalalToggle">
+                                                        <label for="nonHalalToggle" class="custom-control-label">Non Halal</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="FullSetUpBuffet" type="checkbox" id="fullSetUpBuffetToggle">
+                                                        <label for="fullSetUpBuffetToggle" class="custom-control-label">Full SetUp Buffet</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Vegetarian" type="checkbox" id="vegetarianToggle">
+                                                        <label for="vegetarianToggle" class="custom-control-label">Vegetarian</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="NonVeg" type="checkbox" id="nonVegetarianToggle">
+                                                        <label for="nonVegetarianToggle" class="custom-control-label">Non Vegetarian</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="ChineseLocalAsian" type="checkbox" id="chineseLocalAsianToggle">
+                                                        <label for="chineseLocalAsianToggle" class="custom-control-label">Chinese/Local/Asian</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="International" type="checkbox" id="internationalToggle">
+                                                        <label for="internationalToggle" class="custom-control-label">International</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Western" type="checkbox" id="westernToggle">
+                                                        <label for="westernToggle" class="custom-control-label">Western</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Thai" type="checkbox" id="thaiToggle">
+                                                        <label for="thaiToggle" class="custom-control-label">Thai</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Japanese" type="checkbox" id="japaneseToggle">
+                                                        <label for="japaneseToggle" class="custom-control-label">Japanese</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Indian" type="checkbox" id="indianToggle">
+                                                        <label for="indianToggle" class="custom-control-label">Indian</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" asp-for="Malay" type="checkbox" id="malayToggle">
+                                                        <label for="malayToggle" class="custom-control-label">Malay</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" type="checkbox" asp-for="DoConversion" id="moneyConversionToggle">
+                                                        <label for="moneyConversionToggle" class="custom-control-label">Money Conversion</label>
+                                                        <br>
+                                                        <span>Some currencies need this field to be unselected. By default, it should be selected</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*SETTINGS MANAGEMENT END*@
+
+                            @*APPS START*@
+                            <div class="row" id="apps" style="display: none;">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header pb-0">
+                                        </div>
+                                        <h5 style="margin-left: 20px;">Apps</h5> <br>
+                                        <h5 style="margin-left: 20px;">Allergens</h5>
+                                        <hr class="horizontal dark">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="form-check" style="margin-left: 20px;">
+                                                    <label class="custom-control-label">   </label>
+                                                    <input class="form-check-input" asp-for="CanDispalyAllergensOnMenu" type="checkbox" id="fcustomCheck1">@Html.DisplayNameFor(model => model.CanDispalyAllergensOnMenu)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <h5 style="margin-left: 20px;">Coupons</h5>
+                                        <hr class="horizontal dark">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="form-check" style="margin-left: 20px;">
+
+                                                    <input class="form-check-input" asp-for="CanEnableCoupons" type="checkbox" id="fcustomCheck1">  @Html.DisplayNameFor(model => model.CanEnableCoupons)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <h5 style="margin-left: 20px;">Tax config</h5>
+                                        <hr class="horizontal dark">
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                <div class="form-check" style="margin-left: 20px;">
+                                                    <label class="custom-control-label">  </label>
+                                                    <input class="form-check-input" asp-for="CanShowTax" type="checkbox" id="fcustomCheck1"> @Html.DisplayNameFor(model => model.CanShowTax)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5 style="margin-left: 20px;">Custom domain</h5>
+                                        <hr class="horizontal dark">
+                                        <div class="card-body">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="example-text-input" asp-for="Domain" class="form-control-label">Domain</label>
+                                                    <input class="form-control" asp-for="Domain" type="text" placeholder="18">
+                                                </div>
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Drivers</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-check" style="margin-left: 20px;">
+                                                        <label class="custom-control-label"> </label>
+                                                        <input class="form-check-input" asp-for="CanEnableDrivers" type="checkbox" id="fcustomCheck1">@Html.DisplayNameFor(model => model.CanEnableDrivers)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Expenses</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-check" style="margin-left: 20px;">
+                                                        <label class="custom-control-label"></label>
+                                                        <input class="form-check-input" asp-for="CanSelfDelivery" type="checkbox" id="fcustomCheck1">@Html.DisplayNameFor(model => model.CanSelfDelivery)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Google translate</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-check" style="margin-left: 20px;">
+                                                        <label class="custom-control-label">  </label>
+                                                        <input class="form-check-input" asp-for="CanShowGoogleTranslate" type="checkbox" id="fcustomCheck1">@Html.DisplayNameFor(model => model.CanShowGoogleTranslate)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-check" style="margin-left: 20px;">
+                                                        <label class="custom-control-label"></label>
+                                                        <input class="form-check-input" asp-for="CanShowAllLanguages" type="checkbox" id="fcustomCheck1"> @Html.DisplayNameFor(model => model.CanShowAllLanguages)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="example-text-input" asp-for="LanguageCode" class="form-control-label">List of language codes to show</label>
+                                                    <input class="form-control" asp-for="LanguageCode" type="text" placeholder="">
+                                                </div>
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Impressum</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="example-text-input" asp-for="TitleOfImpressum" class="form-control-label">Title of the Impressum</label>
+                                                    <input class="form-control" asp-for="TitleOfImpressum" type="text" placeholder="Impressum">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-text-input" asp-for="Impressum" class="form-control-label">Impressum</label>
+                                                <input class="form-control" asp-for="Impressum" type="text" placeholder="">
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Kitchen Display System</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-check" style="margin-left: 20px;">
+                                                        <label class="custom-control-label"> </label>
+                                                        <input class="form-check-input" asp-for="CanEnableKitchenDisplaySystem" type="checkbox" id="fcustomCheck1"> @Html.DisplayNameFor(model => model.CanEnableKitchenDisplaySystem)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Manager</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="example-text-input" asp-for="ManagerEmail" class="form-control-label">Enter manager email</label>
+                                                    <input class="form-control" asp-for="ManagerEmail" type="text" placeholder="">
+                                                </div>
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Order date time</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <div class="form-check" style="margin-left: 20px;">
+                                                        <label class="custom-control-label"> </label>
+                                                        <input class="form-check-input" asp-for="CanEnableOrderAfterWorkingTimeOfTheStore" type="checkbox" id="fcustomCheck1"> @Html.DisplayNameFor(model => model.CanEnableOrderAfterWorkingTimeOfTheStore)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-check" style="margin-left: 20px;">
+                                                        <label class="custom-control-label"></label>
+                                                        <input class="form-check-input" asp-for="CanShowDateTimePickerEvenIfStoreIsOpen" type="checkbox" id="fcustomCheck1">@Html.DisplayNameFor(model => model.CanShowDateTimePickerEvenIfStoreIsOpen)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 style="margin-left: 20px;">Print Node</h5>
+                                            <hr class="horizontal dark">
+                                            <div class="card-body">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PrintNodeApiKey" class="form-control-label">Print Node API Key</label>
+                                                        <input class="form-control" asp-for="PrintNodeApiKey" type="text" placeholder="Enter Print Node API Key  ">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="MainThermalPrinterId" asp-for="PrintNodeApiKey" class="form-control-label">Main thermal printer ID</label>
+                                                        <input class="form-control" asp-for="MainThermalPrinterId" asp-for="PrintNodeApiKey" type="text" placeholder="Enter printer ID">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="SecondMainPrinterId" class="form-control-label">second Main thermal printer ID</label>
+                                                        <input class="form-control" asp-for="SecondMainPrinterId" type="text" placeholder="Enter Printnode printer ID">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="KitchenThermalPrinterId" class="form-control-label">Kitchen thermal printer ID</label>
+                                                        <input class="form-control" asp-for="KitchenThermalPrinterId" type="text" placeholder="Enter Printnode printer ID">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="SecondKitchenThermalPrinterId" class="form-control-label">Second Kitchen thermal printer ID</label>
+                                                        <input class="form-control" asp-for="SecondKitchenThermalPrinterId" type="text" placeholder="Enter Second Kitchen printer ID">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="StandardPrinterId" class="form-control-label">Standard printer ID</label>
+                                                        <input class="form-control" asp-for="StandardPrinterId" type="text" placeholder="Enter Printnode printer ID  for A4 invoices">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PrintA4StandardOrderWhen" class="form-control-label">Print A4 Standard order when</label>
+                                                        <input class="form-control" asp-for="PrintA4StandardOrderWhen" type="text" placeholder="On Order received">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PrintOnMainThermalPrinterWhen" class="form-control-label">Print on main thermal printer when</label>
+                                                        <input class="form-control" asp-for="PrintOnMainThermalPrinterWhen" type="text" placeholder="We accept the order">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PrintOnKitchenThermalPrinterWhen" class="form-control-label">Print on kitchen thermal printer when</label>
+                                                        <input class="form-control" asp-for="PrintOnKitchenThermalPrinterWhen" type="text" placeholder="We accept the order">
+                                                    </div>
+                                                </div>
+                                                <h5> Theme Switcher</h5>
+                                                <hr class="horizontal dark">
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="SelectYoutMenuTemplate" class="form-control-label">Select your menu template</label>
+                                                        <input class="form-control" asp-for="SelectYoutMenuTemplate" type="text" placeholder="Default template">
+                                                    </div>
+                                                </div>
+                                                <h5>Custom Timezone</h5>
+                                                <hr class="horizontal dark">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="TimeZone" class="form-control-label">Time Zone</label>
+                                                        <input class="form-control" asp-for="TimeZone" type="text" placeholder="Default template">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="TimeLanguage" class="form-control-label">Time Language</label>
+                                                        <input class="form-control" asp-for="TimeLanguage" type="text" placeholder="Select Time Language">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="TimeFormatForOrders" class="form-control-label">Time Format for orders</label>
+                                                        <input class="form-control" asp-for="TimeFormatForOrders" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="TimeFormatForClosingTime" class="form-control-label">Time Format for closing time</label>
+                                                        <input class="form-control" asp-for="TimeFormatForClosingTime" type="text" placeholder="Default template">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <h5>WebHooks</h5>
+                                                <hr class="horizontal dark">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="WebhookCalledApprovedBySystem" class="form-control-label">Webhook called when order is approved by system</label>
+                                                        <input class="form-control" asp-for="WebhookCalledApprovedBySystem" type="text" placeholder="A post call will be made to the provide URL">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="WebhookCalledApprovedByvendor" class="form-control-label">Webhook called when order is approved by vendor</label>
+                                                        <input class="form-control" asp-for="WebhookCalledApprovedByvendor" type="text" placeholder="A post call will be made to the provide URL">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <h5>Delivery costs</h5>
+                                                <hr class="horizontal dark">
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <label class="custom-control-label"> </label>
+                                                        <input class="form-check-input" type="checkbox" asp-for="CanEnableCustomDeliveyCost" id="fcustomCheck1"> @Html.DisplayNameFor(model => model.CanEnableCustomDeliveyCost)
+                                                        <br>
+                                                        <span style="font-size:12px;">  If it is not enabled, then Admin delivery cost will be applied</span>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <br />
+                                                <div class="col-md-6">
+                                                    <div class="form-check">
+                                                        <label class="custom-control-label"> </label>
+                                                        <input class="form-check-input" asp-for="CanEnableCostBasedOnRange" type="checkbox" id="fcustomCheck1"> @Html.DisplayNameFor(model => model.CanEnableCostBasedOnRange)
+                                                        <br>
+                                                        <span style="font-size:12px;">If you have enable cost based on range, the delivery cost will be calculated based on what range the distance for delivery is in</span>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="FirstRange" class="form-control-label">First range</label>
+                                                        <input class="form-control" asp-for="FirstRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="SecondRange" class="form-control-label">Second range</label>
+                                                        <input class="form-control" asp-for="SecondRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="ThirdRange" class="form-control-label">Third range</label>
+                                                        <input class="form-control" asp-for="ThirdRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="FourthRange" class="form-control-label">Fourth range</label>
+                                                        <input class="form-control" asp-for="FourthRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="FifthRange" class="form-control-label">Fifth range</label>
+                                                        <input class="form-control" asp-for="FifthRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PriceForFirstRange" class="form-control-label">Price for First range</label>
+                                                        <input class="form-control" asp-for="PriceForFirstRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PriceForSecondRange" class="form-control-label">Price for Second range</label>
+                                                        <input class="form-control" asp-for="PriceForSecondRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PriceForThirdRange" class="form-control-label">Price for Third range</label>
+                                                        <input class="form-control" asp-for="PriceForThirdRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PriceForFourthRange" class="form-control-label">Price for Fourth range</label>
+                                                        <input class="form-control" asp-for="PriceForFourthRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="example-text-input" asp-for="PriceForFifthRange" class="form-control-label">Price for Fifth range</label>
+                                                        <input class="form-control" asp-for="PriceForFifthRange" type="text" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            @*APPS END*@
+
+                            @*  @WORKING HOURS START@*@
+                            <div class="row" id="hours" style="display: none;">
+                                <div class="col-12">
+                                    <div class="card mb-4">
+                                        <div class="card-header pb-0">
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-8">
+                                                    <h5 class="mb-0">Working Hours</h5>
+                                                </div>
+                                                @*   <div class="col-md-12 col-lg-4">
+                                                <a href="" class="btn btn-sm btn-primary">Add new shift</a>
+                                                </div>*@
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="">
+                                                <input type="hidden" name="_token">
+                                                <input type="hidden" id="rid" name="rid">
+                                                <input type="hidden" id="shift_id" name="shift_id">
+                                                <div class="form-group ">
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group form-check">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="Monday" /> @Html.DisplayNameFor(model => model.Monday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group">
+                                                                <input asp-for="MondayStart" class="form-control" />
+                                                                <span asp-validation-for="MondayStart" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 text-center">
+                                                            <p class="display-6">-</p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group ">
+                                                                <input asp-for="MondayEnd" class="form-control" />
+                                                                <span asp-validation-for="MondayEnd" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group form-check">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="Tuesday" /> @Html.DisplayNameFor(model => model.Tuesday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="TuesdayStart" class="form-control" />
+                                                                <span asp-validation-for="TuesdayStart" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 text-center">
+                                                            <p class="display-6">-</p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="TuesdayEnd" class="form-control" />
+                                                                <span asp-validation-for="TuesdayEnd" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group form-check">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="Wednesday" /> @Html.DisplayNameFor(model => model.Wednesday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="WednesdayStart" class="form-control" />
+                                                                <span asp-validation-for="WednesdayStart" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 text-center">
+                                                            <p class="display-6">-</p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="WednesdayEnd" class="form-control" />
+                                                                <span asp-validation-for="WednesdayEnd" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group form-check">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="Thursday" /> @Html.DisplayNameFor(model => model.Thursday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="ThursdayStart" class="form-control" />
+                                                                <span asp-validation-for="ThursdayStart" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 text-center">
+                                                            <p class="display-6">-</p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="ThursdayEnd" class="form-control" />
+                                                                <span asp-validation-for="ThursdayEnd" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group form-check">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="Friday" /> @Html.DisplayNameFor(model => model.Friday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="FridayStart" class="form-control" />
+                                                                <span asp-validation-for="FridayStart" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 text-center">
+                                                            <p class="display-6">-</p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="FridayEnd" class="form-control" />
+                                                                <span asp-validation-for="FridayEnd" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group form-check">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="Saturday" /> @Html.DisplayNameFor(model => model.Saturday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="SaturdayStart" class="form-control" />
+                                                                <span asp-validation-for="SaturdayStart" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 text-center">
+                                                            <p class="display-6">-</p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="SaturdayEnd" class="form-control" />
+                                                                <span asp-validation-for="SaturdayEnd" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group form-check">
+                                                                <label class="form-check-label">
+                                                                    <input class="form-check-input" asp-for="Sunday" /> @Html.DisplayNameFor(model => model.Sunday)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="SundayStart" class="form-control" />
+                                                                <span asp-validation-for="SundayStart" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 text-center">
+                                                            <p class="display-6">-</p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="input-group flex-nowrap">
+                                                                <input asp-for="SundayEnd" class="form-control" />
+                                                                <span asp-validation-for="SundayEnd" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*       @WORKING HOURS END@*@
+
+                            @*  @LOCATION START@*@
+                            <div class="row" id="location" style="display: none;">
+                                <div class="col-12">
+                                    <div class="card mb-4">
+                                        <div class="card-header pb-0">
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-8">
+                                                    <h5 class="mb-0">Restaurant Location</h5>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="">
+                                                <div class="card-header">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-12">
+                                                            <h5 class="mb-0">Restaurant Location</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-6">
+                                                            <button type="button" class="btn btn-primary btn-lg btn-block" style="width: 90%;">Location</button>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <button type="button" class="btn btn-primary btn-lg btn-block" style="width: 90%;">Delivery Area</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            @*   @LOCATION END@*@
+
+                            @*   @FINANCE START@*@
+                            <div class="row" id="financeContainer" style="display: none;">
+                                <div class="col-12">
+                                    <div class="card mb-4">
+                                        <div class="card-header pb-0">
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-8">
+                                                    <h5 class="mb-0">Restaurant Finance Details</h5>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <input type="hidden" name="_token" value="f16eXG9QyDSA8JBzoqy7Mio15Ebq7jWSUpsJqh9p">        <input type="hidden" name="_method" value="put">        <div class="row">
+                                                    <div class="col-md-12">
+                                                        <input type="hidden" id="rid">
+                                                        <div id="form-group-paynow_payout_days" class="form-group  ">
+                                                            <label class="form-control-label" for="paynow_payout_days">Paynow Payout Days</label>
+                                                            <input asp-for="PayNowPayOutDays" type="number" asp-for="PayNowPayOutDays" class="form-control form-control   " placeholder="Paynow Payout Days">
+                                                        </div>
+                                                        <div id="form-group-card_payout_days" class="form-group focused">
+                                                            <label class="form-control-label" for="card_payout_days">Card Payout Days</label>
+                                                            <input asp-for="CardPayoutdays" type="number" asp-for="CardPayoutdays" class="form-control form-control   " placeholder="Card Payout Days">
+                                                        </div>
+                                                        <div id="form-group-bankShortCode" class="form-group   ">
+                                                            <label class="form-control-label" asp-for="RestaurantBankShortCode">Restaurant bankShortCode</label><br>
+                                                            <select class="form-control" asp-for="RestaurantBankShortCode">
+                                                                <option selected disabled>Select an option</option>
+                                                                <option value="DBS">Development Bank of Singapore</option>
+                                                                <option value="UOB">United Overseas Bank</option>
+                                                                <option value="MBB">Maybank Singapore Limited</option>
+                                                                <option value="OCBC">Oversea-Chinese Banking Corporation Limited</option>
+                                                                <option value="CITI">Citibank Singapore</option>
+                                                                <option value="SCB">Standard Chartered Bank</option>
+                                                                <option value="ANZ">Australia and New Zealand Bank Group</option>
+                                                                <option value="CIMB">CIMB Bank Berhad</option>
+                                                                <option value="DBAG">Deutsche bank AG</option>
+                                                                <option value="HSBC">HSBC (Corporate)</option>
+                                                                <option value="HSBC2">HSBC (Personal)</option>
+                                                                <option value="RHB">RHB Bank Berhad</option>
+                                                                <option value="SMBC">Sumitomo Mitsui Banking Corporation</option>
+                                                                <option value="POSB">POSB</option>
+                                                                <option value="BOC">Bank of China</option>
+                                                                <option value="MUFG">Bank of Tokyo-Mitsubshi UFJ</option>
+                                                                <option value="BNP">BNP PARIBAS</option>
+                                                                <option value="HLB">HL BANK</option>
+                                                                <option value="MIZ">Mizuho Bank</option>
+                                                                <option value="ICBC">INDUSTRIAL AND COMMERCIAL BANK OF CHINA</option>
+                                                                <option value="TBS">Trust Bank Singapore Limited</option>
+                                                                <option value="GXS">GXS Bank Pte Ltd</option>
+                                                                <option value="MBS">MariBank Singapore Private Limited</option>
+                                                                <option value="GLDB">Green Link Digital Bank Pte Ltd</option>
+                                                            </select>
+                                                        </div>
+                                                        <div id="form-group-bankAccountNo" class="form-group  ">
+                                                            <label class="form-control-label" asp-for="RestaurantBankAccountNo" for="bankAccountNo">Restaurant bankAccountNo</label>
+                                                            <input type="text" asp-for="RestaurantBankAccountNo" id="bankAccountNo" class="form-control form-control   " placeholder="Restaurant bankAccountNo">
+                                                        </div>
+                                                        <div id="form-group-bankAccountHolderName" class="form-group  ">
+                                                            <label class="form-control-label" asp-for="RestaurantBankHolderName" for="bankAccountHolderName">Restaurant bankAccountHolderName</label>
+                                                            <input type="text" asp-for="RestaurantBankHolderName" id="bankAccountHolderName" class="form-control form-control   " placeholder="Restaurant bankAccountHolderName">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*@FINANCE END@*@
+
+                            @*PLANS START*@
+                            <div class="row" id="planContainer" style="display: none;">
+                                <div class="col-12">
+                                    <div class="card mb-4">
+                                        <div class="card-header pb-0">
+                                            <div class="row">
+                                                <div class="col-md-12 col-lg-8">
+                                                    <h5 class="mb-0">Subscription plan</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="card-body">
+                                                    <div class="pl-lg-4">
+                                                        <label for="exampleCombobox">Select an option:</label>
+                                                        <select class="form-control" asp-for="CurrentPlan" id="exampleCombobox">
+                                                            <option disabled> Select an Plan</option>
+                                                            <option>Free</option>
+                                                            <option>Starter</option>
+                                                            <option>Pro</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*PLANS END*@
+                            <input type="hidden" asp-for="OwnerName" class="form-control" />
+                            <input type="hidden" asp-for="OwnerEmail" class="form-control" />
+                            <div class="form-group text-center">
+                                <input type="submit" value="Update" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    window.onload = function () {
+        document.getElementById('settings').style.display = 'none';
+    };
+    function toggleSection(sectionId) {
+        // Hide all sections
+        document.getElementById('management').style.display = 'none';
+        document.getElementById('apps').style.display = 'none';
+        document.getElementById('hours').style.display = 'none';
+        document.getElementById('location').style.display = 'none';
+        document.getElementById('financeContainer').style.display = 'none';
+        document.getElementById('planContainer').style.display = 'none';
+        document.getElementById('settings').style.display = 'none';
+        // Show the clicked section
+        document.getElementById(sectionId).style.display = 'block';
+    }
+</script>
+<script>
+    function previewImage(input, previewId) {
+        var preview = document.getElementById(previewId);
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+        }
+    }
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+

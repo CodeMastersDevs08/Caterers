@@ -1,0 +1,155 @@
+﻿@model IEnumerable<Caterer.Models.Warehouse>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+
+
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Warehouse List</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-success text-right btn-sm ms-auto mb-3" asp-action="Create" asp-controller="Warehouses">Add Warehouse</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>
+                                      Warehouse Name
+                                    </th>
+                                    <th>
+                                       Email
+                                    </th>
+                                    <th>
+                                        Phone Number
+
+                                    </th>
+                                   
+                                    <th>
+                                        Billing Address
+                                    </th>
+                                    <th>
+                                        Bank Details
+                                    </th>
+                                    
+                                    <th> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int counter = 1; // Initializing a counter variable
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.WarehouseName)
+                                        </td>
+                                        <td class="ps-3" >
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                        </td>
+                                       
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.BillingAddress)
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.BankDetails)
+                                        </td>
+                                       
+                                        <td>
+
+                                            <a asp-action="Edit" asp-route-id="@item.WarehouseId"><i class="fa-solid fa-pen-to-square"></i></a>  |
+                                            <a asp-action="Details" asp-route-id="@item.WarehouseId"><i class="fa-solid fa-eye"></i></a>  
+                                           @* <a asp-action="Delete" asp-route-id="@item.WarehouseId">Delete</a>*@
+                                        </td>
+                                        @{
+                                            counter++; // Increment the counter for the next row
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            function openModal(url) {
+                // Save the current scroll position
+                var scrollTop = $(window).scrollTop();
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (data) {
+                        // Create a modal (popup) and set its content
+                        var modal = $('<div class="modal" style="margin-top:15%;" tabindex="-1" role="dialog"></div>');
+                        modal.html(data);
+
+                        // Append the modal to the body
+                        $('body').append(modal);
+
+                        // Add modal-dialog-centered class to center the modal
+                        var modalDialog = $('<div class="modal-dialog modal-dialog-centered" role="document"></div>');
+                        modal.find('.modal-content').wrap(modalDialog);
+
+                        // Show the modal
+                        modal.modal('show');
+
+                        // Set the scroll position back to where it was before the modal was opened
+                        $(window).scrollTop(scrollTop);
+
+                        // Cleanup after the modal is closed
+                        modal.on('hidden.bs.modal', function () {
+                            modal.remove();
+                        });
+                    },
+                    error: function () {
+                        alert('Error loading the action content.');
+                    }
+                });
+            }
+
+            $("#addWarehouseBtn").click(function (e) {
+                // Prevent the default action of the button (e.g., navigating to a URL)
+                e.preventDefault();
+
+                // Open the modal for MeasurementCreate
+                openModal('@Url.Action("Create", "Warehouses")');
+            });
+        });
+    </script>
+    }

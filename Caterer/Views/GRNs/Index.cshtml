@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Caterer.Models.GRN>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Products";
+}
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Goods Recived Note</h4>
+                        @{
+                            var warehouses = ViewData["Warehouses"] as List<Warehouse>;
+                        }
+                            <div class="d-flex" style="gap:15px;">
+                            <div class="ms-auto">
+                                <div class="input-group">
+                                    <select id="warehouseFilter" class="form-select" onchange="applyWarehouseFilter()">
+                                        <option value="">Select warehouse</option>
+                                        @foreach (var warehouse in warehouses)
+                                        {
+                                            <option value="@warehouse.WarehouseId">@warehouse.WarehouseName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="ms-auto">
+                                <a class="btn btn-success btn-sm ms-auto" asp-action="Create" asp-controller="GRNs">Add GRN</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>GRN NO</th>
+                                    <th>Warehouse</th>
+                                    <th>GRN Date</th>
+                                    <th>GRN Type</th>
+                                    <th>PurchaseOrder No </th>
+                                    <th>PurchaseOrder Date </th>
+                                    <th>Supplier</th>
+                                    <th>Payment Method</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int counter = 1;
+                                }
+                                @{
+                                    var uniquePNos = new HashSet<int>();
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    if (!uniquePNos.Contains(item.GNo))
+                                    {
+                                        <tr>
+                                            <td>@counter</td>
+                                            <td>@item.GRNNO</td>
+                                            <td>@item.WarehouseName</td>
+                                            <td>@item.GRNDate.ToString("dd-MM-yyyy"?? "N/A")</td>
+                                            <td>@item.GRNType</td>
+                                            <td>@item.PurchaseOrderNo</td>
+                                            <td>
+                                                @(item.PurchaseOrderDate == null || item.PurchaseOrderDate.Date == DateTime.Parse("0001-01-01")
+                                                    ? "N/A"
+                                                    : item.PurchaseOrderDate.ToString("dd-MM-yyyy"))
+                                            </td>
+                                            <td> @Html.DisplayFor(modelItem => item.Supplier.SupplierName)</td>
+                                            <td>@item.Paymentmethod</td>
+                                            <td>@item.Total</td>
+                                            <td>
+                                                <span class="badge badge-secondary" style="background-color: green; color: white;">  @item.Status</span>
+
+                                            </td>
+                                            <td>
+                                                <a asp-action="Details" asp-route-id="@item.GrnId"><i class="fa-solid fa-eye"></i></a>
+                                            </td>
+                                            @{
+                                                counter++;
+                                            }
+                                        </tr>
+                                        uniquePNos.Add(item.GNo);
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+    <script>
+        function applyWarehouseFilter() {
+            var selectedWarehouseId = $('#warehouseFilter').val();
+            window.location.href = '/GRNs/Index?warehouseId=' + selectedWarehouseId;
+        }
+        function setSelectedWarehouse(warehouseId) {
+            $('#warehouseFilter').val(warehouseId);
+        }
+        $(document).ready(function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var warehouseId = urlParams.get('warehouseId');
+            setSelectedWarehouse(warehouseId);
+        });
+    </script>
+    }

@@ -1,0 +1,79 @@
+﻿@model Caterer.Models.Warehouse
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<div class="card-body">
+    <div class="container-fluid py-8">
+        <div class="row">
+            <div class="col-md-5 col-sm-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Add New Products</h4>
+                            <div class="d-flex">
+                                <div class="ms-auto">
+                                    <a class="btn btn-primary text-right btn-sm ms-auto mb-3" asp-action="Index">Back to List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" method="post" enctype="multipart/form-data">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input asp-for="RestaurantId" placeholder="RestaurantId" type="hidden" class="form-control" value="@ViewBag.RestaurantId" />
+                                    <label asp-for="WarehouseName" class="control-label"></label>
+                                    <input asp-for="WarehouseName" class="form-control" placeholder="Please Enter  Name" />
+                                    <span asp-validation-for="WarehouseName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Email" class="control-label"></label>
+                                        <input asp-for="Email" class="form-control" placeholder="Please Enter  E-mail" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="PhoneNumber" class="control-label"></label>
+                                        <input asp-for="PhoneNumber" class="form-control" placeholder="Please Enter  PhoneNumber" />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="BillingAddress" class="control-label"></label>
+                                        <textarea asp-for="BillingAddress" class="form-control" placeholder="Please Enter  BillingAddress"> </textarea>
+                                        <span asp-validation-for="BillingAddress" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="BankDetails" class="control-label"></label>
+                                        <textarea asp-for="BankDetails" class="form-control" placeholder="Please Enter  BankDetails"> </textarea>
+                                        <span asp-validation-for="BankDetails" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center custom-pro-edt-ds">
+                                <button type="submit" class="btn btn-success">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

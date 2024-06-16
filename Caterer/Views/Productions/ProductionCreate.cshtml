@@ -1,0 +1,364 @@
+﻿@model Caterer.Models.Production
+@{
+    ViewData["Title"] = "Production";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<style>
+    #hidefield {
+        display: none;
+    }
+</style>
+<div class="container-fluid py-8">
+    <form asp-action="ProductionStore" asp-controller="Productions" method="POST">
+        <div class="container-fluid py-10">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4>Create Production</h4>
+                                <div class="d-flex">
+                                    <div class="ms-auto">
+                                        <a class="btn btn-primary btn-sm ms-auto" asp-action="AcceptedItems" asp-controller="OrderDetailWebsites">Accepted Order list</a>
+                                        <a class="btn btn-primary btn-sm ms-auto" asp-action="ProductionIndex" asp-controller="Productions">Production list</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="ProductionDate" class="control-label"> </label>
+                                        <input asp-for="ProductionDate" required class="form-control" type="date" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="ProductionStatus" class="control-label"></label>
+                                        <select asp-for="ProductionStatus" class="form-control">
+                                            <option value="Process">Process</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="WarehouseId" class="control-label">Warehouse Name</label>
+                                        <select asp-for="WarehouseId" class="form-control" asp-items="@ViewBag.warehouse">
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Order Menu</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="orderMenuTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th id="hidefield">OrderDetailsWebsiteId</th>
+                                        <th id="hidefield">RestaurantId</th>
+                                        <th id="hidefield">OrderStatus</th>
+                                        <th id="hidefield">MenuItemId</th>
+                                        <th id="hidefield">Menu Category</th>
+                                        <th id="hidefield">Code</th>
+                                        <th>Menu_Name</th>
+                                        <th id="hidefield">Product Id</th>
+                                        <th>Product_Name</th>
+                                        <th> Type</th>
+                                        <th> Category</th>
+                                        <th> Unit</th>
+                                        <th id="hidefield"> Packs</th>
+                                        <th id="hidefield">Qty</th>
+                                        <th>Used Qty</th>
+                                        <th>Order  Packs</th>
+                                        <th id="hidefield">Total Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var orderMenu in ViewBag.OrderMenus)
+                                    {
+                                        <tr>
+                                            <td id="hidefield"><input class="form-control" asp-for="OrderDetailsWebsiteId" value="@orderMenu.OrderDetailsWebsiteId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="CateringCategoryId" value="@orderMenu.CateringCategoryId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="RestaurantId" value="@orderMenu.RestaurantId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="OrderStatus" value="@orderMenu.Status" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ProductCode" value="@orderMenu.Productcode" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ExtraPacks" value="0" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="MenuItemId" value="@orderMenu.MenuItemId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="MenuCategory" value="@orderMenu.MenuCategory" /></td>
+                                            <td><input readonly class="form-control" asp-for="MenuItemName" value="@orderMenu.MenuItemName" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ProductId" value="@orderMenu.ProductId" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductName" value="@orderMenu.ProductName" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductType" value="@orderMenu.ProductType" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductCategory" value="@orderMenu.ProductCategory" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductUnit" value="@orderMenu.ProductUnit" /></td>
+                                            <td id="hidefield"><input id="OrderMenuRecipePacksId" class="form-control" asp-for="MenuRecipePacks" value="@orderMenu.Packs" /></td>
+                                            <td id="hidefield"><input id="OrderMenuRecipeQtyId" class="form-control" asp-for="MenuRecipeQty" value="@orderMenu.MenuRecipeQty" /></td>
+                                            <td><input  id="OrdrUsedQuantityId" class="form-control" asp-for="UsedQuantity" value="" /></td>
+                                            <td><input readonly id="OrderTotalNoOfPacksId" class="form-control" asp-for="TotalNoOfPacks" value="@orderMenu.NoOfPerson" /></td>
+                                            <td id="hidefield"><input id="OrderTotalQuantityId" class="form-control" asp-for="TotalQuantity" value="" /></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Menu Adjustment Order</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="menuAdjustmentTable" class="table table-bordered .menu-table">
+                                <thead>
+                                    <tr>
+                                        <th id="hidefield">OrderDetailsWebsiteId</th>
+                                        <th id="hidefield">RestaurantId</th>
+                                        <th id="hidefield">OrderStatus</th>
+                                        <th id="hidefield">MenuItemId</th>
+                                        <th id="hidefield">Menu Category</th>
+                                        <th id="hidefield">Code</th>
+                                        <th>Menu_Name</th>
+                                        <th id="hidefield">Product Id</th>
+                                        <th>Product_Name</th>
+                                        <th> Type</th>
+                                        <th> Category</th>
+                                        <th> Unit</th>
+                                        <th id="hidefield"> Packs</th>
+                                        <th id="hidefield">Qty</th>
+                                        <th>Used Qty</th>
+                                        <th>Order  Packs</th>
+                                        <th id="hidefield">Total Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var orderMenu in ViewBag.MenuAdjustment)
+                                    {
+                                        <tr>
+                                            <td id="hidefield"><input class="form-control" asp-for="OrderDetailsWebsiteId" value="@orderMenu.OrderDetailsWebsiteId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="CateringCategoryId" value="@orderMenu.CateringCategoryId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="RestaurantId" value="@orderMenu.RestaurantId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="OrderStatus" value="@orderMenu.Status" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ProductCode" value="@orderMenu.Productcode" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ExtraPacks" value="0" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="MenuItemId" value="@orderMenu.MenuItemId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="MenuCategory" value="@orderMenu.MenuCategory" /></td>
+                                            <td><input readonly class="form-control" asp-for="MenuItemName" value="@orderMenu.MenuItemName" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ProductId" value="@orderMenu.ProductId" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductName" value="@orderMenu.ProductName" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductType" value="@orderMenu.ProductType" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductCategory" value="@orderMenu.ProductCategory" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductUnit" value="@orderMenu.ProductUnit" /></td>
+                                            <td id="hidefield"><input id="MenuAdjustmentMenuRecipePacksId" class="form-control" asp-for="MenuRecipePacks" value="@orderMenu.Packs" /></td>
+                                            <td id="hidefield"><input id="MenuAdjustmentMenuRecipeQtyId" class="form-control" asp-for="MenuRecipeQty" value="@orderMenu.MenuRecipeQty" /></td>
+                                            <td><input  id="MenuAdjustmentUsedQuantityId" class="form-control" asp-for="UsedQuantity" value="" /></td>
+                                            <td><input readonly id="MenuAdjustmentTotalNoOfPacksId" class="form-control" asp-for="TotalNoOfPacks" value="@orderMenu.ExtraNoOfPax" /></td>
+                                            <td id="hidefield"><input id="MenuAdjustmentTotalQuantityId" class="form-control" asp-for="TotalQuantity" value="" /></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Extra Menu Order </h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="extraMenu" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th id="hidefield">OrderDetailsWebsiteId</th>
+                                        <th id="hidefield">RestaurantId</th>
+                                        <th id="hidefield">OrderStatus</th>
+                                        <th id="hidefield">MenuItemId</th>
+                                        <th id="hidefield">Menu Category</th>
+                                        <th id="hidefield">Code</th>
+                                        <th>Menu_Name</th>
+                                        <th id="hidefield">Product Id</th>
+                                        <th>Product_Name</th>
+                                        <th> Type</th>
+                                        <th> Category</th>
+                                        <th> Unit</th>
+                                        <th id="hidefield"> Packs</th>
+                                        <th id="hidefield">Qty</th>
+                                        <th>Used Qty</th>
+                                        <th>Order  Packs</th>
+                                        <th id="hidefield">Total Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var orderMenu in ViewBag.ExtraOrderMenu)
+                                    {
+
+                                        <tr>
+                                            <td id="hidefield"><input class="form-control" asp-for="OrderDetailsWebsiteId" value="@orderMenu.OrderDetailsWebsiteId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="CateringCategoryId" value="@orderMenu.CateringCategoryId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="RestaurantId" value="@orderMenu.RestaurantId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="OrderStatus" value="@orderMenu.Status" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ProductCode" value="@orderMenu.Productcode" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="TotalNoOfPacks" value="0" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="MenuItemId" value="@orderMenu.MenuItemId" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="MenuCategory" value="@orderMenu.MenuCategory" /></td>
+                                            <td><input readonly class="form-control" asp-for="MenuItemName" value="@orderMenu.MenuItemName" /></td>
+                                            <td id="hidefield"><input class="form-control" asp-for="ProductId" value="@orderMenu.ProductId" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductName" value="@orderMenu.ProductName" /></td>
+                                            <td><input readonly class="form-control" asp-for="ProductType" value="@orderMenu.ProductType" /></td>
+                                            <td><input readonly  class="form-control" asp-for="ProductCategory" value="@orderMenu.ProductCategory" /></td>
+                                            <td><input readonly  class="form-control" asp-for="ProductUnit" value="@orderMenu.ProductUnit" /></td>
+                                            <td id="hidefield"><input id="ExtraMenuRecipePacksId" class="form-control extraMenuRecipePacks" asp-for="MenuRecipePacks" value="@orderMenu.Packs" /></td>
+                                            <td id="hidefield"><input id="ExtraMenuRecipeQtyId" class="form-control extraMenuRecipeQty" asp-for="MenuRecipeQty" value="@orderMenu.MenuRecipeQty" /></td>
+                                            <td><input  id="ExtraUsedQuantityId" class="form-control extraUsedQuantity" asp-for="UsedQuantity" value="" /></td>
+                                            <td><input readonly id="ExtraExtraPacksId" class="form-control extraExtraPacks" asp-for="ExtraPacks" value="@orderMenu.ExtraCateringNoOfPax" /></td>
+                                            <td id="hidefield"><input id="ExtraTotalQuantityId" class="form-control extraTotalQuantity" asp-for="TotalQuantity" value="" /></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center custom-pro-edt-ds">
+            <button class="btn btn-success">Save</button>
+        </div>
+    </form>
+</div>
+<script>
+    function calculateUsedQuantityForOrderMenu(row) {
+        var packs = parseFloat(row.querySelector('#OrderMenuRecipePacksId').value);
+        var qty = parseFloat(row.querySelector('#OrderMenuRecipeQtyId').value);
+        var totalPacks = parseFloat(row.querySelector('#OrderTotalNoOfPacksId').value);
+        var usedQuantity = (totalPacks / packs) * qty;
+        var usedQuantityInput = row.querySelector('#OrdrUsedQuantityId');
+        usedQuantityInput.value = isNaN(usedQuantity) ? '' : usedQuantity.toFixed(2);
+        var totalQuantityInput = row.querySelector('#OrderTotalQuantityId');
+        totalQuantityInput.value = usedQuantityInput.value;
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('#orderMenuTable tbody tr');
+        rows.forEach(function (row) {
+            calculateUsedQuantityForOrderMenu(row);
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('#orderMenuTable tbody tr');
+        rows.forEach(function (row) {
+            row.querySelector('#OrderMenuRecipePacksId').addEventListener('change', function () {
+                calculateUsedQuantityForOrderMenu(row);
+            });
+            row.querySelector('#OrderMenuRecipeQtyId').addEventListener('change', function () {
+                calculateUsedQuantityForOrderMenu(row);
+            });
+            row.querySelector('#OrderTotalNoOfPacksId').addEventListener('change', function () {
+                calculateUsedQuantityForOrderMenu(row);
+            });
+            row.querySelector('#OrdrUsedQuantityId').addEventListener('change', function () {
+                var usedQuantityInput = row.querySelector('#OrdrUsedQuantityId').value;
+                var totalQuantityInput = row.querySelector('#OrderTotalQuantityId');
+                totalQuantityInput.value = usedQuantityInput;
+            });
+        });
+    });
+</script>
+<script>
+    function calculateUsedQuantityForMenuAdjustment(row) {
+        var packs = parseFloat(row.querySelector('#MenuAdjustmentMenuRecipePacksId').value);
+        var qty = parseFloat(row.querySelector('#MenuAdjustmentMenuRecipeQtyId').value);
+        var totalPacks = parseFloat(row.querySelector('#MenuAdjustmentTotalNoOfPacksId').value);
+        var usedQuantity = (totalPacks / packs) * qty;
+        var usedQuantityInput = row.querySelector('#MenuAdjustmentUsedQuantityId');
+        usedQuantityInput.value = isNaN(usedQuantity) ? '' : usedQuantity.toFixed(2);
+        var totalQuantityInput = row.querySelector('#MenuAdjustmentTotalQuantityId');
+        totalQuantityInput.value = usedQuantityInput.value;
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('#menuAdjustmentTable tbody tr');
+        rows.forEach(function (row) {
+            calculateUsedQuantityForMenuAdjustment(row);
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('#menuAdjustmentTable tbody tr');
+        rows.forEach(function (row) {
+            row.querySelector('#MenuAdjustmentMenuRecipePacksId').addEventListener('change', function () {
+                calculateUsedQuantityForMenuAdjustment(row);
+            });
+            row.querySelector('#MenuAdjustmentMenuRecipeQtyId').addEventListener('change', function () {
+                calculateUsedQuantityForMenuAdjustment(row);
+            });
+            row.querySelector('#MenuAdjustmentTotalNoOfPacksId').addEventListener('change', function () {
+                calculateUsedQuantityForMenuAdjustment(row);
+            });
+            row.querySelector('#MenuAdjustmentUsedQuantityId').addEventListener('change', function () {
+                var usedQuantityInput = row.querySelector('#MenuAdjustmentUsedQuantityId').value;
+                var totalQuantityInput = row.querySelector('#MenuAdjustmentTotalQuantityId');
+                totalQuantityInput.value = usedQuantityInput;
+            });
+        });
+    });
+</script>
+<script>
+    function calculateUsedQuantityForExtraMenu(row) {
+        var packs = parseFloat(row.querySelector('.extraMenuRecipePacks').value);
+        var qty = parseFloat(row.querySelector('.extraMenuRecipeQty').value);
+        var extraPacks = parseFloat(row.querySelector('.extraExtraPacks').value);
+        var usedQuantity = (extraPacks / packs) * qty;
+        var usedQuantityInput = row.querySelector('.extraUsedQuantity');
+        usedQuantityInput.value = isNaN(usedQuantity) ? '' : usedQuantity.toFixed(2);
+        var totalQuantityInput = row.querySelector('.extraTotalQuantity');
+        totalQuantityInput.value = usedQuantityInput.value;
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('#extraMenu tbody tr');
+        rows.forEach(function (row) {
+            calculateUsedQuantityForExtraMenu(row);
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        var rows = document.querySelectorAll('#extraMenu tbody tr');
+        rows.forEach(function (row) {
+            row.querySelector('.extraMenuRecipePacks').addEventListener('change', function () {
+                calculateUsedQuantityForExtraMenu(row);
+            });
+            row.querySelector('.extraMenuRecipeQty').addEventListener('change', function () {
+                calculateUsedQuantityForExtraMenu(row);
+            });
+            row.querySelector('.extraExtraPacks').addEventListener('change', function () {
+                calculateUsedQuantityForExtraMenu(row);
+            });
+            row.querySelector('.extraUsedQuantity').addEventListener('change', function () {
+                var usedQuantityInput = row.querySelector('.extraUsedQuantity').value;
+                var totalQuantityInput = row.querySelector('.extraTotalQuantity');
+                totalQuantityInput.value = usedQuantityInput;
+            });
+        });
+    });
+</script>

@@ -1,0 +1,1399 @@
+﻿@using System.Security.Claims;
+@using Newtonsoft.Json
+@{
+    var userRole = (User.Identity.IsAuthenticated) ? User.FindFirst(ClaimTypes.Role)?.Value : null;
+}
+@model Caterer.Models.OrderDetailWebsite
+@{
+    ViewData["Title"] = "OrderDetails";
+    Layout = "~/Views/Shared/_SuperAdminDashboard.cshtml";
+}
+<nav style="display:none;" class="navbar navbar-expand-md navbar-light bg-white fixed-top">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" asp-controller="Websites" asp-action="WebsiteHome"><h5 style="color:orangered">CATERER</h5></a>
+        <div class="navbar-collapse collapse" id="navbar_global">
+            <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                @if (userRole == "Restaurant")
+                {
+                    <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item  dropdown show">
+                                <div class="dropdown">
+                                    <button class="btn btn-neutral btn-icon  dropbtn" id="btns" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                    <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="dropdown-content">
+                                            <a id="btncolor" type="button" asp-action="OrderList" asp-controller="Restaurants"><i class="bi bi-cart4"></i> Orders List  </a>
+                                            <a type="button" asp-action="Index" asp-controller="OrderDetailWebsites"><i class="bi bi-geo-fill"></i>  Live Orders     </a>
+                                            <a id="btncolor" type="button" asp-action="RestaurantList" asp-controller="Restaurants"><i class="bi bi-cart4"></i>Restaurants</a>
+                                            <a type="button" asp-action="Index" asp-controller="MenuItems"><i class="bi bi-geo-fill"></i>   MenuItems  </a>
+                                            <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                <i class="bi bi-box-arrow-right"></i> Logout
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item" style="display:none">
+                                <span class="nav-link nav-link-icon">
+                                    <span class="btn btn-outline-danger">
+                                        <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                    </span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else if (userRole == "SuperAdmin")
+                {
+                    <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item  dropdown show">
+                                <div class="dropdown">
+                                    <button class="btn btn-neutral btn-icon  dropbtn" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                    <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="dropdown-content">
+                                            <a id="btncolor" type="button" asp-action="SuperAdminRestaurantList" asp-controller="Restaurants"><i class="bi bi-cart4"></i>Restaurants</a>
+                                            <a type="button" asp-action="SuperAdminList" asp-controller="Users"><i class="bi bi-person"></i>   Users List     </a>
+                                            <a type="button" asp-action="SuperAdminList" asp-controller="Users"><i class="bi bi-person"></i>   Users      </a>
+                                            <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                <i class="bi bi-box-arrow-right"></i> Logout
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item" style="display:none">
+                                <span class="nav-link nav-link-icon">
+                                    <span class="btn btn-outline-danger">
+                                        <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                    </span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <a asp-action="Login" asp-controller="Users" class="btn btn-outline-danger" type="button">Login</a>
+                    <a asp-action="Login" asp-controller="Users" class="btn btn-neutral btn-icon web-menu"><i class="bi bi-person"></i>Login</a>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p>Edit Order Details</p>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary text-right btn-sm ms-auto mb-3" asp-controller="Restaurants" asp-action="OrderList">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <h4 class="text-center mb-4">Catering Category Details</h4>
+                <form class="row g-4" asp-controller="OrderDetailWebsites" asp-action="SuperAdminOrderDetailsEdit" method="post">
+                    <input asp-for="OrderDetailsWebsiteId" type="hidden" class="form-control">
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="col-md-6">
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td><strong>@Model.Name</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Model.Address</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Model.PhoneNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Model.Email</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="d-flex">
+                                <div class="ms-auto">
+                                    <div class="text-right btn-sm ms-auto">
+                                        <table style="width:100%;">
+                                            <tr>
+                                                <th style="text-align: left;">Order #</th>
+                                                <td class="align-right">@Model.OrderDetailsWebsiteId</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;">Order Status</th>
+                                                <td class="align-right" style="color: red;">@Model.DeliveryStatus</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;">Order Date</th>
+                                                <td class="align-right">@Model.CreatedAt @Model.OrderTime</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;">Delivery Slot</th>
+                                                <td class="align-right">@Model.SelectedDate @Model.SelectedTime</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: left;">No of Pax</th>
+                                                <td class="align-right">@Model.NoOfPerson</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div style="display:none;">
+                            <input asp-for="Role" type="text" class="form-control" placeholder="minimum 30" required>
+                            <input asp-for="Password" type="text" class="form-control">
+                            <input asp-for="CreatedAt" class="form-control" />
+                            <input asp-for="OrderTime" class="form-control" />
+                            <input asp-for="UpdatedAt" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                            <input asp-for="DeletedAt" class="form-control" />
+                            <input asp-for="UserId" class="form-control" />
+                            <input asp-for="SoftDelete" class="form-control" />
+                            <input asp-for="CateringCategoryId" class="form-control" />
+                            <input asp-for="UserId" class="form-control" />
+                            <input asp-for="UserName" class="form-control" />
+                            <input asp-for="RestaurantId" id="restaurantId" class="form-control" />
+                            <input asp-for="RestaurantName" class="form-control" />
+                            <input asp-for="ExtrasName" class="form-control" />
+                            <input asp-for="ExtraPrice" class="form-control" />
+                            <input asp-for="ExtraId" class="form-control" />
+                            <input asp-for="Name" class="form-control  " required />
+                            <input asp-for="Email" class="form-control " required />
+                            <input asp-for="PhoneNumber" class="form-control " required />
+                            <input asp-for="Subcategory" class="form-control" />
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;" class="text-center">Catering Category</th>
+                                        <th class="text-center">Catering Category</th>
+                                        <th class="text-center" style="display:none;">  Category price</th>
+                                        <th class="text-center">Service</th>
+                                        <th class="text-center">Payment Method</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Tax %</th>
+                                        <th class="text-center">Discount Amount</th>
+                                        <th class="text-center">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="display:none;" class="text-center">@Model.CateringCategory.CateringCategoryId</td>
+                                        <td class="text-center">@Model.CateringCategory.CateringCategoryName</td>
+                                        <td class="text-center" style="display:none;">@Model.CateringCategory.CategoryPrice</td>
+                                        <td class="text-center">
+                                            @if (Model.SelfCollect == 1)
+                                            {
+                                                <span>SelfCollect</span>
+                                            }
+                                            else if (Model.Delivery == 1)
+                                            {
+                                                <span>Delivery</span>
+                                            }
+                                            else if (Model.Buffet == 1)
+                                            {
+                                                <span>Buffet</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @if (Model.Cash == 1)
+                                            {
+                                                <span>Cash / Pending</span>
+                                            }
+                                            else if (Model.Card == 1)
+                                            {
+                                                <span>Card</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">@Model.FoodCost</td>
+                                        <td class="text-center">@Model.Tax</td>
+                                        <td class="text-center">@(Model.Discount.HasValue ? Model.Discount.Value.ToString("0.00") : "0.00")</td>
+                                        <td class="text-center">@Model.GrandTotal</td>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-header pb-0 p-3">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mb-2">Personal Details </h4>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"> Number of Person</th>
+                                        <th class="text-center">Delivery Status</th>
+                                        <th class="text-center">Order Status</th>
+                                        <th class="text-center">Select Date</th>
+                                        <th class="text-center">Choose Delivery time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <input value="@ViewBag.Minimum" type="hidden" class="form-control" id="inputAddress">
+                                            <input asp-for="NoOfPerson" class="form-control form-control" id="NoOfPerson" required>
+                                            <span id="errorMessage" class="text-danger"></span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="input-group">
+                                                <select asp-for="DeliveryStatus" class="form-control">
+                                                    <option>Pending</option>
+                                                    <option>Delivered</option>
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="DeliveryStatus" class="text-danger"></span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="input-group">
+                                                <select asp-for="Status" class="form-control">
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Accept">Accept</option>
+                                                </select>
+                                            </div>
+                                            <span asp-validation-for="Status" class="text-danger"></span>
+                                        </td>
+                                        <td class="text-center">
+                                            <select asp-for="SelectedDate" class="form-control selectpicker" asp-items="Model.DateOptions" required data-live-search="true">
+                                                <option disabled selected hidden value=""> Choose Delivery Date ▼ </option>
+                                            </select>
+                                            <span asp-validation-for="SelectedDate" class="text-danger"></span>
+                                        </td>
+                                        <td class="text-center">
+                                            <select asp-for="SelectedTime" class="form-control   selectpicker" asp-items="Model.TimeOptions" required data-live-search="true">
+                                                <option disabled selected hidden value=""> Choose Delivery Time ▼ </option>
+                                            </select>
+                                            <span asp-validation-for="SelectedTime" class="text-danger"></span>
+                                        </td>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-header pb-0 p-3">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mb-2">Menu Details </h4>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Category</th>
+                                        <th class="text-center">MENUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var cateringItemId = Model.CateringItemId.Split(',');
+                                        var itemNames = Model.ItemName.Split(',');
+                                        var itemPrices = Model.ItemPrice.Split(',');
+                                        var menuCategories = Model.CateringCategory.CateringItems
+                                        .GroupBy(item => item.ItemName)
+                                        .ToDictionary(group => group.Key, group => group.First().MenuCategoryName);
+                                        for (int i = 0; i < itemNames.Length; i++)
+                                        {
+                                            <tr>
+                                                <td class="text-center">
+                                                    @menuCategories[itemNames[i].Trim()]
+                                                </td>
+                                                <td class="text-center">
+                                                    <select name="ItemName[]" onchange="updateItemDetails(this)" class="form-control">
+                                                        @{
+                                                            var subCategory = menuCategories.GetValueOrDefault(itemNames[i].Trim());
+                                                            var itemsForSubCategory = Model.CateringCategory.CateringItems
+                                                            .Where(item => item.MenuCategoryName == subCategory)
+                                                            .Select(item => new { ItemName = item.ItemName, ItemPrice = item.ItemPrice, CateringItemId = item.CateringItemId });
+                                                            foreach (var itemInfo in itemsForSubCategory)
+                                                            {
+                                                                <option value="@itemInfo.ItemName" data-itemprice="@itemInfo.ItemPrice" data-cateringitemid="@itemInfo.CateringItemId" selected="@(itemNames[i].Trim() == itemInfo.ItemName)">@itemInfo.ItemName</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <div class="validation-message" style="color: red; font-size: 12px;"></div>
+                                                </td>
+                                                <td class="text-center" style="display:none;">
+                                                    <input type="text" name="ItemPrice[]" id="itemPrice" value="@itemPrices[i].Trim()" />
+                                                </td>
+                                                <td style="text-align: center;display:none;">
+                                                    <input type="text" name="CateringItemId[]" value="@cateringItemId[i].Trim()" />
+                                                </td>
+                                                <td class="text-center" style="display:none;">
+                                                    <a style="color: green;"><i class="fas fa-plus"></i></a>
+                                                    <a onclick="removeRow(this)" style="color:red;"><i class="fa-solid fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr></tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @*FOR ADD EXTRA IN SAME CATERING CATEGORY*@
+                        <div class="table-responsive">
+                            <div class="card-header pb-0 p-3">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mb-2"> Menu Adjustment</h4>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-striped" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Category</th>
+                                        <th class="text-center">Menu</th>
+                                        <th class="text-center"> No Of Pax</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Total</th>
+                                        <th class="text-center" style="display:none;">Menu Item Id </th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <select id="MenuCategory" name="ExtraSubcategory" class="form-control" value="">
+                                                <option value="" disabled selected hidden>Select Category</option>
+                                                @foreach (var item in Model.CateringCategory.CateringItems.Select(item => item.MenuCategoryName).Distinct())
+                                                {
+                                                    <option>@item</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <select id="ItemName" name="ExtraItemName" class="form-control itemNameSelect" onchange="updateItemData(this)" value="">
+                                                <option value="" disabled selected hidden>Select Category For Menu</option>
+
+                                            </select>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <input name="ExtraNoOfPax" id="ExtraNoOfPax" class="form-control" value="" />
+                                        </td>
+                                        <td style="text-align: center">
+                                            <input name="ExtraItemPrice" class="form-control itemPriceInput" value="" />
+                                        </td>
+                                        <td style="text-align: center">
+                                            <input name="ExtraItemPriceTotal" class="form-control" readonly value="" />
+                                        </td>
+                                        <td class="text-center" style="display:none;">
+                                            <input name="ExtraCateringItemId" class="form-control cateringItemIdInput" value="" />
+                                        </td>
+                                        <td class="text-center">
+                                            <a onclick="addRows(this)" style="color: green;"><i class="fa-solid fa-plus"></i></a>
+                                            <a onclick="resetRowValues(this)" style="color:red;"><i class="fa-solid fa-trash"></i></a>
+                                        </td>
+                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                        <script>
+                                            $(document).ready(function () {
+                                                // Function to retrieve and populate data
+                                                function populateTable() {
+                                                    $.ajax({
+                                                        url: '/OrderDetailWebsites/GetExtraItemsEdit',
+                                                        method: 'GET',
+                                                        data: { id: orderDetailsWebsiteId },
+                                                        success: function (data) {
+                                                            $.each(data, function (index, item) {
+                                                                var subcategories = item.extraSubcategory.split(',');
+                                                                var itemNames = item.extraItemName.split(',');
+                                                                var itemPrices = item.extraItemPrice.split(',');
+                                                                var extraItemPriceTotal = item.extraItemPriceTotal.split(',');
+                                                                var cateringItemIds = item.extraCateringItemId.split(',');
+                                                                var extraNoOfPax = item.extraNoOfPax.split(',');
+                                                                for (var i = 0; i < subcategories.length; i++) {
+                                                                    var newRowHtml = '<tr>' +
+                                                                        '<td class="text-center">' +
+                                                                        '<select name="ExtraSubcategory" class="form-control menuCategorySelect" onchange="updateItemNames(this)">' +
+                                                                        '<option value="' + subcategories[i] + '">' + subcategories[i] + '</option>';
+                                            @foreach (var item in Model.CateringCategory.CateringItems.Select(item => item.MenuCategoryName).Distinct())
+                                            {
+                                                <text>
+                                                                            newRowHtml += '<option>@item</option>';
+                                                </text>
+                                            }
+                                                                        newRowHtml += '</select>' +
+                                                                            '</td>' +
+                                                                            '<td class="text-center">' +
+                                                                            '<select name="ExtraItemName" class="form-control itemNameSelect" onchange="updateItemData(this)">' +
+                                                                            '<option value="' + itemNames[i] + '">' + itemNames[i] + '</option>';
+                                                                    // Loop through all CateringItems and add options
+                                            @foreach (var item in Model.CateringCategory.CateringItems)
+                                            {
+                                                <text>
+                                                                            newRowHtml += '<option class="itemNameOption" data-menuCategoryName="@item.MenuCategoryName" value="@item.ItemName">@item.ItemName</option>';
+                                                </text>
+                                            }
+                                                                        newRowHtml += '</select>' +
+                                                                            '</td>' +
+                                                                            '<td style="text-align: center">' +
+                                                                            '<input name="ExtraNoOfPax" id="ExtraNoOfPax" class="form-control  " value="' + extraNoOfPax[i] + '" />' +
+                                                                            '</td>' +
+                                                                            '<td style="text-align: center">' +
+                                                                            '<input name="ExtraItemPrice"  class="form-control itemPriceInput" value="' + itemPrices[i] + '" />' +
+                                                                            '</td>' +
+                                                                            '<td style="text-align: center">' +
+                                                                            '<input readonly name="ExtraItemPriceTotal" class="form-control" value="' + extraItemPriceTotal[i] + '" />' +
+                                                                            '</td>' +
+                                                                            '<td class="text-center" style="display:none;">' +
+                                                                            '<input name="ExtraCateringItemId"  class="form-control cateringItemIdInput" value="' + cateringItemIds[i] + '" />' +
+                                                                            '</td>' +
+                                                                            '<td class="text-center">' +
+                                                                            '<a onclick="addRows(this)" style="color: green;"><i class="fa-solid fa-plus"></i></a>' +
+                                                                            '<a onclick="removeRow(this)"   style="color:red;"><i class="fa-solid fa-trash"></i></a>' +
+                                                                            '</td>' +
+                                                                            '</tr>';
+                                                                    // Append the new row HTML
+                                                                    $('#dataTable tbody').append(newRowHtml);
+                                                                }
+                                                            });
+
+                                                            updateMenuAdjustmentTotal();
+                                                            calculateAllExtraItemPriceTotal();
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            console.error(error);
+                                                        }
+                                                    });
+                                                }
+                                                var orderDetailsWebsiteId = @Model.OrderDetailsWebsiteId;
+
+
+                                                populateTable();
+                                            });
+                                        </script>
+                                        <script>
+                                            // Function to add a new row
+                                            function addRows(element) {
+                                                var table = $('#dataTable tbody');
+                                                var rows = table.find('tr');
+                                                var emptyFieldsExist = false;
+                                                rows.each(function () {
+                                                    var row = $(this);
+                                                    var emptyFields = row.find('select[name="ExtraSubcategory"], select[name="ExtraItemName"], input[name="ExtraNoOfPax"], input[name="ExtraItemPrice"], input[name="ExtraItemPriceTotal"], input[name="ExtraCateringItemId"]').filter(function () {
+                                                        return $(this).val() === '';
+                                                    });
+                                                    if (emptyFields.length > 0) {
+                                                        emptyFieldsExist = true;
+                                                        highlightEmptyFields(row);
+                                                    }
+                                                });
+                                                // If any required field is empty, return without adding a new row
+                                                if (emptyFieldsExist) {
+                                                    return;
+                                                }
+                                                // If all required fields are filled, remove any previous highlighting
+                                                rows.find('.required-message').remove();
+                                                // Function to highlight empty fields in a row
+                                                function highlightEmptyFields(row) {
+                                                    var emptyFields = row.find('select[name="ExtraSubcategory"], select[name="ExtraItemName"], input[name="ExtraNoOfPax"], input[name="ExtraItemPrice"], input[name="ExtraItemPriceTotal"], input[name="ExtraCateringItemId"]').filter(function () {
+                                                        return $(this).val() === '';
+                                                    });
+                                                    // Remove any existing required messages
+                                                    row.find('.required-message').remove();
+
+                                                    // Display a message below the empty fields
+                                                    emptyFields.each(function () {
+                                                        $(this).after('<span class="required-message" style="color: red;">Required</span>');
+                                                    });
+                                                }
+                                                var newRowHtml = '<tr>' +
+                                                    '<td class="text-center">' +
+                                                    ' <select id="MenuCategory" name="ExtraSubcategory" class="form-control">' +
+                                                    '<option value="" disabled selected hidden>Select Category</option>';
+                                            @foreach (var item in Model.CateringCategory.CateringItems.Select(item => item.MenuCategoryName).Distinct())
+                                            {
+                                                <text>
+                                                        newRowHtml += '<option>@item</option>';
+                                                </text>
+                                            }
+
+                                                    newRowHtml += '</select>' +
+                                                        '</td>' +
+                                                        '<td class="text-center">' +
+                                                        '<select id="ItemName" name="ExtraItemName" class="form-control itemNameSelect" onchange="updateItemData(this)">' +
+                                                        '<option value="" disabled selected hidden>Select Category For Menu</option>' +
+                                                        '</select>' +
+                                                        '</td>' +
+                                                        '<td class="text-center">' +
+                                                        ' <input name="ExtraNoOfPax" id="ExtraNoOfPax" type="text"  class="form-control" />' +
+                                                        '</td>' +
+                                                        '<td class="text-center">' +
+                                                        '<input name="ExtraItemPrice" type="text" class="form-control itemPriceInput"/>' +
+                                                        '</td>' +
+                                                        '<td class="text-center">' +
+                                                        '<input readonly name="ExtraItemPriceTotal" type="text" class="form-control" readonly/>' +
+                                                        '</td>' +
+                                                        '<td class="text-center"style="display:none;">' +
+                                                        '<input name="ExtraCateringItemId" type="text" class="form-control cateringItemIdInput"/>' +
+                                                        '</td>' +
+                                                        '<td class="text-center">' +
+                                                        '<a onclick="addRows(this)"  style="color: green;"><i class="fa-solid fa-plus"></i></a>' +
+                                                        '<a onclick="removeRow(this)" style="color:red;"><i class="fa-solid fa-trash"></i></a>' +
+                                                        '</td>' +
+                                                        '</tr>';
+
+                                                $(element).closest('tr').after(newRowHtml);
+                                                updateMenuAdjustmentTotal();
+                                                calculateAllExtraItemPriceTotal();
+                                            }
+                                            // Function to update ItemPrice and CateringItemId based on selected ItemName
+                                            function updateItemData(selectElement) {
+                                                var selectedName = $(selectElement).val();
+                                                var itemData = getItemData(selectedName);
+                                                $(selectElement).closest('tr').find('.itemPriceInput').val(itemData.itemPrice);
+                                                $(selectElement).closest('tr').find('.cateringItemIdInput').val(itemData.cateringItemId);
+                                                updateMenuAdjustmentTotal();
+                                                calculateAllExtraItemPriceTotal();
+                                            }
+                                            //Function to Get Item Data
+                                            function getItemData(selectedName) {
+                                                var cateringItems = @Html.Raw(JsonConvert.SerializeObject(Model.CateringCategory.CateringItems));
+                                                var item = cateringItems.find(function (item) {
+                                                    return item.ItemName === selectedName;
+                                                });
+                                                return item ? { itemPrice: item.ItemPrice, cateringItemId: item.MenuItemId } : { itemPrice: '', cateringItemId: '' };
+                                                updateMenuAdjustmentTotal();
+                                                calculateAllExtraItemPriceTotal();
+
+                                            }
+                                            // Function to calculate ExtraItemPriceTotal for a specific row
+                                            function calculateExtraItemPriceTotal(row) {
+                                                var noOfPax = parseFloat($(row).find('input[name="ExtraNoOfPax"]').val());
+                                                var itemPrice = parseFloat($(row).find('input[name="ExtraItemPrice"]').val());
+                                                var extraItemPriceTotal = 0.00;  
+                                                if (!isNaN(noOfPax) && !isNaN(itemPrice)) {
+                                                    if (noOfPax !== 0) {
+                                                        extraItemPriceTotal = noOfPax * itemPrice;
+                                                    }
+                                                }
+                                                $(row).find('input[name="ExtraItemPriceTotal"]').val(extraItemPriceTotal.toFixed(2));
+                                                updateMenuAdjustmentTotal();
+                                            }
+                                            // Function to handle calculation for all rows
+                                            function calculateAllExtraItemPriceTotal() {
+                                                $('input[name="ExtraItemPrice"]').each(function () {
+                                                    var row = $(this).closest('tr');
+                                                    calculateExtraItemPriceTotal(row);
+                                                    updateMenuAdjustmentTotal();
+
+                                                });
+                                            }
+                                            //Function to show the ExtraItemPrice Total
+                                            function updateMenuAdjustmentTotal() {
+                                                var total = 0;
+                                                var anyValue = false;  
+                                                $('input[name="ExtraItemPriceTotal"]').each(function () {
+                                                    var price = parseFloat($(this).val());
+                                                    if (!isNaN(price)) {
+                                                        anyValue = true; 
+                                                        total += price;
+                                                    }
+                                                });
+                                                if (anyValue) {
+                                                    var formattedTotal = total.toFixed(2);
+                                                    $('input[name="MenuAdjustmentTotal"]').val(formattedTotal);
+                                                } else {
+                                                    $('input[name="MenuAdjustmentTotal"]').val('');
+                                                }
+                                            }
+                                            // Bind event listener to ExtraItemPrice inputs
+                                            $(document).on('input', 'input[name="ExtraNoOfPax"], input[name="ExtraItemPrice"]', function () {
+                                                updateMenuAdjustmentTotal();
+                                                calculateAllExtraItemPriceTotal();
+                                            });
+                                            // Function to remove a row
+                                            function removeRow(element) {
+                                                $(element).closest('tr').remove();
+                                                updateMenuAdjustmentTotal();
+                                                calculateAllExtraItemPriceTotal();
+                                            }
+                                            //Function to reset Row
+                                            function resetRowValues(element) {
+                                                var currentRow = $(element).closest('tr');
+                                                currentRow.find('select[name="ExtraSubcategory"]').val('');
+                                                currentRow.find('select[name="ExtraItemName"]').val('');
+                                                currentRow.find('input[name="ExtraItemPrice"]').val('');
+                                                currentRow.find('input[name="ExtraCateringItemId"]').val('');
+                                                currentRow.find('input[name="ExtraItemPriceTotal"]').val('');
+                                                currentRow.find('input[name="ExtraNoOfPax"]').val('');
+                                                updateMenuAdjustmentTotal();
+                                                calculateAllExtraItemPriceTotal();
+                                            }
+                                        </script>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        @*FOR EXTRA CATERING CATEGORY*@
+                        <div class="table-responsive">
+                            <div class="card-header pb-0 p-3">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mb-2"> Add Extra </h4>
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-striped" id="cateringTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="display:none;">Catering CategoryId</th>
+                                        <th class="text-center">Category</th>
+                                        <th class="text-center">Menu</th>
+                                        <th class="text-center"> No Of Pax</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center"> Total</th>
+                                        <th class="text-center" style="display:none;"> Menu Item Id</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center" style="display:none;">
+                                            <input type="text" name="ExtraCateringCategoryId" class="form-control" />
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <select id="MenuCategory" name="ExtraCateringSubCategory" class="form-control">
+                                                @foreach (var category in ViewBag.MenuCategories)
+                                                {
+                                                    <option value="" disabled selected hidden>Select Category</option>
+                                                    <option value="@category.MenuCategoryName">@category.MenuCategoryName</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <select id="ItemName" name="ExtraCateringItemName" class="form-control">
+                                                <option value="" disabled selected hidden>Select Category For Menu</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="text" name="ExtraCateringNoOfPax" id="ExtraCateringNoOfPax" class="form-control" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="text" name="ExtraCateringItemPrice" class="form-control" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input readonly type="text" name="ExtraCateringItemPriceTotal" class="form-control" />
+                                        </td>
+                                        <td class="text-center" style="display:none;">
+                                            <input type="text" name="ExtrasCateringItemId" class="form-control" />
+                                        </td>
+                                        <td class="text-center">
+                                            <a id="addRowButton" style="color: green;"><i class="fa-solid fa-plus"></i></a>
+                                            <a onclick="resetAddonRowValues(this)" style="color:red;"><i class="fa-solid fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <script>
+                                        $(document).ready(function () {
+                                            // Function to retrieve and populate data
+                                            function populateTables() {
+                                                $.ajax({
+                                                    url: '/OrderDetailWebsites/GetExtraItemsEdit',
+                                                    method: 'GET',
+                                                    data: { id: orderDetailsWebsiteId },
+                                                    success: function (data) {
+                                                        $.each(data, function (index, item) {
+                                                            var extracateringcategoryid = item.extraCateringCategoryId.split(',');
+                                                            var extrasubcategories = item.extraCateringSubCategory.split(',');
+                                                            var extraitemNames = item.extraCateringItemName.split(',');
+                                                            var extracateringnoofpax = item.extraCateringNoOfPax.split(',');
+                                                            var extraitemPrices = item.extraCateringItemPrice.split(',');
+                                                            var extraCateringItemPriceTotal = item.extraCateringItemPriceTotal.split(',');
+                                                            var extracateringItemIds = item.extrasCateringItemId.split(',');
+                                                            for (var i = 0; i < extrasubcategories.length; i++) {
+                                                                var newRowHtml = '<tr>' +
+                                                                    '<td class="text-center" style="display:none;">' +
+                                                                    '<input type="text" name="ExtraCateringCategoryId" class="form-control" value="' + extracateringcategoryid[i] + '" />' +
+                                                                    '</td>' +
+                                                                    '<td class="text-center">' +
+                                                                    '<select id="MenuCategory" name="ExtraCateringSubcategory" class="form-control">' +
+                                                                    '<option value="' + extrasubcategories[i] + '">' + extrasubcategories[i] + '</option>';
+                                        @foreach (var category in ViewBag.MenuCategories)
+                                        {
+                                            <text>
+                                                                        newRowHtml += ' <option value="@category.MenuCategoryName">@category.MenuCategoryName</option>';
+                                            </text>
+                                        }
+                                                                    newRowHtml += '</select>' +
+                                                                        '</td>' +
+                                                                        '<td class="text-center">' +
+                                                                        '<select id="ItemName" name="ExtraCateringItemName" class="form-control">' +
+                                                                        '<option value="' + extraitemNames[i] + '">' + extraitemNames[i] + '</option>';
+                                        @foreach (var item in Model.CateringCategory.CateringItems)
+                                        {
+                                            <text>
+                                                                        newRowHtml += '<option class="itemNameOption" data-menuCategoryName="@item.MenuCategoryName" value="@item.ItemName">@item.ItemName</option>';
+                                            </text>
+                                        }
+                                                                    newRowHtml += '</select>' +
+                                                                        '</td>' +
+                                                                        '<td class="text-center">' +
+                                                                        '<input type="text" name="ExtraCateringNoOfPax" id="ExtraCateringNoOfPax" class="form-control" value="' + extracateringnoofpax[i] + '" />' +
+                                                                        '</td>' +
+                                                                        '<td style="text-align: center">' +
+                                                                        '<input name="ExtraCateringItemPrice" type="text" class="form-control" value="' + extraitemPrices[i] + '" />' +
+                                                                        '</td>' +
+                                                                        '<td style="text-align: center">' +
+                                                                        '<input readonly name="ExtraCateringItemPriceTotal" type="text" class="form-control" value="' + extraCateringItemPriceTotal[i] + '" />' +
+                                                                        '</td>' +
+                                                                        '<td class="text-center" style="display:none;">' +
+                                                                        '<input name="ExtrasCateringItemId" type="text" class="form-control" value="' + extracateringItemIds[i] + '" />' +
+                                                                        '</td>' +
+                                                                        '<td class="text-center">' +
+                                                                        '<a id="addRowButton" style="color: green;"><i class="fa-solid fa-plus"></i></a>' +
+                                                                        '<a onclick="removeExtraRow(this)" style="color:red;"><i class="fa-solid fa-trash"></i></a>' +
+                                                                        '</td>' +
+                                                                        '</tr>';
+                                                                $('#cateringTable tbody').append(newRowHtml);
+                                                                attachEventListeners($('#cateringTable tbody tr:last-child'));
+                                                            }
+                                                        });
+                                                        updateAddExtraTotal();
+                                                        updateExtraCateringItemPriceTotal();
+                                                        updateInputValues(this);
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.error(error);
+                                                    }
+                                                });
+                                            }
+                                            var orderDetailsWebsiteId = @Model.OrderDetailsWebsiteId;
+                                            populateTables();
+                                        });
+                                    </script>
+                                    <script>
+                                        // Function to check for empty fields in the entire table and display required messages
+                                        function validateTable() {
+                                            var emptyFieldsExist = false;
+                                            document.querySelectorAll('#cateringTable tbody tr').forEach(row => {
+                                                row.querySelectorAll('input[type="text"]').forEach(input => {
+                                                    if (!input.value.trim()) {
+                                                        if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('required-message')) {
+                                                            input.insertAdjacentHTML('afterend', '<span class="required-message" style="color: red;">Required</span>');
+                                                        }
+                                                        emptyFieldsExist = true;
+                                                    } else {
+                                                        if (input.nextElementSibling && input.nextElementSibling.classList.contains('required-message')) {
+                                                            input.nextElementSibling.remove();
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                            return emptyFieldsExist;
+                                        }
+                                        // Function to add a new row
+                                        function addRow() {
+                                            if (validateTable()) {
+                                                return;  
+                                            }
+                                            var newRow = document.querySelector('#cateringTable tbody tr').cloneNode(true);
+                                            newRow.querySelectorAll('input[type="text"]').forEach(input => {
+                                                input.value = ''; // This line sets the input value to an empty string, effectively clearing it.
+                                            });
+                                            document.querySelector('#cateringTable tbody').appendChild(newRow);
+                                            var trashIcon = newRow.querySelector('i.fa-trash');
+                                            trashIcon.parentElement.onclick = function () {
+                                                removeExtraRow(this);
+                                            };
+                                            attachEventListeners(newRow);
+                                            calculateAddExtraItemPriceTotal();
+                                        }
+                                        // Function to remove a row
+                                        function removeExtraRow(element) {
+                                            $(element).closest('tr').remove();
+                                            calculateAddExtraItemPriceTotal();
+
+                                        }
+                                        //Funtion to Rest the First AddRow
+                                        function resetAddonRowValues(element) {
+                                            var currentRow = $(element).closest('tr');
+                                            currentRow.find('input[name="ExtraCateringCategoryId"]').val('');
+                                            currentRow.find('select[name="ExtraCateringSubCategory"]').val('');
+                                            currentRow.find('select[name="ExtraCateringItemName"]').val('');
+                                            currentRow.find('select[name="ExtraCateringItemPriceTotal"]').val();
+                                            currentRow.find('input[name="ExtraCateringNoOfPax"]').val('');
+                                            currentRow.find('input[name="ExtraCateringItemPrice"]').val('');
+                                            currentRow.find('input[name="ExtrasCateringItemId"]').val('');
+                                            updateAddExtraTotal();
+                                            updateExtraCateringItemPriceTotal();
+
+                                        }
+                                        // Function to calculate ExtraItemPriceTotal for a specific row
+                                        function calculateExtraCateringItemPriceTotal(row) {
+                                            var noOfPax = parseFloat($(row).find('input[name="ExtraCateringNoOfPax"]').val());
+                                            var itemPrice = parseFloat($(row).find('input[name="ExtraCateringItemPrice"]').val());
+                                            var extraItemPriceTotal = 0.00; // Default value
+
+                                            if (!isNaN(noOfPax) && !isNaN(itemPrice)) {
+                                                if (noOfPax !== 0) {
+                                                    extraItemPriceTotal = noOfPax * itemPrice;
+                                                }
+                                            }
+
+                                            $(row).find('input[name="ExtraCateringItemPriceTotal"]').val(extraItemPriceTotal.toFixed(2));
+                                        }
+                                        // Function to calculate total for all rows and update AddExtraTotal
+                                        function updateAddExtraTotal() {
+                                            var total = 0;
+                                            $('input[name="ExtraCateringItemPriceTotal"]').each(function () {
+                                                var price = parseFloat($(this).val());
+                                                if (!isNaN(price)) {
+                                                    total += price;
+                                                }
+                                            });
+                                            $('input[name="AddExtraTotal"]').val(total.toFixed(2));
+                                        }
+                                        // Function to handle calculation for all rows
+                                        function calculateAddExtraItemPriceTotal() {
+                                            $('input[name="ExtraCateringItemPrice"]').each(function () {
+                                                var row = $(this).closest('tr');
+                                                calculateExtraCateringItemPriceTotal(row);
+                                                updateAddExtraTotal();
+                                            });
+                                        }
+                                        $(document).on('input', 'input[name="ExtraCateringNoOfPax"], input[name="ExtraCateringItemPrice"]', function () {
+                                            calculateAddExtraItemPriceTotal();
+                                        });
+                                        // Function to attach event listeners to elements in a row
+                                        function attachEventListeners(row) {
+                                            $(row).find('#ItemName').change(function () {
+                                                var itemName = $(this).val();
+                                                var currentRow = $(this).closest('tr');
+                                                $.ajax({
+                                                    url: '/OrderDetailWebsites/GetItemDetails',
+                                                    type: 'GET',
+                                                    data: { itemName: itemName },
+                                                    success: function (data) {
+                                                        currentRow.find('input[name="ExtraCateringCategoryId"]').val(data.cateringCategoryId);
+                                                        currentRow.find('input[name="ExtraCateringItemPrice"]').val(data.itemPrice);
+                                                        currentRow.find('input[name="ExtrasCateringItemId"]').val(data.cateringItemId);
+                                                        calculateExtraCateringItemPriceTotal(row);
+                                                        updateAddExtraTotal();
+
+                                                    },
+                                                    error: function () {
+                                                    }
+                                                });
+
+                                            });
+                                            // Event listener for Menu Category selection change
+                                            $(document).on('change', '#MenuCategory', function () {
+                                                var menuCategoryName = $(this).val();
+                                                var restaurantId = $('#restaurantId').val();
+                                                var currentRow = $(this).closest('tr');
+                                                currentRow.find('input[name="ExtraCateringCategoryId"]').val('');
+                                                currentRow.find('input[name="ExtraCateringNoOfPax"]').val('');
+                                                currentRow.find('input[name="ExtraCateringItemPrice"]').val('');
+                                                currentRow.find('input[name="ExtrasCateringItemId"]').val('');
+                                                // Make AJAX request to fetch Item Names based on Menu Category Name and Restaurant ID
+                                                $.ajax({
+                                                    url: '/OrderDetailWebsites/GetItemNames',
+                                                    type: 'GET',
+                                                    data: { menuCategoryName: menuCategoryName, restaurantId: restaurantId },
+                                                    success: function (data) {
+                                                        currentRow.find('#ItemName').empty();
+                                                        currentRow.find('#ItemName').append('<option value="" disabled selected hidden>Select Item Name</option>');
+                                                        $.each(data, function (index, item) {
+                                                            currentRow.find('#ItemName').append('<option value="' + item.itemId + '">' + item.itemName + '</option>');
+                                                        });
+                                                        updateAddExtraTotal();
+                                                        updateExtraCateringItemPriceTotal();
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.error('AJAX error:', error);
+                                                    }
+                                                });
+                                            });
+                                            // Event listener for Catering Category selection change
+                                            $(row).find('#CateringCategory').change(function () {
+                                                var categoryId = $(this).val();
+                                                var currentRow = $(this).closest('tr');
+                                                $.ajax({
+                                                    url: '/OrderDetailWebsites/GetMenuCategories',
+                                                    type: 'GET',
+                                                    data: { categoryId: categoryId },
+                                                    success: function (data) {
+                                                        currentRow.find('#MenuCategory').empty();
+                                                        currentRow.find('#MenuCategory').append('<option value="" disabled selected hidden>Select Menu Category</option>');
+                                                        $.each(data, function (index, category) {
+                                                            currentRow.find('#MenuCategory').append('<option value="' + category.menuCategoryId + '">' + category.menuCategoryName + '</option>');
+                                                        });
+                                                        updateAddExtraTotal();
+                                                        updateExtraCateringItemPriceTotal();
+
+                                                    },
+                                                    error: function () {
+                                                    }
+                                                });
+                                            });
+                                            updateAddExtraTotal();
+                                            updateExtraCateringItemPriceTotal();
+                                        }
+                                        $(document).on('click', '#addRowButton', addRow);
+                                        attachEventListeners(document.querySelector('#cateringTable tbody tr'));
+                                    </script>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6" style="display:none">
+                            <div class="form-group">
+                                <p style="color:goldenrod ">Your Payment Mode  <span style="color:red">*</span> </p>
+                                <label class="col-md-2" style="width: 300px;">
+                                    <button type="button" disabled class="btn btn-default" onclick="handleButtonClick('cashCheckbox')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                        <span>@Html.DisplayNameFor(model => model.Cash)</span>
+                                        <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="cashCheckbox" id="cashCheckbox" @if (Model.Cash == 1)
+                                        {
+                                            <text>checked</text>
+                                        } />
+                                    </button>
+                                </label>
+                                <label class="col-md-2" style="width: 300px;">
+                                    <button type="button" disabled class="btn btn-default" onclick="handleButtonClick('cardCheckbox')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                        <span>@Html.DisplayNameFor(model => model.Card)</span>
+                                        <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="cardCheckbox" id="cardCheckbox" @if (Model.Card == 1)
+                                        {
+                                            <text>checked</text>
+                                        } />
+                                    </button>
+                                </label>
+                                <div class="row card-inputs">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="CardNumber" class="control-label">Card Number</label>
+                                            <input asp-for="CardNumber" disabled placeholder="Please Type Card Number " class="form-control" style="resize: none;" />
+                                            <span asp-validation-for="CardNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="CCV" class="control-label">CCV</label>
+                                            <input asp-for="CCV" placeholder="Please Type CCV" class="form-control" style="resize: none;" />
+                                            <span asp-validation-for="CCV" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <p style="color:goldenrod ">Delivery Mode <span style="color:red">*</span></p>
+                                        <label class="col-md-12">
+                                            <button type="button" id="btnBuffet" class="btn btn-default" onclick="handleButtonClick('chkBuffet')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                                <span>@Html.DisplayNameFor(model => model.Buffet)</span>
+                                                <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="chkBuffet" id="chkBuffet" data-value="@ViewBag.Buffet">
+                                            </button>
+                                        </label>
+                                        <label class="col-md-12">
+                                            <button type="button" id="btnDelivery" class="btn btn-default" onclick="handleButtonClick('chkDelivery')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                                <span>@Html.DisplayNameFor(model => model.Delivery)</span>
+                                                <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="chkDelivery" id="chkDelivery" data-value="@ViewBag.Delivery" />
+                                            </button>
+                                        </label>
+                                        <label class="col-md-12">
+                                            <button type="button" id="btnSelfCollect" class="btn btn-default" onclick="handleButtonClick('chkSelfCollect')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                                <span>@Html.DisplayNameFor(model => model.SelfCollect)</span>
+                                                <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="chkSelfCollect" id="chkSelfCollect" data-value="0">
+                                            </button>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-group" id="address">
+                                            <label asp-for="Address" class="control-label fs-6">Restaurant Address</label>
+                                            <input asp-for="Address" readonly class="form-control" />
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group hidden-input" id="deliveryAddress">
+                                            <label asp-for="UserAddress" class="control-label ">Your Address</label>
+                                            <Input asp-for="UserAddress" placeholder="Please Type Your Address Here..." class="form-control" />
+                                            <span asp-validation-for="UserAddress" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-2">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 class="mb-2">Payment Details</h4>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="background-color:#333333">
+                                            <div class="table-responsive">
+                                                <table class="table align-items-center">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="color:white">
+                                                                Food Cost
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="FoodCost" name="FoodCost" id="FoodCost" class="form-control" placeholder=" ₹ 0.00" style="border:none; background-color:#333333;color:white; text-align: right;" />
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td style="color:white">
+                                                                Menu Adjustment
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="MenuAdjustmentTotal" autocomplete="off" name="MenuAdjustmentTotal" id="MenuAdjustmentTotal" class="form-control" style="border:none; background-color:#333333;color:white; text-align: right;" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:white">
+                                                                Add Extra
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="AddExtraTotal" autocomplete="off" name="AddExtraTotal" id="AddExtraTotal" class="form-control" style="border:none; background-color:#333333;color:white; text-align: right;" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:white">
+                                                                Tax
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="Tax" id="Tax" class="form-control" readonly style="border:none; background-color:#333333;color:white; text-align: right;" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:white">
+                                                                Transport
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="Transport" id="Transport" class="form-control" placeholder=" ₹ 0.00" style="border:none; background-color:#333333;color:white; text-align: right;" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:white">
+                                                                Buffet
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="BuffetSetup" id="BuffetSetup" class="form-control" placeholder=" ₹ 0.00" style="border:none; background-color:#333333;color:white; text-align: right;" />
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:white">
+                                                                Discount Amount
+                                                            </td>
+                                                            <td>
+                                                                <input id="Discount" asp-for="Discount" class="form-control" placeholder="Please Enter Discount" style="border:none; background-color:#333333;color:white; text-align: right;" />
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="color:red;">
+                                                                Grand Total
+                                                            <td>
+                                                                <input id="GrandTotal" asp-for="GrandTotal" class="form-control" style="border:none; background-color:#333333;color:white; text-align: right;" />
+                                                                <span asp-validation-for="GrandTotal" class="text-danger"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <input type="submit" value="Update" class="btn btn-success mx-auto text-center" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="display:none;">
+                            <div class="form-group">
+                                <p style="color:goldenrod "> Your Payment Mode  <span style="color:red">*</span> </p>
+                                <label class="col-md-2">
+                                    <button type="button" id="btnPartialPay" class="btn btn-outline-warning" onclick="handleButtonClick('chkPartialPay')" style="background-color: white;">
+                                        <input type="radio" disabled style="accent-color: #fb6340;" name="chkPartialPay" id="chkPartialPay" @if (Model.PartialPay == 1)
+                                        {
+                                            <text>checked</text>
+                                        } />
+                                        @Html.DisplayNameFor(model => model.PartialPay)
+                                    </button>
+                                </label>
+                                <label class="col-md-2">
+                                    <button type="button" id="btnFullPay" class="btn btn-outline-warning" onclick="handleButtonClick('chkFullPay')" style="background-color: white;">
+                                        <input type="radio" disabled style="accent-color: #fb6340;" name="chkFullPay" id="chkFullPay" @if (Model.FullPay == 1)
+                                        {
+                                            <text>checked</text>
+                                        } />
+                                        @Html.DisplayNameFor(model => model.FullPay)
+                                    </button>
+                                </label>
+                                <div class="form-group" id="address">
+                                    <div class="form-group" id="partialamount">
+                                        <label asp-for="PartialAmount" class="control-label  ">Partial Amount</label>
+                                        <input asp-for="PartialAmount" readonly class="form-control" />
+                                        <span asp-validation-for="PartialAmount" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Start Buffet or Delivery Calculation -->
+    <script>
+        $(document).ready(function () {
+            updateInputValues();
+            // Event handler for checkbox changes
+            $('#chkSelfCollect, #chkDelivery, #chkBuffet').change(function () {
+                updateInputValues(this);
+            });
+            // Event handler for button clicks
+            $('#btnBuffet, #btnDelivery, #btnSelfCollect').click(function () {
+                var buttonId = $(this).attr('id');
+                if (buttonId === 'btnBuffet') {
+                    $('#Transport').val("0.00");
+                } else if (buttonId === 'btnDelivery') {
+                    $('#BuffetSetup').val("0.00");
+                } else if (buttonId === 'btnSelfCollect') {
+                    $('#Transport').val("0.00");
+                    $('#BuffetSetup').val("0.00");
+                }
+            });
+            // Initialize input values on page load
+            function updateInputValues(clickedCheckbox) {
+                var selfCollectCheckbox = $('#chkSelfCollect');
+                var deliveryCheckbox = $('#chkDelivery');
+                var buffetCheckbox = $('#chkBuffet');
+
+                // Uncheck all checkboxes if the selfCollect checkbox is clicked
+                if (clickedCheckbox === selfCollectCheckbox[0]) {
+                    deliveryCheckbox.prop('checked', false);
+                    buffetCheckbox.prop('checked', false);
+                } else {
+                    // If any other checkbox is clicked, uncheck the selfCollect checkbox
+                    selfCollectCheckbox.prop('checked', false);
+                    // Uncheck the other checkbox that wasn't clicked
+                    if (clickedCheckbox === deliveryCheckbox[0]) {
+                        buffetCheckbox.prop('checked', false);
+                    } else if (clickedCheckbox === buffetCheckbox[0]) {
+                        deliveryCheckbox.prop('checked', false);
+                    }
+                }
+                var transportValue = selfCollectCheckbox.prop('checked') ? 0 : (deliveryCheckbox.prop('checked') ? (parseFloat(deliveryCheckbox.data('value')) || 0) : (@Model.Delivery == 1 ? (parseFloat(@ViewBag.Delivery) || 0) : 0));
+                $('#Transport').val(transportValue.toFixed(2));
+
+                var buffetSetupValue = selfCollectCheckbox.prop('checked') ? 0 : (buffetCheckbox.prop('checked') ? (parseFloat(buffetCheckbox.data('value')) || 0) : (@Model.Buffet == 1 ? (parseFloat(@ViewBag.Buffet) || 0) : 0));
+                $('#BuffetSetup').val(buffetSetupValue.toFixed(2));
+
+                if (@Model.Buffet == 1) {
+                    $("#chkBuffet").prop("checked", true);
+                    $("#address").slideDown();
+                    $("#address").prop("required", true);
+                }
+                if (@Model.Delivery == 1) {
+                    $("#chkDelivery").prop("checked", true);
+                    $(".hidden-input").slideDown();
+                    $(".hidden-input").prop("required", true);
+                }
+                if (@Model.SelfCollect == 1) {
+                    $("#chkSelfCollect").prop("checked", true);
+                    $("#address").slideDown();
+                    $("#address").prop("required", true);
+                }
+            }
+        });
+    </script>
+    <!-- End Buffet or Delivery Calculation -->
+    <!-- Start No Of Person Validation -->
+    <script>
+        $(document).ready(function () {
+            var minimumValue = parseInt("@ViewBag.Minimum");
+            var originalValue = "@Model.NoOfPerson";
+            $("#NoOfPerson").on("input", function () {
+                var enteredValue = $(this).val() !== "" ? parseInt($(this).val()) : null;
+                if (enteredValue !== null && enteredValue < minimumValue) {
+                    $("#errorMessage").text("@ViewBag.Minimum is the minimum No of Pax");
+                } else {
+                    $("#errorMessage").text("");
+                }
+            });
+            $("#NoOfPerson").on("blur", function () {
+                var enteredValue = $(this).val() !== "" ? parseInt($(this).val()) : null;
+                if (enteredValue !== null && enteredValue < minimumValue) {
+                    $("#NoOfPerson").val(originalValue);
+                } else if (enteredValue === null) {
+                    $("#NoOfPerson").val(originalValue);
+                }
+                $("#errorMessage").text("");
+            });
+        });
+
+    </script>
+    <script>
+        var noOfPersonInput = document.getElementById('NoOfPerson');
+        var foodCostInput = document.getElementsByName('FoodCost')[0];
+        function updateFoodCost() {
+            var categoryPrice = parseFloat("@Model.CateringCategory.CategoryPrice");
+            var noOfPerson = parseFloat(noOfPersonInput.value);
+            var foodCost = categoryPrice * noOfPerson;
+            foodCostInput.value = foodCost.toFixed(2); // Format the value as currency
+            updateGrandTotal();
+        }
+        noOfPersonInput.addEventListener('input', updateFoodCost);
+        updateFoodCost();
+    </script>
+    <!-- End No Of Person Validation -->
+    <!--Start Edit ItemName -->
+    <script>
+        function updateItemDetails(selectElement) {
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var itemPriceInput = selectElement.closest('tr').querySelector('[name="ItemPrice[]"]');
+            var cateringItemIdInput = selectElement.closest('tr').querySelector('[name="CateringItemId[]"]');
+
+            itemPriceInput.value = selectedOption.getAttribute('data-itemprice');
+            cateringItemIdInput.value = selectedOption.getAttribute('data-cateringitemid');
+        }
+    </script>
+    <!--End Edit ItemName -->
+    <!--Start Calculation Total Discount -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var noOfPersonInput = document.getElementById('NoOfPerson');
+            var foodCostInput = document.getElementById('FoodCost');
+            var menuAdjustmentInput = document.getElementById('MenuAdjustmentTotal');
+            var addExtraInput = document.getElementById('AddExtraTotal');
+            var transportInput = document.getElementById('Transport');
+            var buffetSetupInput = document.getElementById('BuffetSetup');
+            var discountInput = document.getElementById('Discount');
+            var grandTotalInput = document.getElementById('GrandTotal');
+            var taxInput = document.getElementById('Tax');
+
+            // Function to calculate grand total
+            function updateGrandTotal() {
+                // Get values from input fields
+                var foodCost = parseFloat(foodCostInput.value) || 0;
+                var menuAdjustment = parseFloat(menuAdjustmentInput.value) || 0;
+                var addExtra = parseFloat(addExtraInput.value) || 0;
+                var transport = parseFloat(transportInput.value) || 0;
+                var buffetSetup = parseFloat(buffetSetupInput.value) || 0;
+                var discount = parseFloat(discountInput.value) || 0;
+                var taxPercentage = parseFloat(taxInput.value) || 0;
+                // Calculate total cost
+                var totalCost = foodCost + menuAdjustment + addExtra + transport + buffetSetup;
+
+                // Calculate tax amount
+                var taxAmount = (totalCost * taxPercentage) / 100;
+
+                // Calculate new grand total including tax
+                var newGrandTotal = totalCost + taxAmount;
+
+                // Apply discount
+                newGrandTotal -= discount;
+
+                // Update the grand total input field with formatted value
+                grandTotalInput.value = newGrandTotal.toFixed(2);
+            }
+
+            // Call updateGrandTotal() every millisecond
+            setInterval(updateGrandTotal, 1);
+
+            // Call updateGrandTotal() initially
+            updateGrandTotal();
+        });
+    </script>
+    <!--End Calculation Total Discount -->
+    <!-- Start SelfCollect, Delivery, Buffet -->
+    <script>
+        function handleButtonClick(radioButtonId) {
+            $('#' + radioButtonId).prop('checked', true);
+            $('#' + radioButtonId).change();
+        }
+        $(document).ready(function () {
+            $("#deliveryAddress").hide();
+            $("#address").hide();
+            function showLeftToRight(element) {
+                element.css({
+                    'width': '0',
+                    'display': 'block'
+                }).animate({
+                    'width': '100%'
+                }, 500);
+            }
+            function hideRightToLeft(element) {
+                element.animate({
+                    'width': '0'
+                }, 500, function () {
+                    $(this).hide();
+                });
+            }
+            $("#chkDelivery").change(function () {
+                if ($(this).is(":checked")) {
+                    showLeftToRight($("#deliveryAddress"));
+                    hideRightToLeft($("#address"));
+                    $("#chkSelfCollect, #chkBuffet").prop("checked", false);
+                }
+            });
+            $("#chkSelfCollect").change(function () {
+                if ($(this).is(":checked")) {
+                    showLeftToRight($("#address"));
+                    hideRightToLeft($("#deliveryAddress"));
+                    $("#chkDelivery,  #chkBuffet").prop("checked", false);
+                }
+            });
+            $("#chkBuffet").change(function () {
+                if ($(this).is(":checked")) {
+                    showLeftToRight($("#address"));
+                    hideRightToLeft($("#deliveryAddress"));
+                    $("#chkDelivery, #chkSelfCollect").prop("checked", false);
+                }
+            });
+            $("#chkBuffet").change();
+            $("input[type='checkbox']").click(function () {
+                if (!$(this).is(":checked")) {
+                    return false;
+                }
+            });
+            $("input[type='checkbox']").click(function () {
+                if (!$(this).is(":checked")) {
+                    return false;
+                }
+            });
+        });
+    </script>
+    <!-- End SelfCollect, Delivery, Buffet -->
+    <!-- Start Cash, Card -->
+    <script>
+        $(document).ready(function () {
+            $(".card-inputs").slideUp();
+            $("#cashCheckbox").change(function () {
+                if ($(this).is(":checked")) {
+                    $("#cardCheckbox").prop("checked", false);
+                    $(".card-inputs").slideUp();
+                    $(".card-inputs input").prop("required", false);
+                }
+            });
+            $("#cardCheckbox").change(function () {
+                if ($(this).is(":checked")) {
+                    $("#cashCheckbox").prop("checked", false);
+                    $(".card-inputs").slideDown();
+                    $(".card-inputs input").prop("required", true);
+                } else {
+                    $(".card-inputs").slideUp();
+                    $(".card-inputs input").prop("required", false);
+                }
+            });
+        });
+    </script>
+    <!-- End Cash, Card -->
+    }

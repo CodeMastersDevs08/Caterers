@@ -1,0 +1,449 @@
+﻿@model Caterer.Models.MenuItem
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "ItemMenus";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <!-- First Card -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p>Item Management</p>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary text-right btn-sm ms-auto mb-3" asp-controller="MenuItems" asp-action="Index">Back to Items</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemName" class="control-label"></label>
+                                    <input asp-for="ItemName" class="form-control" />
+                                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MenuCategoryId" class="control-label">Select Categories</label>
+                                    <select asp-for="MenuCategoryId" asp-items="@ViewBag.MenuCategories" class="form-control">
+                                        <option value="">Select a Product</option>
+                                    </select>
+                                    <span asp-validation-for="MenuCategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" type="hidden">
+                            <input asp-for="ExtrasId" type="hidden" class="form-control" />
+                            <span asp-validation-for="ExtrasId" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemDescription" class="control-label"></label>
+                                    <input asp-for="ItemDescription" class="form-control" />
+                                    <span asp-validation-for="ItemDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemPrice" class="control-label"></label>
+                                    <input asp-for="ItemPrice" class="form-control" />
+                                    <span asp-validation-for="ItemPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DineInPrice" class="control-label"></label>
+                                    <input asp-for="DineInPrice" class="form-control" />
+                                    <span asp-validation-for="DineInPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DiscountedPrice" class="control-label"></label>
+                                    <input asp-for="DiscountedPrice" class="form-control" />
+                                    <span asp-validation-for="DiscountedPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="VATPercentage" class="control-label"></label>
+                            <input asp-for="VATPercentage" class="form-control" />
+                            <span asp-validation-for="VATPercentage" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="ItemImage" type="hidden" class="form-control" />
+                                    @if (!string.IsNullOrEmpty(Model.ItemImage))
+                                    {
+                                        <img src="/Images/Menuitems/@Model.ItemImage" style="width:100px; border-radius:10px; height:80px" />
+                                    }
+                                    <label class="btn btn-default">
+                                        Change Image
+                                        <input asp-for="ItemImage" type="file" name="ProductImage" accept=".png,.jpeg,.jpg" class="d-none" id="fileInput" onchange="previewImage()" />
+                                    </label>
+                                    <span asp-validation-for="ItemImage" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div id="imagePreview" class="mt-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="itemAvailableToggle" asp-for="ItemAvailable" />
+                                        <label class="custom-control-label" for="itemAvailableToggle">@Html.DisplayNameFor(model => model.ItemAvailable)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="enableVariantsToggle" asp-for="EnableVariants" />
+                                        <label class="form-check-label" for="enableVariantsToggle">@Html.DisplayNameFor(model => model.EnableVariants)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="enableAlwaysAvailableToggle" asp-for="EnableAlwaysAvailable" />
+                                        <label class="form-check-label" for="enableAlwaysAvailableToggle">@Html.DisplayNameFor(model => model.EnableAlwaysAvailable)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="text-center custom-pro-edt-ds">
+                                        <input type="submit" value="Save" class="btn btn-success" />
+                                        <a href="#" class=" btn btn-danger" onclick="DeleteEditRow(@Model.MenuItemId);" >Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            function DeleteEditRow(menuItemId) {
+                                var confirmDelete = confirm("Are you sure you want to delete this item?");
+
+                                if (confirmDelete) {
+                                    $.ajax({
+                                        url: '/MenuItems/DeleteEditRow/' + menuItemId,
+                                        type: 'POST',
+                                        data: { id: menuItemId },
+                                        success: function (result) {
+                                            alert('Record was deleted successfully..!');
+                                            window.location.href = '/MenuItems/Index';
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.log(xhr.responseText);
+                                            alert('Failed to delete the record.');  
+                                        }
+                                    });
+                                }
+                            }
+
+                        </script>
+                        <br />
+                        <div class="form-group form-check day-details" id="mondayGroup">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Monday" /> @Html.DisplayNameFor(model => model.Monday)
+                            </label>
+                        </div>
+                        <div class="form-group day-details" id="mondayStartGroup">
+                            <label asp-for="MondayStart" class="control-label"></label>
+                            <input asp-for="MondayStart" class="form-control" />
+                            <span asp-validation-for="MondayStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group day-details" id="mondayEndGroup">
+                            <label asp-for="MondayEnd" class="control-label"></label>
+                            <input asp-for="MondayEnd" class="form-control" />
+                            <span asp-validation-for="MondayEnd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check day-details" id="TuesdayGroup">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Tuesday" /> @Html.DisplayNameFor(model => model.Tuesday)
+                            </label>
+                        </div>
+                        <div class="form-group day-details" id="TuesdayStartGroup">
+                            <label asp-for="TuesdayStart" class="control-label"></label>
+                            <input asp-for="TuesdayStart" class="form-control" />
+                            <span asp-validation-for="TuesdayStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group day-details" id="TuesdayEndGroup">
+                            <label asp-for="TuesdayEnd" class="control-label"></label>
+                            <input asp-for="TuesdayEnd" class="form-control" />
+                            <span asp-validation-for="TuesdayEnd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check day-details" id="WednesdayGroup">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Wednesday" /> @Html.DisplayNameFor(model => model.Wednesday)
+                            </label>
+                        </div>
+                        <div class="form-group day-details" id="WednesdayStartGroup">
+                            <label asp-for="WednesdayStart" class="control-label"></label>
+                            <input asp-for="WednesdayStart" class="form-control" />
+                            <span asp-validation-for="WednesdayStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group day-details" id="WednesdayEndGroup">
+                            <label asp-for="WednesdayEnd" class="control-label"></label>
+                            <input asp-for="WednesdayEnd" class="form-control" />
+                            <span asp-validation-for="WednesdayEnd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check day-details" id="ThursdayGroup">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Thursday" /> @Html.DisplayNameFor(model => model.Thursday)
+                            </label>
+                        </div>
+                        <div class="form-group day-details" id="ThursdayStartGroup">
+                            <label asp-for="ThursdayStart" class="control-label"></label>
+                            <input asp-for="ThursdayStart" class="form-control" />
+                            <span asp-validation-for="ThursdayStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group day-details" id="ThursdayEndGroup">
+                            <label asp-for="ThursdayEnd" class="control-label"></label>
+                            <input asp-for="ThursdayEnd" class="form-control" />
+                            <span asp-validation-for="ThursdayEnd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check day-details" id="FridayGroup">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Friday" /> @Html.DisplayNameFor(model => model.Friday)
+                            </label>
+                        </div>
+                        <div class="form-group day-details" id="FridayStartGroup">
+                            <label asp-for="FridayStart" class="control-label"></label>
+                            <input asp-for="FridayStart" class="form-control" />
+                            <span asp-validation-for="FridayStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group day-details" id="FridayEndGroup">
+                            <label asp-for="FridayEnd" class="control-label"></label>
+                            <input asp-for="FridayEnd" class="form-control" />
+                            <span asp-validation-for="FridayEnd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check day-details" id="SaturdayGroup">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Saturday" /> @Html.DisplayNameFor(model => model.Saturday)
+                            </label>
+                        </div>
+                        <div class="form-group day-details" id="SaturdayStartGroup">
+                            <label asp-for="SaturdayStart" class="control-label"></label>
+                            <input asp-for="SaturdayStart" class="form-control" />
+                            <span asp-validation-for="SaturdayStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group day-details" id="SaturdayEndGroup">
+                            <label asp-for="SaturdayEnd" class="control-label"></label>
+                            <input asp-for="SaturdayEnd" class="form-control" />
+                            <span asp-validation-for="SaturdayEnd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check day-details" id="SundayGroup">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Sunday" /> @Html.DisplayNameFor(model => model.Sunday)
+                            </label>
+                        </div>
+                        <div class="form-group day-details" id="SundayStartGroup">
+                            <label asp-for="SundayStart" class="control-label"></label>
+                            <input asp-for="SundayStart" class="form-control" />
+                            <span asp-validation-for="SundayStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group day-details" id="SundayEndGroup">
+                            <label asp-for="SundayEnd" class="control-label"></label>
+                            <input asp-for="SundayEnd" class="form-control" />
+                            <span asp-validation-for="SundayEnd" class="text-danger"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Second Card -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header pb-0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p></p>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-danger text-right btn-sm ms-auto mb-3" id="openCateringItems">Add Extras</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $('#openCateringItems').on('click', function (e) {
+                            e.preventDefault();
+                            // Fetch and load the CateringItems view content into the modal
+                            $.get('@Url.Action("Create", "Extras", new { MenuItemId = Model.MenuItemId })', function (data) {
+                                $('#myModalContent').html(data);
+                                $('#myModal').modal('show');  
+                            });
+                        });
+                    });
+                </script>
+                <!-- Modal for CateringItems content -->
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content " style="background-color:transparent;border-color:transparent;">
+                            <div class="modal-body" id="myModalContent">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <h3>Extras</h3>
+                                @if (Model.ExtraList.Any())
+                                {
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Extra Name</th>
+                                                <th>Extra Price</th>
+                                                <th>Action</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var extra in Model.ExtraList)
+                                            {
+                                                <tr>
+                                                    <td>@extra.ExtraName</td>
+                                                    <td>@extra.ExtraPrice</td>
+                                                    <td><a href="#" class="editExtra" data-id="@extra.ExtrasId">Edit</a></td>
+                                                    <td><a href="#" class="deleteExtra" data-id="@extra.ExtrasId">Delete</a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p>No extras available for this product.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+                    $('.editExtra').on('click', function (e) {
+                        e.preventDefault();
+                        var extraId = $(this).data('id');
+                        // Fetch and load the Edit view content into the modal
+                        $.get('@Url.Action("Edit", "Extras")/' + extraId, function (data) {
+                            $('#editExtraModalContent').html(data);
+                            $('#editExtraModal').modal('show');  
+                        });
+                    });
+                });
+            </script>
+            <!-- Modal for Edit Extra content -->
+            <div class="modal fade" id="editExtraModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="background-color:transparent;border-color:transparent;">
+                        <div class="modal-body" id="editExtraModalContent">
+                            <!-- Content will be loaded dynamically here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $('.deleteExtra').on('click', function (e) {
+                        e.preventDefault();
+                        var extraId = $(this).data('id');
+                        // Fetch and load the Delete view content into the modal
+                        $.get('@Url.Action("Delete", "Extras")/' + extraId, function (data) {
+                            $('#deleteExtraModalContent').html(data);
+                            $('#deleteExtraModal').modal('show'); 
+                        });
+                    });
+                });
+            </script>
+            <!-- Modal for Delete Extra content -->
+            <div class="modal fade" id="deleteExtraModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="background-color:transparent;border-color:transparent;">
+                        <div class="modal-body" id="deleteExtraModalContent">
+                            <!-- Content will be loaded dynamically here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    hideDayDetails();
+                    $('#EnableAlwaysAvailable').change(function () {
+                        if ($(this).is(':checked')) {
+                            hideDayDetails();
+                        } else {
+                            showDayDetails();
+                        }
+                    });
+                    function hideDayDetails() {
+                        $('.day-details').hide();
+                    }
+                    function showDayDetails() {
+                        $('.day-details').show();
+                    }
+                });
+            </script>
+            <script>
+                function previewImage() {
+                    var fileInput = document.getElementById('fileInput');
+                    var imagePreview = document.getElementById('imagePreview');
+                    imagePreview.innerHTML = '';
+
+                    if (fileInput.files && fileInput.files[0]) {
+                        var file = fileInput.files[0];
+                        var fileSize = file.size; 
+                        var maxSize = 30 * 1024;  
+
+                        if (fileSize > maxSize) {
+                            alert("Image size exceeds 30KB limit. Please choose a smaller image.");
+                            fileInput.value = '';  
+                            return;
+                        }
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = document.createElement('img');
+                            img.setAttribute('src', e.target.result);
+                            img.setAttribute('class', 'img-fluid');
+                            img.setAttribute('style', 'width: 150px; height: 150;');
+                            imagePreview.appendChild(img);
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                }
+            </script>
+        }
+    </div>
+</div>
+

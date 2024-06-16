@@ -1,0 +1,214 @@
+﻿@model Caterer.Models.MenuItem
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Details</h1>
+<div>
+    <h4>MenuItem</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MenuCategoryId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MenuCategoryId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ExtrasId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExtrasId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ItemDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ItemPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DineInPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DineInPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DiscountedPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DiscountedPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VATPercentage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VATPercentage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemImage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ItemImage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemAvailable)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ItemAvailable)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EnableVariants)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EnableVariants)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EnableAlwaysAvailable)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EnableAlwaysAvailable)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Monday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Monday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MondayStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MondayStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MondayEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MondayEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tuesday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tuesday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TuesdayStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TuesdayStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TuesdayEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TuesdayEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Wednesday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Wednesday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WednesdayStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WednesdayStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WednesdayEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WednesdayEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Thursday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Thursday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ThursdayStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ThursdayStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ThursdayEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ThursdayEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Friday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Friday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FridayStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FridayStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FridayEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FridayEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Saturday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Saturday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SaturdayStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SaturdayStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SaturdayEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SaturdayEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sunday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sunday)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SundayStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SundayStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SundayEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SundayEnd)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MenuItemId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

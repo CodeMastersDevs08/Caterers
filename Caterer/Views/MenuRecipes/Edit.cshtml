@@ -1,0 +1,284 @@
+﻿@model Caterer.Models.MenuRecipe
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-8">
+                            <h4 class="mb-0">Menu Recipe</h4>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <a class="btn btn-primary btn-sm ms-auto" asp-action="Index" asp-controller="Menurecipes">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form asp-action="Edit">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="row">
+                                    <input type="hidden" asp-for="MenuRecipeId" />
+                                    <input type="hidden" asp-for="RestaurantId" class="form-control" readonly />
+                                    <input type="hidden" asp-for="MenuItemId" class="form-control" />
+
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="hidden" asp-for="MenuRecipeNo" class="form-control" readonly />
+                                            <label asp-for="MenuItemName" class="control-label"></label>
+                                            <input asp-for="MenuItemName" class="form-control" readonly />
+                                            <span asp-validation-for="MenuItemName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <label asp-for="MenuCategory" class="control-label"></label>
+                                            <input asp-for="MenuCategory" class="form-control" readonly />
+                                            <span asp-validation-for="MenuCategory" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <label asp-for="Packs" class="control-label"></label>
+                                            <input asp-for="Packs" value="@Model.Packs" class="form-control" />
+                                            <span asp-validation-for="Packs" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div id="container">
+                                    <table class="table" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Name</th>
+                                                <th>Product Type</th>
+                                                <th>Product Unit</th>
+                                                <th>Product Category</th>
+                                                <th>Menu Recipe Qty</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var menuRecipe in (List<Caterer.Models.MenuRecipe>)ViewData["RelatedPurchaseOrders"])
+                                            {
+                                                if (menuRecipe.MenuItemId == Model.MenuItemId)
+                                                {
+                                                    <tr class="input-group1">
+
+                                                        <td>
+                                                            <div class="product-input">
+                                                                <div class="toggle-input">
+                                                                    <select id="ProductId" asp-for="ProductId" asp-items="@ViewBag.Product" class="form-control">
+                                                                        <option value="">--Select Product Name--</option>
+                                                                    </select>
+                                                                    <input id="ProductName" value="@menuRecipe.ProductName" asp-for="ProductName" class="form-control" readonly />
+                                                                    <input type="hidden" asp-for="Productcode" id="Productcode" class="form-control" readonly />
+
+                                                                </div>
+                                                                <span asp-validation-for="ProductName" class="text-danger"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input id="ProductType" value="@menuRecipe.ProductType" asp-for="ProductType" class="form-control" readonly />
+                                                            <span asp-validation-for="ProductType" class="text-danger"></span>
+                                                        </td>
+                                                        <td>
+                                                            <input id="ProductUnit" value="@menuRecipe.ProductUnit" asp-for="ProductUnit" class="form-control" readonly />
+                                                            <span asp-validation-for="ProductUnit" class="text-danger"></span>
+                                                        </td>
+                                                        <td>
+                                                            <input id="ProductCategory" value="@menuRecipe.ProductCategory" asp-for="ProductCategory" class="form-control" readonly />
+                                                            <span asp-validation-for="ProductCategory" class="text-danger"></span>
+                                                        </td>
+                                                        <td>
+                                                            <input asp-for="MenuRecipeQty" value="@menuRecipe.MenuRecipeQty" class="form-control" />
+                                                            <span asp-validation-for="MenuRecipeQty" class="text-danger"></span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-success add-row add-row-icon">+</button>
+                                                                <button type="button" class="btn btn-danger delete-row delete-row-icon" id="removerow">-</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="row  ">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="text-center custom-pro-edt-ds">
+                                            <div class="text-center">
+                                                <input type="submit" value="Save" class="btn btn-primary" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            var selectedProductNames = [];
+            $('#container').on('change', '#ProductId', function () {
+                var selectedValue = $(this).val();
+                var container = $(this).closest('.input-group1');
+
+                if (selectedValue !== "") {
+                    $.ajax({
+                        url: '@Url.Action("GetProductDetails1", "MenuRecipes")',
+                        type: 'GET',
+                        data: { id: selectedValue },
+                        success: function (data) {
+                            if (isDuplicateProductName(data.productName)) {
+                                alert("Product with this name already exists in the list.");
+                                container.find('#ProductType').val('');
+                                container.find('#Productcode').val('');
+                                container.find('#ProductId').val('');
+                                container.find('#ProductUnit').val('');
+                                container.find('#ProductCategory').val('');
+                                return;  
+                            }
+                            container.find('#ProductType').val(data.productType);
+                            container.find('#Productcode').val(data.productcode);
+                            container.find('#ProductName').val(data.productName);
+                            container.find('#ProductUnit').val(data.productUnit);
+                            container.find('#ProductCategory').val(data.productCategory);
+
+                            selectedProductNames.push(data.productName);
+                        }
+                    });
+                } else {
+                    container.find('#ProductType').val('');
+                    container.find('#Productcode').val('');
+                    container.find('#ProductId').val('');
+                    container.find('#ProductUnit').val('');
+                    container.find('#ProductCategory').val('');
+                }
+            });
+
+            function isDuplicateProductName(productName) {
+                var isDuplicate = false;
+                $('.input-group1').each(function () {
+                    var existingProductName = $(this).find('#ProductName').val();
+                    if (existingProductName === productName) {
+                        isDuplicate = true;
+                        return false;  
+                    }
+                });
+                return isDuplicate;
+            }
+            function updateButtonVisibility() {
+                var rows = $(".input-group1");
+                rows.find(".add-row").hide();
+                rows.find(".remove-row").show();
+                rows.first().find(".add-row").show();
+                if (rows.length > 1 && !rows.first().is(":visible")) {
+                    rows.eq(1).find(".add-row").show();
+                }
+            }
+
+            $(".toggle-input select").hide();
+            $(document).on("click", ".add-row", function () {
+                if (!isFirstRowEmpty()) {
+                    var newRow = $(this).closest(".input-group1").clone();
+                    newRow.find("select").val("");
+                    newRow.find("input").val(""); 
+                    $(this).closest(".input-group1").before(newRow);
+                    newRow.find(".toggle-input input").hide();
+                    newRow.find(".toggle-input select").show();
+                    newRow.find(".remove-row").show();
+                    newRow.find(".add-row").hide();
+                    updateButtonVisibility();
+                }
+            });
+            function isFirstRowEmpty() {
+                var firstRow = $(".input-group1:first");
+                var inputs = firstRow.find("select, input[type='text']");
+                var isEmpty = false;
+
+                inputs.each(function () {
+                    if (!$(this).val()) {
+                        isEmpty = true;
+                        return false; 
+                    }
+                });
+
+                if (isEmpty) {
+                    alert("Please fill in all the fields in the first row.");
+                }
+
+                return isEmpty;
+            }
+
+            $(document).on("click", ".delete-row", function () {
+                var $row = $(this).closest(".input-group1");
+                var rowindex = $row.index();
+                var rowCount = $(".input-group1").length;
+
+                if (rowCount > 1) {
+                    $row.remove();
+                    updateButtonVisibility();
+                }
+            });
+            $("#purchaseOrderForm").submit(function () {
+                return validateForm();
+            });
+            updateButtonVisibility();
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#MenuItemId').change(function () {
+                var selectedValue = $(this).val();
+                if (selectedValue !== "") {
+                    $.ajax({
+                        url: '@Url.Action("GetMenuItemDetails", "MenuRecipes")',
+                        type: 'GET',
+                        data: { id: selectedValue },
+                        success: function (data) {
+                            $('#MenuItemName').val(data.itemName);
+                            $('#MenuCategory').val(data.menuCategoryId);
+                            $('#MenuRecipeImage').val(data.itemImage);
+                            displayImage(data.itemImage);
+                        }
+                    });
+                    function displayImage(imageFileName) {
+                        console.log('Image File Name:', imageFileName);
+                        var imageUrl = '/Images/Menuitems/' + imageFileName;
+                        $('#imageContainer').attr('src', imageUrl);
+                    }
+                } else {
+                    $('#MenuItemName').val('');
+                    $('#MenuCategory').val('');
+                    $('#MenuRecipeImage').val('');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var randomFourDigitNumber = Math.floor(1000 + Math.random() * 9000);
+            $("#MenuRecipeNo").val(randomFourDigitNumber);
+        });
+    </script>
+}

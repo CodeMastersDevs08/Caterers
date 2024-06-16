@@ -1,0 +1,429 @@
+﻿@model Caterer.Models.TogViewModel
+@{
+    ViewData["Title"] = "Create";
+    ViewData["Heading"] = "Purchase Order";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<style>
+    .ui-autocomplete {
+        max-height: 150px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 20px;
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        z-index: 9999;
+    }
+
+        .ui-autocomplete li {
+            padding: 5px;
+            cursor: pointer;
+            list-style-type: none;
+            border-bottom: 1px solid #ccc;
+        }
+
+            .ui-autocomplete li:last-child {
+                border-bottom: none;
+            }
+
+            .ui-autocomplete li.ui-state-focus {
+                background-color: #f0f0f0;
+            }
+
+    .non-editable {
+        pointer-events: none;
+    }
+</style>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Transfer of Goods</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary btn-sm ms-auto" asp-action="Index" asp-controller="Togs">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="grnForm" method="post" asp-action="Create" onsubmit="return validateWarehouses()">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="TNo" type="hidden" class="form-control" readonly />
+                        <input asp-for="RestaurantId" type="hidden" placeholder="RestaurantId" class="form-control" value="@ViewBag.RestaurantId" />
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for=" TogNO" class="control-label">TOG NO</label>
+                                        <input asp-for="TogNO" class="form-control non-editable" />
+                                        <span asp-validation-for="TogNO" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="TogDate" class="control-label"><span style="color:red">*</span>Tog Date</label>
+                                        <input asp-for="TogDate" required type="date" id="openingStockDate" value="@DateTime.Now.ToString("dd-MM-yyyy")" min="@DateTime.Now.ToString("dd-MM-yyyy")" class="form-control pro-edt-select form-control-primary" required />
+                                        <span asp-validation-for="TogDate" class="text-danger"></span>
+                                    </div>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function () {
+                                            var currentDate = new Date().toISOString().split('T')[0];
+                                            document.getElementById('openingStockDate').value = currentDate;
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="WarehouseId" class="control-label"><span style="color:red">*</span>From Warehouse</label>
+                                    <select asp-for="WarehouseId" required asp-items="@(new SelectList(ViewBag.WarehouseList, "WarehouseId", "WarehouseName"))" class="form-control" id="fromWarehouseId">
+                                        <option disabled selected hidden>Select Warehouse</option>
+                                    </select>
+                                    <input asp-for="WarehouseName" type="hidden"   class="form-control" id="fromwarehouseNameInput" />
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $("#fromWarehouseId").change(function () {
+                                        var selectedWarehouseId = $(this).val();
+                                        var selectedWarehouseName = $("#fromWarehouseId option:selected").text();
+                                        $("#fromwarehouseNameInput").val(selectedWarehouseName);
+                                    });
+                                });
+                            </script>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ToWarehouseId" class="control-label"><span style="color:red">*</span> To Warehouse</label>
+                                    <select asp-for="ToWarehouseId" required asp-items="@(new SelectList(ViewBag.WarehouseList, "WarehouseId", "WarehouseName"))" class="form-control" id="toWarehouseSelect" disabled>
+                                        <option disabled selected hidden>Select Warehouse</option>
+                                    </select>
+                                    <input asp-for="ToWarehouse" class="form-control" type="hidden"  id="towarehouseNameInput" />
+                                    <span asp-validation-for="ToWarehouseId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $("#fromWarehouseId").change(function () {
+                                        var selectedWarehouseId = $(this).val();
+                                        var selectedWarehouseName = $("#fromWarehouseId option:selected").text();
+                                        $("#fromWarehouseNameInput").val(selectedWarehouseName);
+                                        $("#toWarehouseSelect").val('Select Warehouse');
+                                        $("#toWarehouseSelect option").prop('disabled', false);
+                                        $("#toWarehouseSelect option[value='" + selectedWarehouseId + "']").prop('disabled', true);
+                                        $("#toWarehouseSelect").prop('disabled', false);
+                                    });
+                                });
+                            </script>
+                            <script>
+                                $(document).ready(function () {
+                                    $("#toWarehouseSelect").change(function () {
+                                        var selectedWarehouseId = $(this).val();
+                                        var selectedWarehouseName = $("#toWarehouseSelect option:selected").text();
+                                        $("#towarehouseNameInput").val(selectedWarehouseName);
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Units</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total Cost</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inputRowWrapper">
+                                    <tr class="input-group1">
+                                        <td class="col-md-2">
+                                            <input asp-for="ProductName" class="product-autocomplete form-control" title="Product Name" placeholder="Search Product" />
+                                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <input asp-for="Measurement" class="measurement form-control" title="Measurement" placeholder="Units" required />
+                                            <span asp-validation-for="Measurement" class="text-danger"></span>
+                                        </td>
+
+                                        <td class="col-md-2">
+                                            <input asp-for="Quantity" title="Quantity" class="quantity form-control" value="" oninput="calculateTotalCost(this)" placeholder="0.00" required />
+                                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <input asp-for="UnitCost" class="unit-cost form-control" oninput="calculateTotalCost(this)" title="Unit Cost" placeholder="0.00" />
+                                            <span asp-validation-for="UnitCost" class="text-danger"></span>
+                                        </td>
+                                        <td class="col-md-2">
+                                            <input asp-for="TotalCost" class="total-cost form-control" id="total-cost" title="Total Cost" value="" placeholder="0.00" />
+                                            <span asp-validation-for="TotalCost" class="text-danger"></span>
+                                        </td>
+
+                                        <td class="col-md-1 py-2">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-success add-row" data-action="addRow">+</button>
+                                                <button type="button" class="btn btn-danger delete-row delete-row-icon">-</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label asp-for="AdditionalInformation" class="control-label">Notes</label>
+                                    <textarea asp-for="AdditionalInformation" class="form-control" placeholder="Notes"> </textarea>
+                                    <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label asp-for="Total" class="control-label"></label>
+                                    <input asp-for="Total" style="text-align: right;" id="Total" class="form-control non-editable" title="Total" value="" placeholder="Total" />
+                                    <span asp-validation-for="Total" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-data" style="display: none;">
+                            <select asp-for="Status" class="text-line select-full-width" style="font-size: 14px; color: black;">
+                                <option>Completed</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="text-center custom-pro-edt-ds">
+                                    <button type="submit" class="btn btn-success m-r-10" onclick="validateName()">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal" id="AddWarehouseModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="text-info model-title">Add New Supplier</h1>
+                <button aria-label="Close" class="btn-close bg-danger" onclick="CloseModalPopup();"></button>
+            </div>
+            <script>
+                var selectedProductNames = [];
+                function attachAutocomplete(container) {
+                    var suggestionsDiv = container.find(".suggestions"); // Get the suggestions div
+                    container.find(".product-autocomplete").autocomplete({
+                        source: function (request, response) {
+                            var warehouseId = $('#fromWarehouseId').val(); // Get the warehouse ID from the input field
+                            $.ajax({
+                                url: "/PurchaseOrders/SearchProduct",
+                                type: "GET",
+                                data: { searchTerm: request.term, warehouseId: warehouseId }, // Pass the search term and warehouse ID
+                                success: function (data) {
+                                    response(data);
+                                }
+                            });
+                        },
+                        minLength: 1,
+                        select: function (event, ui) {
+                            var selectedProductId = ui.item.value;
+                            if (selectedProductId) {
+                                var productName = ui.item.label;
+
+                                if (selectedProductNames.includes(productName)) {
+                                    alert("Product with this name already exists in the list.");
+                                    return false; // Prevent selection
+                                }
+                                selectedProductNames.push(productName);
+                                $.ajax({
+                                    url: '@Url.Action("GetProductDetails", "GRNs")',
+                                    data: { productId: selectedProductId },
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        console.log(data);
+                                        if (data) {
+                                            container.find(".measurement").val(data.measurementName); // Use measurementName
+                                            container.find(".unit-cost").val(data.unitCost);
+                                            calculateTotalCost(container);
+                                        }
+                                    },
+                                    error: function (error) {
+                                        console.log(error);
+                                    }
+                                });
+                            }
+                        },
+                        open: function (event, ui) {
+                            // Attach the suggestion menu to the suggestions div
+                            suggestionsDiv.empty().append($(this).data("ui-autocomplete").menu.element);
+                        }
+                    });
+                }
+                function removeProductName(productName, totalCost) {
+                    var index = selectedProductNames.indexOf(productName);
+                    if (index !== -1) {
+                        selectedProductNames.splice(index, 1);
+
+                        // Subtract the total cost of the removed product from the overall total
+                        var currentTotal = parseFloat($("#Total").val());
+                        if (!isNaN(currentTotal)) {
+                            var newTotal = currentTotal - totalCost;
+                            $("#Total").val(newTotal.toFixed(2));
+                        }
+                    }
+                }
+                function calculateTotalCost(container) {
+                    var unitCost = parseFloat(container.find(".unit-cost").val());
+                    var quantity = parseFloat(container.find(".quantity").val());
+
+                    if (!isNaN(unitCost) && !isNaN(quantity)) {
+                        var totalCost = unitCost * quantity;
+                        container.find(".total-cost").val(totalCost.toFixed(2));
+                    } else {
+                        container.find(".total-cost").val('');
+                    }
+                    updateTotal(); // Call this function to update the total when any row changes
+                }
+                function updateTotal() {
+                    var total = 0;
+                    $(".total-cost").each(function () {
+                        var cost = parseFloat($(this).val());
+                        if (!isNaN(cost)) {
+                            total += cost;
+                        }
+                    });
+                    $("#Total").val(total.toFixed(2));
+                }
+            </script>
+            <script>
+                function validateForm() {
+                    var isValid = true;
+
+                    // Loop through each row and check for empty fields
+                    $(".input-group1").each(function () {
+                        var productName = $(this).find(".product-autocomplete").val();
+                        var unitCost = $(this).find(".unit-cost").val();
+                        var quantity = $(this).find(".quantity").val();
+
+                        if (productName === "" || unitCost === "" || quantity === "") {
+                            isValid = false;
+                            return false; // Exit the loop if any row is invalid
+                        }
+                    });
+
+                    if (!isValid) {
+                        alert("Please fill out all fields in the added rows.");
+                    }
+
+                    return isValid;
+                }
+
+                $(document).ready(function () {
+                    // Attach autocomplete and input event listeners to the default row
+                    attachAutocomplete($("#inputRowWrapper .input-group1:first"));
+                    $("#inputRowWrapper").on("input", ".unit-cost, .quantity", function () {
+                        calculateTotalCost($(this).closest(".input-group1"));
+                    });
+
+                    // Calculate the initial total
+                    updateTotal();
+
+                    // Function to update the visibility of "+" and "-" buttons
+                    function updateButtonVisibility() {
+                        var rows = $(".input-group1");
+                        rows.find(".add-row").hide(); // Hide "+" button for all rows
+                        rows.find(".remove-row").show(); // Show "-" button for all rows
+
+                        // Show "+" button for the first row
+                        rows.first().find(".add-row").show();
+
+                        // Hide "-" button for the first row
+                        rows.first().find(".remove-row").hide();
+                    }
+
+                    // Add a new row when the "+ button" is clicked
+                    $(document).on("click", ".add-row", function () {
+                        // Validate the current row before adding a new row
+                        var isValidRow = validateForm();
+
+                        if (isValidRow) {
+                            // Clone the container div and insert it before the current container
+                            var newRow = $(this).closest(".input-group1").clone();
+                            newRow.find("input").val(""); // Clear input values
+                            $(this).closest(".input-group1").before(newRow);
+
+                            // Attach autocomplete and input event listeners to the new row
+                            attachAutocomplete(newRow);
+                            newRow.find(".unit-cost, .quantity").on("input", function () {
+                                calculateTotalCost($(this).closest(".input-group1"));
+                            });
+
+                            // Show the "-" button in the new row
+                            newRow.find(".remove-row").show();
+
+                            // Hide the "+" button in the new row
+                            newRow.find(".add-row").hide();
+
+                            // Update button visibility to maintain the "+" button at the top
+                            updateButtonVisibility();
+                        }  
+                    });
+                    // Initially, update the button visibility
+                    updateButtonVisibility();
+                    $(document).on("click", ".delete-row", function () {
+                        var $row = $(this).closest(".input-group1");
+                        var productName = $row.find(".product-autocomplete").val();
+                        var totalCost = parseFloat($row.find(".total-cost").val()); // Get the total cost of the row
+                        removeProductName(productName, totalCost); // Remove the product name and subtract total cost
+                        var rowindex = $row.index();
+                        var rowCount = $(".input-group1").length;
+                        if (rowCount === 1) {
+                            // If there's only one row, do nothing
+                        } else if (rowindex === 0) {
+                            $row.remove();
+                            // After removing the first row, move the "+" button to the new first row
+                            var newFirstRow = $(".input-group1:first");
+                            newFirstRow.find(".add-row").show();
+                        } else {
+                            $row.remove();
+                            updateTotal(); // Update the total after removing the row
+                            updateButtonVisibility(); // Update button visibility after removing a row
+                        }
+                    });
+                    // Add form submission validation
+                    $("#purchaseOrderForm").submit(function () {
+                        return validateForm();
+                    });
+                });
+            </script>
+            <script>
+                // Get the current date in ISO format (yyyy-mm-dd)
+                var currentDate = new Date().toISOString().split('T')[0];
+                // Set the minimum date for the input field
+                document.getElementById("expectedDateInput").min = currentDate;
+            </script>
+            <script>
+                // Get the current date in ISO format (yyyy-mm-dd)
+                var currentDate = new Date().toISOString().split('T')[0];
+                // Set the minimum date for the input field
+                document.getElementById("expiryDateInput").min = currentDate;
+            </script>
+            @{
+                await Html.RenderPartialAsync("_ValidationScriptsPartial");
+            }
+            }
+
+        </div>
+    </div>
+</div>

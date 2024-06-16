@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Caterer.Models.Supplier>
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Heading"] = "Purchase Orders";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header pb-0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Supplier List</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-success btn-sm ms-auto" asp-controller="Supplier" asp-action="SupplierCreate">Add Supplier</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>
+                                        <b>Supplier Name </b>
+                                    </th>
+                                    <th>
+                                        <b>Email </b>
+                                    </th>
+                                    <th>
+                                        <b>Phone Number </b>
+                                    </th>
+                                    <th>
+                                        <b>Status </b>
+                                    </th>
+                                    <th>
+                                        <b>Opening Balance </b>
+                                    </th>
+                                    <th>
+                                        <b>Credit Period </b>
+                                    <th>
+                                        <b>Credit Limit </b>
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int counter = 1; 
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SupplierName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OpeningBalance)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreditPeriod)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreditLimit)
+                                        </td>
+                                        <td>
+                                            <a asp-action="SupplierEdit" asp-route-id="@item.SupplierId"><i class="fa-solid fa-pen-to-square"></i></a> |
+                                            <a asp-action="Details" asp-route-id="@item.SupplierId"><i class="fa-solid fa-eye"></i></a>
+                                        </td>
+                                        @{
+                                            counter++;  
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+
+    }

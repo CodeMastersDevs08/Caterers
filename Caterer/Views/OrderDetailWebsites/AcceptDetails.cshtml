@@ -1,0 +1,379 @@
+﻿@model Caterer.Models.OrderDetailWebsite
+@{
+    ViewData["Title"] = "Invoice";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Invoice";
+}
+<style>
+    .invoice-details {
+        background-color: transparent;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .table th,
+    .table td {
+        text-align: center;
+    }
+
+    .table thead th {
+        background-color: #172b4d;  
+        color: #ffffff;
+    }
+    .table-hover tbody tr:hover {
+        background-color: white;
+    }
+
+    .invoice-details {
+        background-color: white padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .signature {
+        text-align: center;
+        margin-top: 50px;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mx-auto">@Model.RestaurantName</h3>
+                            <div class="d-flex">
+                                <div class="ms-auto">
+                                    <a class="btn btn-danger text-right btn-sm ms-auto mb-3" asp-action="AcceptedItems" asp-controller="OrderDetailWebsites">Back</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice-details">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="col-md-6">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td><strong>@Model.Name</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Model.Address</td>
+                                        </tr>
+                                        <tr>
+                                            <td>  @Model.PhoneNumber</td>
+                                        </tr>
+                                        <tr>
+                                            <td> @Model.Email</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div class="d-flex">
+                                    <div class="ms-auto">
+                                        <div class="text-right btn-sm ms-auto">
+                                            <table style="width:100%;">
+                                                <tr>
+                                                    <th style="text-align: left;">Order #</th>
+                                                    <td class="align-right">@Model.OrderDetailsWebsiteId</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align: left;">Order Status</th>
+                                                    <td class="align-right" style="color: red;">@Model.DeliveryStatus</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align: left;">Order Date</th>
+                                                    <td class="align-right">@Model.CreatedAt  @Model.OrderTime    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align: left;">Delivery Slot</th>
+                                                    <td class="align-right">@Model.SelectedDate @Model.SelectedTime</td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align: left;">No of Pax</th>
+                                                    <td class="align-right">@Model.NoOfPerson</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="text-center mb-4">Menu Information</h4>
+                            <div class="table-responsive">
+                                <table class="table" style="border: 1px solid #000;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="border-right: 1px solid #000;">S.No</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Catering Category</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">No Of Pax</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Service</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Price</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Tax</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Discount</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var counter2 = 1;
+                                        }
+                                        <tr>
+                                            <td style="border-right: 1px solid #000;"><strong>@counter2</strong></td>
+                                            <td style="border-right: 1px solid #000;">@Model.CateringCategory.CateringCategoryName</td>
+                                            <td style="border-right: 1px solid #000;">@Model.NoOfPerson</td>
+                                            <td style="border-right: 1px solid #000;">
+                                                @if (Model.SelfCollect == 1)
+                                                {
+                                                    <span>SelfCollect</span>
+                                                }
+                                                else if (Model.Delivery == 1)
+                                                {
+                                                    <span>Delivery</span>
+                                                }
+                                                else if (Model.Buffet == 1)
+                                                {
+                                                    <span>Buffet</span>
+                                                }
+                                            </td>
+                                            <td style="border-right: 1px solid #000;">@Model.FoodCost</td>
+                                            <td style="border-right: 1px solid #000;">@Model.Tax</td>
+                                            <td style="border-right: 1px solid #000;">@(Model.Discount.HasValue ? Model.Discount.Value.ToString("0.00") : "0.00")</td>
+                                            <td>@Model.GrandTotal</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <dd class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table" style="border: 1px solid #000;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border-right: 1px solid #000;">S.No</th>
+                                                <th style="border-right: 1px solid #000;">MENUS</th>
+                                                <th style="border-right: 1px solid #000;">ItemPrice</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                var itemNames = Model.ItemName.Split(',');
+                                                var itemPrices = Model.ItemPrice.Split(',');
+                                                var menuCategories = Model.CateringCategory.CateringItems
+                                                .ToDictionary(item => item.ItemName.Trim(), item => item.MenuCategoryName);
+                                                var distinctCategories = menuCategories.Values.Distinct().ToList();
+                                                var serialNumber = 1;
+                                                foreach (var category in distinctCategories)
+                                                {
+                                                    <tr>
+                                                        <td style="border-right: 1px solid #000;">@serialNumber</td>
+                                                        <td style="border-right: 1px solid #000;"><strong>@category</strong></td>
+                                                        <td style="border-right: 1px solid #000;"></td>
+                                                    </tr>
+                                                    var itemsInCategory = itemNames
+                                                    .Where(item => menuCategories[item.Trim()] == category)
+                                                    .ToArray();
+                                                    var pricesInCategory = itemPrices
+                                                    .Where((item, index) => itemsInCategory.Contains(itemNames[index].Trim()))
+                                                    .ToArray();
+
+                                                    for (int i = 0; i < itemsInCategory.Length; i++)
+                                                    {
+                                                        <tr>
+                                                            <td style="text-align: center; border-right: 1px solid #000;">@serialNumber.@(i + 1)</td>
+                                                            <td style="text-align: center; border-right: 1px solid #000;">@itemsInCategory[i].Trim()</td>
+                                                            <td style="border-right: 1px solid #000;">@pricesInCategory[i].Trim()</td>
+                                                        </tr>
+                                                    }
+                                                    serialNumber++;
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </dd>
+                            <h4 class="text-center mb-4">Menu Adjustment </h4>
+                            <div class="table-responsive">
+                                <table class="table" style="border: 1px solid #000;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="border-right: 1px solid #000;">S.No</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Extra ItemName</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Extra ItemPrice</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Extra Subcategory</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">No Of Pax</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            if (Model != null &&
+                                            !string.IsNullOrEmpty(Model.ExtraItemName) &&
+                                            !string.IsNullOrEmpty(Model.ExtraItemPrice) &&
+                                            !string.IsNullOrEmpty(Model.ExtraSubcategory) &&
+                                            !string.IsNullOrEmpty(Model.ExtraNoOfPax))
+                                            {
+                                                var counter3 = 1;
+                                                var extraItemNames = Model.ExtraItemName.Split(',');
+                                                var extraItemPrices = Model.ExtraItemPrice.Split(',');
+                                                var extraSubcategories = Model.ExtraSubcategory.Split(',');
+                                                var extraNoOfPax = Model.ExtraNoOfPax.Split(',');
+
+                                                var distinctExtraCategories = extraSubcategories.Distinct().ToList();
+
+                                                foreach (var category in distinctExtraCategories)
+                                                {
+                                                    <tr>
+                                                        <td style="border-right: 1px solid #000;">@counter3</td>
+                                                        <td style="border-right: 1px solid #000;"><strong>@category</strong></td>
+                                                        <td style="border-right: 1px solid #000;"></td>
+                                                        <td style="border-right: 1px solid #000;"></td>
+                                                        <td style="border-right: 1px solid #000;"></td>
+                                                    </tr>
+
+                                                    var itemsInCategory = extraItemNames
+                                                    .Where((item, index) => extraSubcategories[index].Trim() == category)
+                                                    .ToArray();
+
+                                                    var pricesInCategory = extraItemPrices
+                                                    .Where((item, index) => extraSubcategories[index].Trim() == category)
+                                                    .ToArray();
+
+                                                    var noOfPaxInCategory = extraNoOfPax
+                                                    .Where((item, index) => extraSubcategories[index].Trim() == category)
+                                                    .ToArray();
+
+                                                    for (int i = 0; i < itemsInCategory.Length; i++)
+                                                    {
+                                                        <tr>
+                                                            <td style="text-align: center; border-right: 1px solid #000;">@counter3.@(i + 1)</td>
+                                                            <td style="text-align: center; border-right: 1px solid #000;">@itemsInCategory[i].Trim()</td>
+                                                            <td style="border-right: 1px solid #000;">@pricesInCategory[i].Trim()</td>
+                                                            <td style="border-right: 1px solid #000;">@category</td>
+                                                            <td style="border-right: 1px solid #000;">@noOfPaxInCategory[i].Trim()</td>
+                                                        </tr>
+                                                    }
+                                                    counter3++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="5">No data available</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h4 class="text-center mb-4"> Add Extra</h4>
+                            <div class="table-responsive">
+                                <table class="table" style="border: 1px solid #000;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="border-right: 1px solid #000;">S.No</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Menu</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Total</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var counter6 = 1;
+                                        }
+                                        <tr>
+                                            <td style="border-right: 1px solid #000;"><strong>@counter6</strong></td>
+                                            <td style="border-right: 1px solid #000;">Add Extra</td>
+                                            <td style="border-right: 1px solid #000;">@Model.AddExtraTotal</td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table" style="border: 1px solid #000;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="border-right: 1px solid #000;">S.No</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Extra ItemName</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Extra ItemPrice</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">Extra Subcategory</th>
+                                            <th scope="col" style="border-right: 1px solid #000;">No Of Pax</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            if (Model != null && Model.ExtraCateringItemName != null &&
+                                            Model.ExtraCateringItemPrice != null && Model.ExtraCateringSubCategory != null &&
+                                            Model.ExtraCateringNoOfPax != null)
+                                            {
+                                                var counter4 = 1;
+                                                var extraItemNames1 = Model.ExtraCateringItemName.Split(',');
+                                                var extraItemPrices1 = Model.ExtraCateringItemPrice.Split(',');
+                                                var extraSubcategories1 = Model.ExtraCateringSubCategory.Split(',');
+                                                var extraExtraCateringNoOfPax = Model.ExtraCateringNoOfPax.Split(',');
+
+                                                var groupedItems1 = extraSubcategories1
+                                                .Select((subcat, index) => new
+                                                {
+                                                    Subcategory = subcat.Trim(),
+                                                    ItemName = extraItemNames1[index].Trim(),
+                                                    ItemPrice = extraItemPrices1[index].Trim(),
+                                                    NoOfPax = extraExtraCateringNoOfPax[index].Trim()
+                                                })
+                                                .GroupBy(item => item.Subcategory)
+                                                .ToList();
+
+                                                if (groupedItems1.Any())
+                                                {
+                                                    foreach (var group in groupedItems1)
+                                                    {
+                                                        var subcategory1 = group.Key;
+
+                                                        <tr>
+                                                            <td style="border-right: 1px solid #000;">@counter4</td>
+                                                            <td style="border-right: 1px solid #000;"><strong>@subcategory1</strong></td>
+                                                            <td style="border-right: 1px solid #000;"></td>
+                                                            <td style="border-right: 1px solid #000;"></td>
+                                                            <td style="border-right: 1px solid #000;"></td>
+                                                        </tr>
+
+                                                        foreach (var item in group)
+                                                        {
+                                                            <tr>
+                                                                <td style="text-align: center; border-right: 1px solid #000;">@(counter4).@(group.ToList().IndexOf(item) + 1)</td>
+                                                                <td style="text-align: center; border-right: 1px solid #000;">@item.ItemName</td>
+                                                                <td style="border-right: 1px solid #000;">@item.ItemPrice</td>
+                                                                <td style="border-right: 1px solid #000;">@subcategory1</td>
+                                                                <td style="border-right: 1px solid #000;">@item.NoOfPax</td>
+                                                            </tr>
+                                                        }
+                                                        counter4++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="5">No data available</td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="5">No data available</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

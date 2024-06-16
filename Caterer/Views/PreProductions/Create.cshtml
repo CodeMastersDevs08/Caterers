@@ -1,0 +1,311 @@
+﻿@model Caterer.Models.PreProduction
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<style>
+    .selectpicker {
+        border-width: 2px;  
+
+    .error-message {
+        color: red;
+        font-size: 0.8rem;
+        margin-top: 5px;
+    }
+
+    #hidefield {
+        display: none;
+    }
+</style>
+
+<div class="container-fluid py-8">
+    <div class="row">
+
+        <div class="col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Pre-Production</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary btn-sm ms-auto" asp-action="Index" asp-controller="PreProductions">Back To List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="card-body">
+                    <div class="row">
+                        <form asp-action="Create" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" id="indentitycolumn" asp-for="Id" class="form-control" />
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Recipe Name</label>
+                                        <select id="SelectMenuItemId"  asp-for="MenuItemId" data-live-search="true" asp-items="@ViewBag.MenuRecipes" class="form-control selectpicker">
+                                            <option  disabled selected hidden>Select Menu Name</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label asp-for="PreProductionDate" class="control-label"></label>
+                                        <input required type="date" asp-for="PreProductionDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label asp-for="ExpiryDate" class="control-label"></label>
+                                        <input type="date" required asp-for="ExpiryDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label asp-for="Type" class="control-label"></label>
+                                        <input type="text" asp-for="Type" class="form-control" value="Preproduction" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label asp-for="PreProductionStatus" class="control-label"></label>
+                                        <select data-live-search="true" asp-for="PreProductionStatus" class="form-control selectpicker">
+                                            <option value="Process">Process</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4" style="display:none">
+                                        <div class="form-group">
+                                            <label for="warehouseId">Warehouse Id</label>
+                                            <input asp-for="WarehouseId" id="warehouseId" name="WarehouseId" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="warehouseName">Warehouse Name</label>
+                                            <input id="warehouseName" name="WarehouseName" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="container">
+                                <div class="table-responsive">
+                                    <table class="table" id="tablelist">
+                                        <thead>
+                                            <tr>
+                                                <th>RestaurantId</th>
+                                                <th>Recipe Name</th>
+                                                <th>Category</th>
+                                                <th>Product Id</th>
+                                                <th>Product Name</th>
+                                                <th>Productcode</th>
+                                                <th>Product Type</th>
+                                                <th>Product Unit</th>
+                                                <th>Product Category</th>
+                                                <th>Packs</th>
+                                                <th>Menu Recipe Qty</th>
+                                                <th>Used Qty</th>
+                                                <th>Product Total Qty</th>
+                                                <th>Total Packs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td id="hidefield"><input id="RestaurantIdId" asp-for="RestaurantId" class="form-control" readonly /></td>
+                                                <td><input id="MenuItemNameId" asp-for="MenuItemName" class="form-control" readonly /></td>
+                                                <td><input id="MenuCategoryId" asp-for="MenuCategory" class="form-control" readonly /></td>
+                                                <td><input id="ProductId" asp-for="ProductId" class="form-control" readonly /></td>
+                                                <td><input id="ProductNameId" asp-for="ProductName" class="form-control" readonly /> </td>
+                                                <td><input id="ProductCategoryId" asp-for="ProductCategory" class="form-control" readonly /></td>
+                                                <td><input id="ProductcodeId" asp-for="Productcode" class="form-control" readonly /> </td>
+                                                <td><input id="ProductTypeId" asp-for="ProductType" class="form-control" readonly /></td>
+                                                <td><input id="ProductUnitId" asp-for="ProductUnit" class="form-control" readonly /></td>
+                                                <td><input id="PacksId" asp-for="Packs" class="form-control packs" readonly /></td>
+                                                <td><input id="MenuRecipeQtyId" asp-for="MenuRecipeQty" class="form-control menu-recipe-qty" readonly /></td>
+                                                <td>
+                                                    <input id="TotalQuantityId" asp-for="TotalQuantity" class="form-control used-quantity" required />
+
+                                                </td>
+                                                <td><input id="ProductTotalQuantityId" asp-for="ProductTotalQuantity" readonly class="form-control product-total-qty"    />
+                                                </td>
+                                                <td><input id="TotalPackId" asp-for="TotalPack" class="form-control total-pack" required /></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row  ">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="text-center custom-pro-edt-ds">
+                                        <div class="text-center">
+                                            <input type="submit" value="Save" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+    });
+
+</script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        
+
+        function updateQuantityValues() {
+            $('#tablelist').on('input', '.total-pack, .menu-recipe-qty', function () {
+                var $row = $(this).closest('tr');
+                var totalPack = parseFloat($row.find('.total-pack').val());
+                var menuRecipeQty = parseFloat($row.find('.menu-recipe-qty').val());
+                var originalProductTotalQty = parseFloat($row.find('.product-total-qty').data('original-value')); // Retrieve the original Product Total Qty
+                var usedQuantity = totalPack / parseFloat($row.find('.packs').val()) * menuRecipeQty;
+                $row.find('.used-quantity').val(usedQuantity.toFixed(2)); // Round to 2 decimal places
+                var newProductTotalQty = Math.max(originalProductTotalQty - usedQuantity, 0); // Ensure product total qty is not less than 0
+                $row.find('.product-total-qty').val(newProductTotalQty.toFixed(2)); // Update product total quantity
+            });
+        }
+
+
+
+        function updateProductTotalQuantity() {
+            $('#container').on('input', '.used-quantity, .product-total-qty, .total-pack, .menu-recipe-qty', function () {
+                // Find the current row
+                var row = $(this).closest('tr');
+
+                // Get the values from 'TotalQuantity' and 'ProductTotalQuantity' fields
+                var totalQuantity = parseFloat(row.find('.used-quantity').val());
+                var productTotalQuantityInput = row.find('.product-total-qty');
+                var productTotalQuantity = parseFloat(productTotalQuantityInput.data('original-value'));
+
+                // Check if totalQuantity is NaN, and use the original value
+                if (isNaN(totalQuantity)) {
+                    totalQuantity = 0; // or any default value you prefer
+                }
+
+                // Calculate the new product total quantity
+                var newProductTotalQuantity = productTotalQuantity - totalQuantity;
+
+                // Check if the new product total quantity is less than or equal to 0
+                if (newProductTotalQuantity <= 1) {
+                    // Display alert message for 5 milliseconds
+                    alert('Product Total Quantity Limit Exceed.');
+                    setTimeout(function () {
+                        // Reset product total quantity to original value and used quantity to 0
+                        productTotalQuantityInput.val(productTotalQuantity.toFixed(2));
+                        row.find('.used-quantity').val(' ');
+                        row.find('.packs').val(row.find('.packs').val());
+                    }, 5);
+
+                    return; // Exit the function
+                }
+
+                // Update 'ProductTotalQuantity' field
+                productTotalQuantityInput.val(newProductTotalQuantity.toFixed(2));
+            });
+        }
+        
+
+
+
+
+        $('#SelectMenuItemId').change(function () {
+            var MenuItemId = $(this).val();
+
+            if (MenuItemId) {
+                WarehouseId = $('#warehouseId').val();
+
+                $.ajax({
+                    url: '@Url.Action("GetMenuItemDetails", "PreProductions")',
+                    type: 'GET',
+                    data: { id: MenuItemId, warehouseId: WarehouseId },
+                    success: function (data) {
+                        if (data && data.length > 0) {
+                            // Clear existing table rows
+                            $('#tablelist tbody').empty();
+
+                            // Iterate over the data
+                            for (var i = 0; i < data.length; i++) {
+                                var row = data[i];
+                                var newRow = '<tr>' +
+                                    '<td><input name="RestaurantId" value="' + row.restaurantId + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="MenuItemName" value="' + row.menuItemName + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="MenuCategory" value="' + row.menuCategory + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="ProductId" value="' + row.productId + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="ProductName" value="' + row.productName + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="Productcode" value="' + row.productcode + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="ProductType" value="' + row.productType + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="ProductUnit" value="' + row.productUnit + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="ProductCategory" value="' + row.productCategory + '" class="form-control" readonly /></td>' +
+                                    '<td><input name="Packs" value="' + row.packs + '" class="form-control packs" readonly /></td>' +
+                                    '<td><input name="MenuRecipeQty" value="' + row.menuRecipeQty + '" class="form-control menu-recipe-qty" readonly /></td>' +
+                                    '<td><input name="TotalQuantity"  class="form-control used-quantity" required /></td>' +
+                                    '<td><input readonly name="ProductTotalQuantity" value="' + row.quantity + '" class="form-control product-total-qty"   data-original-value="' + row.quantity + '"></td>' +
+                                    '<td><input name="TotalPack"  class="form-control total-pack" required /></td>' +
+                                    '</tr>';
+                                $('#tablelist tbody').append(newRow);
+                            }
+                              updateQuantityValues();
+                        } else {
+                            console.log('No data returned');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', error);
+                    }
+                });
+            }
+            updateProductTotalQuantity();
+            updateQuantityValues();
+        });
+
+        // Submit form via AJAX
+        $('form').submit(function (e) {
+            e.preventDefault(); // Prevent form submission
+
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: '@Url.Action("Create", "PreProductions")',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Redirect to the Preproductions index page
+                    window.location.href = '@Url.Action("Index", "PreProductions")';
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.error('AJAX Error:', error);
+                }
+            });
+        });
+    });
+</script>
+

@@ -1,0 +1,563 @@
+﻿@model Caterer.Models.CateringItem
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "ItemMenus";
+}
+<!-- End Navbar -->
+<div class="container-fluid py-8">
+    <div class="row">
+        <!-- First Card -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p>Item Management</p>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary text-right btn-sm ms-auto mb-3" asp-controller="CateringItems" asp-action="Index">Back to Items</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MenuCategoryId" class="control-label">Menu Category </label>
+                                    <select asp-for="MenuCategoryId" asp-items="@ViewBag.SubCategories" class="form-control" id="menuCategoryDropdown">
+                                        <option value="">Select a Category</option>
+                                    </select>
+                                    <span asp-validation-for="MenuCategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MenuCategoryName" class="control-label">Edit Category Name</label>
+                                    <input asp-for="MenuCategoryName" readonly class="form-control" />
+                                    <span asp-validation-for="MenuCategoryName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none">
+                            <label asp-for="RestaurantId" class="control-label"></label>
+                            <input asp-for="RestaurantId" placeholder="RestaurantId" class="form-control" value="@ViewBag.RestaurantId" readonly />
+                            <span asp-validation-for="RestaurantId" class="text-danger"></span>
+                        </div>
+                        <div class="row" style="display:none">
+                            <label asp-for="MenuItemId" class="control-label"></label>
+                            <input asp-for="MenuItemId" class="form-control" />
+                            <span asp-validation-for="MenuItemId" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemName" class="control-label">Menu Name</label>
+                                    <input asp-for="ItemName" class="form-control" />
+                                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CateringCategoryId" class="control-label">Select Categories</label>
+                                    <select asp-for="CateringCategoryId" asp-items="@ViewBag.CateringCategories" class="form-control">
+                                        <option value="">Select a Product</option>
+                                    </select>
+                                    <span asp-validation-for="CateringCategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" type="hidden">
+                            <input asp-for="CateringExtrasId" type="hidden" class="form-control" />
+                            <span asp-validation-for="CateringExtrasId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SelectedItem" class="control-label">Selected Item</label>
+                            <input asp-for="SelectedItem" class="form-control"  readonly />
+                            <span asp-validation-for="SelectedItem" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemDescription" class="control-label">Item Description</label>
+                                    <input asp-for="ItemDescription" class="form-control" placeholder="Description" />
+                                    <span asp-validation-for="ItemDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemPrice" class="control-label">Item Price</label>
+                                    <input asp-for="ItemPrice" class="form-control" placeholder="Item Price" />
+                                    <span asp-validation-for="ItemPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DineInPrice" class="control-label">Dine In Price</label>
+                                    <input asp-for="DineInPrice" class="form-control" placeholder="Dine In Price" />
+                                    <span asp-validation-for="DineInPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DiscountedPrice" class="control-label">Discounted Price</label>
+                                    <input asp-for="DiscountedPrice" class="form-control" placeholder="Discounted Price" />
+                                    <span asp-validation-for="DiscountedPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="VATPercentage" class="control-label">VAT Percentage</label>
+                            <input asp-for="VATPercentage" class="form-control" placeholder="VAT Percentage" />
+                            <span asp-validation-for="VATPercentage" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="ItemImage" type="hidden" class="form-control" />
+                                    @if (!string.IsNullOrEmpty(Model.ItemImage))
+                                    {
+                                        <img src="/Images/Menuitems/@Model.ItemImage" style="width:100px; border-radius:10px; height:80px" />
+                                    }
+                                    <span asp-validation-for="ItemImage" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div id="imagePreview" class="mt-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="itemAvailableToggle" asp-for="ItemAvailable" />
+                                        <label class ="custom-control-label" for="itemAvailableToggle">@Html.DisplayNameFor(model => model.ItemAvailable)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="enableVariantsToggle" asp-for="EnableVariants" />
+                                        <label class="form-check-label" for="enableVariantsToggle">@Html.DisplayNameFor(model => model.EnableVariants)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="enableAlwaysAvailableToggle" asp-for="EnableAlwaysAvailable" />
+                                        <label class="custom-control-label" for="enableAlwaysAvailableToggle">@Html.DisplayNameFor(model => model.EnableAlwaysAvailable)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="text-center custom-pro-edt-ds">
+                                        <input type="submit" value="Save" class="btn btn-success" />
+                                        <a href="#" class=" btn btn-danger" onclick="DeleteEditRow(@Model.CateringItemId);">Delete</a>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            function DeleteEditRow(cateringItemId) {
+                                var confirmDelete = confirm("Are you sure you want to delete this item?");
+
+                                if (confirmDelete) {
+                                    $.ajax({
+                                        url: '/CateringItems/DeleteEditRow/' + cateringItemId,
+                                        type: 'POST',
+                                        data: { id: cateringItemId },
+                                        success: function (result) {
+                                            alert('Record was deleted successfully..!');
+                                            window.location.href = '/CateringItems/Index';
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.log(xhr.responseText);
+                                            alert('Failed to delete the record.');  
+                                        }
+                                    });
+                                }
+                            }
+
+                        </script>
+                        <br />
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <!-- Monday -->
+                            <div class="form-group form-check day-details" id="MondayGroup" style="flex: 1; margin-right: 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Monday" /> @Html.DisplayNameFor(model => model.Monday)
+                                </label>
+                            </div>
+                            <div class="form-group day-details" id="MondayStartGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="MondayStart" type="time" class="form-control" />
+                                <span asp-validation-for="MondayStart" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group day-details" id="MondayEndGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="MondayEnd" type="time" class="form-control" />
+                                <span asp-validation-for="MondayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <!-- Tuesday -->
+                            <div class="form-group form-check day-details" id="TuesdayGroup" style="flex: 1; margin-right: 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Tuesday" /> @Html.DisplayNameFor(model => model.Tuesday)
+                                </label>
+                            </div>
+                            <div class="form-group day-details" id="TuesdayStartGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="TuesdayStart" type="time" class="form-control" />
+                                <span asp-validation-for="TuesdayStart" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group day-details" id="TuesdayEndGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="TuesdayEnd" type="time" class="form-control" />
+                                <span asp-validation-for="TuesdayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Wednesday -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="form-group form-check day-details" id="WednesdayGroup" style="flex: 1; margin-right: 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Wednesday" /> @Html.DisplayNameFor(model => model.Wednesday)
+                                </label>
+                            </div>
+                            <div class="form-group day-details" id="WednesdayStartGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="WednesdayStart" type="time" class="form-control" />
+                                <span asp-validation-for="WednesdayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group day-details" id="WednesdayEndGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="WednesdayEnd" type="time" class="form-control" />
+                                <span asp-validation-for="WednesdayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Thursday -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="form-group form-check day-details" id="ThursdayGroup" style="flex: 1; margin-right: 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Thursday" /> @Html.DisplayNameFor(model => model.Thursday)
+                                </label>
+                            </div>
+                            <div class="form-group day-details" id="ThursdayStartGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="ThursdayStart" type="time" class="form-control" />
+                                <span asp-validation-for="ThursdayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group day-details" id="ThursdayEndGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="ThursdayEnd" type="time" class="form-control" />
+                                <span asp-validation-for="ThursdayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Friday -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="form-group form-check day-details" id="FridayGroup" style="flex: 1; margin-right: 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Friday" /> @Html.DisplayNameFor(model => model.Friday)
+                                </label>
+                            </div>
+                            <div class="form-group day-details" id="FridayStartGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="FridayStart" type="time" class="form-control" />
+                                <span asp-validation-for="FridayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group day-details" id="FridayEndGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="FridayEnd" type="time" class="form-control" />
+                                <span asp-validation-for="FridayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Saturday -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="form-group form-check day-details" id="SaturdayGroup" style="flex: 1; margin-right: 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Saturday" /> @Html.DisplayNameFor(model => model.Saturday)
+                                </label>
+                            </div>
+                            <div class="form-group day-details" id="SaturdayStartGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="SaturdayStart" type="time" class="form-control" />
+                                <span asp-validation-for="SaturdayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group day-details" id="SaturdayEndGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="SaturdayEnd" type="time" class="form-control" />
+                                <span asp-validation-for="SaturdayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Sunday -->
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="form-group form-check day-details" id="SundayGroup" style="flex: 1; margin-right: 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Sunday" /> @Html.DisplayNameFor(model => model.Sunday)
+                                </label>
+                            </div>
+                            <div class="form-group day-details" id="SundayStartGroup" style="flex: 1; margin-right: 10px;">
+                                <input asp-for="SundayStart" type="time" class="form-control" />
+                                <span asp-validation-for="SundayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group day-details" id="SundayEndGroup" style="flex: 1;">
+                                <input asp-for="SundayEnd" type="time" class="form-control" />
+                                <span asp-validation-for="SundayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Second Card -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header pb-0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p></p>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-success text-right btn-sm ms-auto mb-3" id="openCateringItems">Add Extras</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal for CateringItems content -->
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content " style="background-color:transparent;border-color:transparent;">
+                            <div class="modal-body" id="myModalContent">
+                                <!-- Content will be loaded dynamically here -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <h3>Extras</h3>
+                                @if (Model.ExtraList.Any())
+                                {
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Extra Name</th>
+                                                <th>Extra Price</th>
+                                                <th>Action</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var extra in Model.ExtraList)
+                                            {
+                                                <tr>
+                                                    <td>@extra.ExtraName</td>
+                                                    <td>@extra.ExtraPrice</td>
+                                                    <td><a href="#" class="editExtra" data-id="@extra.CateringExtrasId">Edit</a></td>
+                                                    <td><a href="#" class="deleteExtra" data-id="@extra.CateringExtrasId">Delete</a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p>No extras available for this product.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Edit Extra content -->
+    <div class="modal fade" id="editExtraModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color:transparent;border-color:transparent;">
+                <div class="modal-body" id="editExtraModalContent">
+                    <!-- Content will be loaded dynamically here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Delete Extra content -->
+    <div class="modal fade" id="deleteExtraModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color:transparent;border-color:transparent;">
+                <div class="modal-body" id="deleteExtraModalContent">
+                    <!-- Content will be loaded dynamically here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#openCateringItems').on('click', function (e) {
+                    e.preventDefault();
+                    // Fetch and load the CateringItems view content into the modal
+                    $.get('@Url.Action("Create", "CateringExtras", new { CateringItemId = Model.CateringItemId })', function (data) {
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal('show');  
+                    });
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                // Attach click event to the "Edit" buttons with class "editExtra"
+                $('.editExtra').on('click', function (e) {
+                    e.preventDefault();
+                    var extraId = $(this).data('id');
+                    // Fetch and load the Edit view content into the modal
+                    $.get('@Url.Action("Edit", "CateringExtras")/' + extraId, function (data) {
+                        $('#editExtraModalContent').html(data);
+                        $('#editExtraModal').modal('show');  
+                    });
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                // Attach click event to the "Delete" buttons with class "deleteExtra"
+                $('.deleteExtra').on('click', function (e) {
+                    e.preventDefault();
+                    var extraId = $(this).data('id');
+                    // Fetch and load the Delete view content into the modal
+                    $.get('@Url.Action("Delete", "CateringExtras")/' + extraId, function (data) {
+                        $('#deleteExtraModalContent').html(data);
+                        $('#deleteExtraModal').modal('show');  
+                    });
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                hideDayDetails();
+                // Attach change event to the EnableAlwaysAvailable switch
+                $('#enableAlwaysAvailableToggle').change(function () {
+                    if ($(this).is(':checked')) {
+                        showDayDetails();
+                    } else {
+                        hideDayDetails();
+                    }
+                });
+                // Function to hide day details
+                function hideDayDetails() {
+                    $('.day-details').hide();
+                }
+                // Function to show day details
+                function showDayDetails() {
+                    $('.day-details').show();
+                }
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                // Handle change event of MenuCategoryId dropdown
+                $("#menuCategoryDropdown").change(function () {
+                    console.log("MenuCategoryId changed");
+                    var selectedMenuCategoryId = $(this).val();
+                    // Make an AJAX call to fetch MenuCategory details based on selected MenuCategoryId
+                    $.ajax({
+                        url: "/CateringItems/GetMenuCategoryDetails",
+                        type: "GET",
+                        data: { menuCategoryId: selectedMenuCategoryId },
+                        success: function (data) {
+                            console.log("MenuCategory details fetched successfully", data);
+                            $("#MenuCategoryName").val(data.menuCategoryName);
+                            $("#SelectedItem").val(data.selectedItem);
+                        },
+                        error: function () {
+                            console.error("Error fetching MenuCategory details");
+                        }
+                    });
+                    // Make an AJAX call to fetch ItemNames based on selected MenuCategoryId
+                    $.ajax({
+                        url: "/CateringItems/GetItemNames",
+                        type: "GET",
+                        data: { menuCategoryId: selectedMenuCategoryId },
+                        success: function (data) {
+                            console.log("ItemNames fetched successfully", data);
+                            $("#itemNameDropdown").empty();
+                            $("#itemNameDropdown").append('<option value="">Select an Item</option>');
+                            $.each(data, function (index, item) {
+                                $("#itemNameDropdown").append('<option value="' + item.value + '">' + item.text + '</option>');
+                            });
+                        },
+                        error: function () {
+                            console.error("Error fetching ItemNames");
+                        }
+                    });
+                });
+                // Handle change event of ItemName dropdown
+                $("#itemNameDropdown").change(function () {
+                    console.log("ItemName changed");
+                    var selectedItemId = $(this).val();
+                    // Make an AJAX call to fetch ItemPrice and ItemImage based on selected ItemId
+                    $.ajax({
+                        url: "/CateringItems/GetItemDetails",
+                        type: "GET",
+                        data: { itemId: selectedItemId },
+                        success: function (data) {
+                            console.log("ItemDetails fetched successfully", data);
+                            $("#ItemPrice").val(data.itemPrice);
+                            $('#MenuRecipeImage').val(data.itemImage);
+                            $('#ItemName').val(data.itemName);
+                            displayImage(data.itemImage);
+                        },
+                        error: function () {
+                            console.error("Error fetching ItemDetails");
+                        }
+                    });
+                });
+                function displayImage(imageFileName) {
+                    console.log('Image File Name:', imageFileName);
+                    var imageUrl = '/Images/Menuitems/' + imageFileName;
+                    $('#imagePreview').attr('src', imageUrl);
+                }
+            });
+        </script>
+        <script>
+            function previewImage() {
+                var fileInput = document.getElementById('fileInput');
+                var imagePreview = document.getElementById('imagePreview');
+                imagePreview.innerHTML = '';
+
+                if (fileInput.files && fileInput.files[0]) {
+                    var file = fileInput.files[0];
+                    var fileSize = file.size; 
+                    var maxSize = 30 * 1024;  
+
+                    if (fileSize > maxSize) {
+                        alert("Image size exceeds 30KB limit. Please choose a smaller image.");
+                        fileInput.value = '';  
+                        return;
+                    }
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var img = document.createElement('img');
+                        img.setAttribute('src', e.target.result);
+                        img.setAttribute('class', 'img-fluid');
+                        img.setAttribute('style', 'width: 150px; height: 150;');
+                        imagePreview.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
+    }
+    </div>
+    

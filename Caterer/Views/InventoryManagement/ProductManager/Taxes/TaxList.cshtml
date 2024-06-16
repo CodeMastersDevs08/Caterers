@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Caterer.Models.Tax>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4> Tax List</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-success btn-sm ms-auto" asp-controller="Taxes" asp-action="TaxCreate">Add Tax</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        S.No
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TaxName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TaxType)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TaxPercentage)
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int counter = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TaxName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TaxType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TaxPercentage)
+                                        </td>
+                                        <td>
+                                            <a asp-action="TaxEdit" asp-route-id="@item.TaxId"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        </td>
+                                        @{
+                                            counter++;
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+    }

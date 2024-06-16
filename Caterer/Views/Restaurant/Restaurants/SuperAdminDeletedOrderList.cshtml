@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Caterer.Models.OrderDetailWebsite>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_SuperAdminDashboard.cshtml";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p>Order Deleted List</p>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-danger text-right btn-sm ms-auto mb-3" asp-action="SuperAdminOrderList" asp-controller="Restaurants">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        Order Id
+                                    </th>
+                                    <th>
+                                        No Of Pax
+                                    </th>
+                                    <th>
+                                        Customer
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>
+                                        Delivery Slot
+                                    </th>
+
+                                    <th>
+                                        Payment Status
+                                    </th>
+                                    <th>
+                                        Restaurant
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Edit
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int counter = 1;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.OrderDetailsWebsiteId)
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.NoOfPerson)
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.GrandTotal)
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.SelectedDate) @Html.DisplayFor(modelItem => item.SelectedTime)
+                                        </td>
+                                        <td class="ps-3">
+                                            @{
+                                                string paymentMethod = "";
+
+                                                if (item.Cash != 0)
+                                                {
+                                                    paymentMethod = "Cash";
+                                                }
+                                                else if (item.Card != 0)
+                                                {
+                                                    paymentMethod = "Card";
+                                                }
+
+                                                @paymentMethod
+                                            }
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.RestaurantName)
+                                        </td>
+
+                                        <td class="ps-3">
+                                            @if (string.IsNullOrEmpty(item.Status))
+                                            {
+                                                <div style="color: red; background-color: #ffa07a; border: 1px solid #ffa07a; border-radius: 5px; padding: 3px 8px; display: inline-block; font-size: 12px;">Pending</div>
+                                            }
+                                            else
+                                            {
+                                                <div style="color: green; background-color: #aef359; border: 1px solid #aef359; border-radius: 5px; padding: 3px 8px; display: inline-block; font-size: 12px;">@Html.DisplayFor(modelItem => item.Status)</div>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-action="SuperAdminOrderDetailDelete" asp-controller="OrderDetailWebsites" asp-route-id="@item.OrderDetailsWebsiteId"><i class="fa-solid fa-trash"></i></a>
+                                        </td>
+                                        @{
+                                            counter++;
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+    }

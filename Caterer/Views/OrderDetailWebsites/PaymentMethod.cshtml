@@ -1,0 +1,100 @@
+﻿@model Caterer.Models.OrderDetailWebsite
+@{
+    ViewData["Title"] = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .async-hide {
+        opacity: 0 !important
+    }
+</style>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+        <div class="col-12">
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-expand-md navbar-light bg-white fixed-top">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" asp-controller="Websites" asp-action="WebsiteHome"><h5 style="color:orangered">CATERER</h5></a>
+        <a asp-action="Login" asp-controller="Users" class="btn btn-outline-danger" type="button">Login</a>
+    </div>
+</nav>
+<section>
+    <div class="container py-3">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card mt-5 shadow">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="text-center mb-4">
+                                <div class="text-center">
+                                    <h5 style="color:green"> Thank You Order Placed Successfully   </h5>
+                                </div>
+                            </div>
+                            <hr style="border: 0; height: 2px; background-color: #333; margin: 10px 0; font-weight: bold;">
+                            <div class="card-header bg-transparent pb-5">
+                                <div class="text-muted text-center mt-2 mb-3"></div>
+                                <div class="btn-wrapper text-center">
+                                    <div class="card-body">
+                                        <form asp-action="ProductCreate" method="post" enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group ">
+                                                        <p class="fs-5">Your Order ID - <span>@Model.OrderDetailsWebsiteId</span> </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group fs-5">
+                                                        <p class="fs-5">Restaurant address - <span>@Model.Address</span></p>
+                                                    </div>
+                                                </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <p class="fs-5">Your email: <span>@Model.Email</span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <p class="fs-5">Your password: <span>@Model.Password</span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            @if (!string.IsNullOrEmpty(Model.UserAddress))
+                                                            {
+                                                                <p class="fs-5">Your address: <span>@Model.UserAddress</span></p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <h5 style="color:orangered"> Please login & check your order status </h5>
+                                                </div>
+                                            </div>
+                                            <div class="text-center custom-pro-edt-ds">
+                                                <a class="btn btn-warning ms-auto btn-sm" asp-controller="Websites" asp-action="WebsiteHome"><i class="fa fa-home"></i> Go To Home</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <hr style="border: 0; height: 2px; background-color: #333; margin: 10px 0; font-weight: bold;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>

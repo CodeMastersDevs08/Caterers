@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Caterer.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_SuperAdminDashboard.cshtml";
+}
+
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    
+  
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p>Super Admin List</p>
+                            <div class="d-flex">
+                                <div class="ms-auto">
+                                    <a class="btn btn-success text-right btn-sm ms-auto mb-3" asp-controller="Users" asp-action="RegisterSuperAdmin">Add Super Admin</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>
+                                        User Name
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Phone Number
+                                    </th>
+                                    @* <th>
+                                    Password
+                                    </th>*@
+
+                                    <th>
+                                        Role
+                                    </th>
+
+                                    @*  <th>Action</th>*@
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    int counter = 1; // Initializing a counter variable
+                                }
+                                @foreach (var item in Model.Where(i => string.Equals(i.Role, "SuperAdmin", StringComparison.OrdinalIgnoreCase)))
+
+
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserName)
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+
+                                        </td>
+                                        @*   <td>
+                                    @Html.DisplayFor(modelItem => item.Password)
+
+                                    </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Role)
+
+                                        </td>
+
+
+
+                                        @*   <td>
+                                    <a asp-action="Edit" asp-route-id="@item.UserID">   <i class="fa-solid fa-pen-to-square"></i> </a>
+
+                                    </td>*@
+                                        @{
+                                            counter++; // Increment the counter for the next row
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+    @section Scripts {
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('.table').DataTable({
+                    "pageLength": 25
+                });
+            });
+        </script>
+
+    }

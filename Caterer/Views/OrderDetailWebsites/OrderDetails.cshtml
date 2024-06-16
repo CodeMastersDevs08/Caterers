@@ -1,0 +1,1195 @@
+﻿@using System.Security.Claims
+@{
+    var userRole = (User.Identity.IsAuthenticated) ? User.FindFirst(ClaimTypes.Role)?.Value : null;
+}
+@model Caterer.Models.OrderDetailWebsite
+@{
+    ViewData["Title"] = "OrderDetails";
+    Layout = "~/Views/Shared/_Layouts.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />*@
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.min.css">`
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link id="pagestyle" href="~/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet"   />
+    <title>
+        Caterers
+    </title>
+    <link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/dist/css/adminlte.css" rel="stylesheet" />
+    <style>
+        .navbar-nav .nav-item {
+            transition: box-shadow 0.1s;
+        }
+
+            .navbar-nav .nav-item:hover {
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                border-radius: 15px;
+            }
+
+            .navbar-nav .nav-item.active {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                background-color: lightgrey;
+                color: #777e86f8;
+                border-radius: 15px;
+            }
+    </style>
+    <style>
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 29%;
+            background: rgba(0, 0, 0, 0.5);  
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;  
+        }
+
+        .hotel-details {
+            color: white;
+            text-shadow: -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black, 1px 1px 1px black; 
+        }
+    </style>
+    <style>
+
+        .list-group-item {
+            border: none;
+        }
+
+        .category-button.active {
+            background-color: gainsboro;
+            color: black;
+        }
+    </style>
+    <style>
+        #form2 .card {
+            border-radius: 5px;
+        }
+
+        #form3 .card,
+        .category-button {
+            border-radius: 5px;
+        }
+
+        #form1 .card {
+            border-radius: 5px;
+        }
+
+        .category-button.active {
+            background-color: gainsboro;
+            color: black;
+        }
+    </style>
+    <style>
+        #selectedItemsList li {
+            background-color: #fff;
+            margin: 0;  
+
+            line-height: 1;
+        }
+
+        .image-fade {
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .logo-img {
+            object-fit: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid white;
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .containerimg {
+            position: relative;
+            color: white;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 250px;
+            left: 16px;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            $(".fade-bg").css("opacity", "0.5");
+        });
+    </script>
+</head>
+<body class="g-sidenav-show   bg-gray-100">
+    <!--NAV BAR -->
+    <nav class="navbar navbar-expand-md navbar-light bg-white fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" asp-controller="Websites" asp-action="WebsiteHome"><h5 style="color:orangered">CATERER</h5></a>
+            @if (userRole == "Client")
+            {
+                <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item  dropdown show">
+                            <div class="dropdown">
+                                <a class="btn btn-outline-danger"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>  @User.Identity.Name</span></a>
+                                <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <div class="dropdown-content">
+                                        <a type="button" asp-action="ClientDashboard" asp-controller="ClientDashboards"><i class="bi bi-cart4"></i>  My Orders   </a>
+                                        <a type="button" asp-action="ClientDashboard" asp-controller="ClientDashboards"><i class="bi bi-geo-fill"></i>  My Address     </a>
+                                        <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                            <i class="bi bi-box-arrow-right"></i> Logout
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="nav-item" style="display:none">
+                            <span class="nav-link nav-link-icon">
+                                <span class="btn btn-neutral btn-icon web-menu">
+                                    <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                </span>
+                            </span>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <a asp-action="Login" asp-controller="Users" class="btn btn-outline-danger" type="button">Login</a>
+
+            }
+        </div>
+    </nav>
+    <!--IMAGE AND RESTAURANT DETAILS-->
+    <div class="containerimg">
+        <img class="min-height-400 position-absolute w-100" src="@ViewBag.ImageUrl" alt="image" height="500px">
+        <div class="top-left">
+            <img src="@ViewBag.LogoUrl" alt="image" height="50px" width="50px" style="border-radius:50%; border: 4px solid white;">
+            <h3 class="hotel-details hotel-name" style="margin-bottom: 0px;">@ViewBag.RestaurantName</h3>
+            <p class="hotel-details hotel-name">@ViewBag.restaurantAddress</p>
+            <h4 class="hotel-details">Online Catering Order</h4>
+        </div>
+    </div>
+    <!--FROM START-->
+    <div class="container-fluid" style="margin-top:10%;">
+        <form class="row g-4" asp-action="OrderDetails" method="post">
+            <!-- FORM 2 START-->
+            <div class="row mt-12" id="form2">
+                <div class="col-lg-3" id="form2">
+                    <div class="card mb-2">
+                        <div class="card-header pb-0 p-3">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mb-2">Order Summary <i class="fas fa-shopping-cart"></i></h4>
+                            </div>
+                        </div>
+                        <div class="card-body" style="background-color:#fff" id="orderSummary">
+                            <!-- Display selected item names as a numbered list -->
+                            <p id="selectedItemsList">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-lg-0 mb-4" id="form2">
+                    <div class="card">
+                        <div class="card-header pb-0 p-3">
+                            <h4 class="mb-0">Delivery Details</h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-6" style="display:none;">
+                                    <label asp-for="Role" for="inputAddress" class="form-label ">Role</label>
+                                    <input asp-for="Role" type="text" value="Client" class="form-control" placeholder="minimum 30" required>
+                                    <input asp-for="Password" type="text" class="form-control" value="@ViewBag.Password">
+                                    <input asp-for="CreatedAt" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    <input asp-for="OrderTime" class="form-control" value="@DateTime.Now.ToString("hh:mm:ss tt")" />
+                                    <input asp-for="Discount" class="form-control" value=" " />
+                                    <input asp-for="UpdatedAt" class="form-control" value=" " />
+                                    <input asp-for="DeletedAt" class="form-control" value=" " />
+                                    <input asp-for="SoftDelete" class="form-control" value=" " readonly />
+                                    <input asp-for="DeliveryStatus" class="form-control" value="Pending" readonly />
+                                    <input asp-for="Status" class="form-control" value="Pending" readonly />
+                                    <input asp-for="MenuAdjustmentTotal" class="form-control" value=" " />
+                                    <input asp-for="AddExtra" class="form-control" value=" " />
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="NoOfPerson" for="inputAddress" class="form-label">Number of Person<span style="color:red">*</span> </label>
+                                    <input asp-for="NoOfPerson" name="NoOfperson" class="form-control" id="inputAddress" value="@ViewBag.Minimum" required>
+                                    <span id="errorMessage" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="Name" class="control-label">Name <span style="color:red">*</span></label>
+                                    <input asp-for="Name" value="@ViewBag.UserName" class="form-control" required placeholder="Please Enter Your Name " />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Email" class="control-label">Email <span style="color:red">*</span></label>
+                                        <input asp-for="Email" value="@ViewBag.Email" class="form-control" required placeholder="Please Enter Your Email " />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="PhoneNumber" class="control-label">Phone Number <span style="color:red">*</span></label>
+                                        <input asp-for="PhoneNumber" value="@ViewBag.PhoneNumber" class="form-control" required placeholder="Please Enter Your Phone Number " />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+@*                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SelectedDate" class="control-label">Select Date <span style="color:red">*</span></label>
+                                        <select asp-for="SelectedDate" class="form-control selectpicker" asp-items="Model.DateOptions" required data-live-search="true">
+                                            <option value=""> Choose Delivery Date ▼ </option>
+                                        </select>
+                                        <span asp-validation-for="SelectedDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SelectedTime" class="control-label">Choose Delivery time <span style="color:red">*</span></label>
+                                        <select asp-for="SelectedTime" class="form-control selectpicker" asp-items="Model.TimeOptions" required data-live-search="true">
+                                            <option value=""> Choose Delivery Time ▼ </option>
+                                        </select>
+                                        <span asp-validation-for="SelectedTime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div> *@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SelectedDate" class="control-label">Select Date <span style="color:red">*</span></label>
+                                        <select asp-for="SelectedDate" class="form-control selectpicker" required data-live-search="true">
+                                            <option value=""> Choose Delivery Date  </option>
+                                            @{
+                                                var today = DateTime.Today;
+                                                var dayAfterTomorrow = today.AddDays(2);
+                                                var endDate = dayAfterTomorrow.AddDays(7);
+
+                                                for (var date = dayAfterTomorrow; date <= endDate; date = date.AddDays(1))
+                                                {
+                                                    <option value="@date.ToString("yyyy-MM-dd")">@date.ToString("dddd, MMMM dd, yyyy")</option>
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="SelectedDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SelectedTime" class="control-label">Choose Delivery time <span style="color:red">*</span></label>
+                                        <select asp-for="SelectedTime" class="form-control selectpicker" asp-items="Model.TimeOptions" required data-live-search="true">
+                                            <option value=""> Choose Delivery Time </option>
+                                        </select>
+                                        <span asp-validation-for="SelectedTime" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <p style="color:goldenrod ">Please Select Delivery Mode  <span style="color:red">*</span> </p>
+                            <div class="form-group">
+                                <label class="col-md-3" style="width: 300px;">
+                                    <button type="button" id="btnBuffet" class="btn btn-default" onclick="handleButtonClick('chkBuffet')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                        <span>@Html.DisplayNameFor(model => model.Buffet)</span>
+                                        <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" checked name="chkBuffet" id="chkBuffet" data-value="@ViewBag.Buffet" />
+                                    </button>
+                                </label>
+                                <label class="col-md-3" style="width: 300px;">
+                                    <button type="button" id="btnDelivery" class="btn btn-default" onclick="handleButtonClick('chkDelivery')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                        <span>@Html.DisplayNameFor(model => model.Delivery)</span>
+                                        <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="chkDelivery" id="chkDelivery" data-value="@ViewBag.Delivery" />
+                                    </button>
+                                </label>
+
+                                <label class="col-md-3" style="width: 300px;">
+                                    <button type="button" id="btnSelfCollect" class="btn btn-default" onclick="handleButtonClick('chkSelfCollect')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                        <span>@Html.DisplayNameFor(model => model.SelfCollect)</span>
+                                        <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="chkSelfCollect" id="chkSelfCollect" data-value="0" />
+                                    </button>
+                                </label>
+                            </div>
+                            <div class="form-group" id="address">
+                                <label asp-for="Address" class="control-label ">Restaurant Address</label>
+                                <input asp-for="Address" value="@ViewBag.RestaurantAddress" readonly class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-group hidden-input" id="deliveryAddress">
+                                <label asp-for="UserAddress" class="control-label">Your Address</label>
+                                <textarea asp-for="UserAddress" placeholder="Please Type Your Address Here..." value="0" class="form-control"> </textarea>
+                                <span asp-validation-for="UserAddress" class="text-danger"></span>
+                            </div>
+                            <p style="color:goldenrod "> Please Select Payment Mode <span style="color:red">*</span> </p>
+                            <div class="form-group" style="display:none;">
+                                <label class="col-md-2">
+                                    <button type="button" id="btnPartialPay" class="btn btn-danger" onclick="handleButtonClick('chkPartialPay')" style="background-color: white;">
+                                        <input type="radio" style="accent-color: #1e90ff;" checked name="chkPartialPay" id="chkPartialPay" />
+                                        @Html.DisplayNameFor(model => model.PartialPay)
+                                    </button>
+                                </label>
+                                <label class="col-md-2">
+                                    <button type="button" id="btnFullPay" class="btn btn-danger" onclick="handleButtonClick('chkFullPay')" style="background-color: white;">
+                                        <input type="radio" style="accent-color: #1e90ff;" name="chkFullPay" id="chkFullPay" />
+                                        @Html.DisplayNameFor(model => model.FullPay)
+                                    </button>
+                                </label>
+                                <div class="form-group" id="partialamount">
+                                    <label asp-for="PartialAmount" class="control-label fs-6">Partial Amount</label>
+                                    <input asp-for="PartialAmount" readonly class="form-control form-control-lg" />
+                                    <span asp-validation-for="PartialAmount" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2" style="width: 300px;">
+                                    <button type="button" class="btn btn-default" onclick="handleButtonClick('cashCheckbox')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                        <span>@Html.DisplayNameFor(model => model.Cash)</span>
+                                        <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" checked name="cashCheckbox" id="cashCheckbox" />
+                                    </button>
+                                </label>
+                                <!-- Card Checkbox -->
+                                <label class="col-md-2" style="width: 300px;">
+                                    <button type="button" class="btn btn-default" onclick="handleButtonClick('cardCheckbox')" style="width: 100%; height: 40px; display: flex; align-items: center;">
+                                        <span>@Html.DisplayNameFor(model => model.Card)</span>
+                                        <input type="radio" style="accent-color: #1e90ff; margin-left: auto;" name="cardCheckbox" id="cardCheckbox" />
+                                    </button>
+                                </label>
+                            </div>
+                            <div class="row card-inputs">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CardNumber" class="control-label fs-6">Card Number</label>
+                                        <textarea asp-for="CardNumber" value="0" placeholder="Please Type Card Number " class="form-control" style="resize: none;"> </textarea>
+                                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CCV" class="control-label fs-6">CCV</label>
+                                        <textarea asp-for="CCV" value="0" placeholder="Please Type CCV" class="form-control" style="resize: none;"> </textarea>
+                                        <span asp-validation-for="CCV" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center custom-pro-edt-ds">
+                                <input type="submit" value="Order Now" class="btn btn-success mx-auto" />
+                                <a id="backButtonForm2" class="btn btn-primary mx-auto">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3" id="form2">
+                    <div class="card mb-2">
+                        <div class="card-header pb-0 p-3">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mb-2">Payment Details </h4>
+                            </div>
+                            <hr class="horizontal dark mt-0">
+                        </div>
+                        <div class="card-body" style="background-color:#333333">
+                            <div class="table-responsive">
+                                <table class="table align-items-center">
+                                    <tbody>
+                                        <tr>
+                                            <td style="color:white">
+                                                Food Cost
+                                            </td>
+                                            <td>
+                                                <input asp-for="FoodCost" id="FoodCost" class="form-control" style="border:none; background-color:#333333;color:white;text-align: right;" placeholder=" ₹ 0.00" readonly />
+                                                <span asp-validation-for="FoodCost" class="text-danger"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:white">
+                                                Transport
+                                            </td>
+                                            <td>
+                                                <input asp-for="Transport" id="Transport" class="form-control" data-for="Transport" placeholder=" ₹ 0.00" style="border:none; background-color:#333333;color:white;text-align: right;" readonly />
+                                                <span asp-validation-for="Transport" class="text-danger"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:white">
+                                                Buffet Setup
+                                            </td>
+                                            <td>
+                                                <input asp-for="BuffetSetup" style="border:none; background-color:#333333;color:white;text-align: right;" id="BuffetSetup" class="form-control" placeholder=" ₹ 0.00" data-for="Buffet" readonly />
+                                                <span asp-validation-for="BuffetSetup" class="text-danger"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:white">
+                                                Tax Percentage %
+                                            </td>
+                                            <td>
+                                                <input asp-for="Tax" style="border:none; background-color:#333333;color:white;text-align: right;" id="Tax" value="@ViewBag.TaxPercentage" class="form-control" readonly />
+                                                <span asp-validation-for="Tax" class="text-danger"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="color:red;">
+                                                Grand Total
+                                            <td>
+                                                <input asp-for="GrandTotal" style="border:none; background-color:#333333;color:white;text-align: right;" class="form-control" />
+                                                <span asp-validation-for="GrandTotal" class="text-danger"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--FORM 1 START-->
+            <div class="row mt-12">
+                <div class="col-lg-4 mb-lg-0 mb-4" id="form1">
+                    <div class="card">
+                        <div class="col-md-12">
+                            <div class="card-header pb-0 p-3 mb-0">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mb-2">CATEGORIES   </h4>
+                                </div>
+                                <hr class="horizontal dark mt-0 mb-2">
+                            </div>
+                            <div class="card">
+                                <div class="form-group" style="display:none">
+                                    <label asp-for="UserId" class="control-label"></label>
+                                    <input asp-for="UserId" value="@ViewBag.UserId" class="form-control" />
+                                    <span asp-validation-for="UserId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label asp-for="UserName" class="control-label"></label>
+                                    <input asp-for="UserName" value="@ViewBag.UserName" class="form-control" />
+                                    <span asp-validation-for="UserId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label asp-for="RestaurantId" class="control-label"></label>
+                                    <input asp-for="RestaurantId" value="@ViewBag.RestaurantId" class="form-control" />
+                                    <span asp-validation-for="RestaurantId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label asp-for="RestaurantName" class="control-label"></label>
+                                    <input asp-for="RestaurantName" value="@ViewBag.RestaurantName" class="form-control" />
+                                    <span asp-validation-for="RestaurantId" class="text-danger"></span>
+                                </div>
+                                <div class="list-group">
+                                    @if (ViewBag.CateringCategories != null)
+                                    {
+                                        foreach (var category in ViewBag.CateringCategories)
+                                        {
+                                            <button class="list-group-item list-group-item-action category-button"
+                                                    style="border-radius: 5px; width: 100%; position: relative; display: flex; align-items: center;"
+                                                    data-category-id="@category.CateringCategoryId"
+                                                    data-category-price="@category.CategoryPrice"
+                                                    onclick="buttonClick(this, '@category.CateringCategoryId')">
+                                                <h5 style="margin-right: 20px;">@($"{category.CateringCategoryName} - (Rs {category.CategoryPrice})")</h5>
+                                                <input type="radio" style="margin-left: auto; width: 20px; height: 20px; accent-color: #ff5349;" name="categoryRadio" />
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p>No Catering Categories available.</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7 mb-lg-0 mb-4" id="form3">
+                    <div class="card mb-4">
+                        <div class="card-header pb-0 p-3">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mb-2">CUSTOMIZE YOUR MENU</h4>
+                                <a class="btn btn-success btn-sm ms-auto" asp-controller="Websites" asp-action="WebsiteHome">Home</a>
+                            </div>
+                            <hr class="horizontal dark mt-0">
+                            <h5 id="customizeMenuHeader" class="mb-2"> </h5>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header pb-0 p-3">
+
+                                <div class="form-group">
+                                    <div id="subcategoriesDiv" class="subcategories-container row">
+                                        <!-- Subcategories will be added here -->
+                                    </div>
+                                    <!-- New input field for CateringItemId -->
+                                    <input asp-for="CateringItemId" type="hidden" class="form-control" />
+                                    <input asp-for="CateringCategoryId" type="hidden" class="form-control" />
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <label asp-for="ItemName" class="control-label"></label>
+                                    <input asp-for="ItemName" class="form-control" />
+                                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <label asp-for="ItemPrice" class="control-label"></label>
+                                    <input asp-for="ItemPrice" class="form-control" />
+                                    <span asp-validation-for="ItemPrice" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <input asp-for="ExtrasName" value="none" class="form-control" />
+                                    <span asp-validation-for="ExtrasName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <input asp-for="ExtraPrice" value="0" class="form-control" />
+                                    <span asp-validation-for="ExtraPrice" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <label>Extra Id</label>
+                                    <input asp-for="ExtraId" value="0" class="form-control" />
+                                    <span asp-validation-for="ExtraId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <label>Subcategory</label>
+                                    <input asp-for="Subcategory" class="form-control" />
+                                    <span asp-validation-for="Subcategory" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                                <div class="custom-pro-edt-ds">
+                                    <div class="form-group">
+                                        <button style="width:100%" type="button" id="proceedButtonForm1" class="btn btn-success d-block mx-auto">Proceed</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    @section Scripts {
+        <!-- Start Grand Total Calculation -->
+        <script>
+            $(document).ready(function () {
+                $('input').on('input', function () {
+                    calculateGrandTotal();
+                });
+                function calculateGrandTotal() {
+                    try {
+                        var transport = parseFloat($('#Transport').val()) || 0;
+                        var buffetSetup = parseFloat($('#BuffetSetup').val()) || 0;
+                        var taxPercentage = parseFloat($('#Tax').val()) || 0;
+                        var categoryPrice = parseFloat($('input[name="FoodCost"]').val()) || 0;
+                        var subtotal = categoryPrice + transport + buffetSetup;
+                        var taxValue = (subtotal * taxPercentage) / 100;
+                        var grandTotal = subtotal + taxValue;
+                        $('#GrandTotal').val(grandTotal.toFixed(2));
+                    } catch (error) {
+                        console.error("Error calculating GrandTotal:", error);
+                    }
+                }
+                $('#proceedButtonForm1, #btnBuffet, #btnDelivery, #btnSelfCollect').on('click', function () {
+                    calculateGrandTotal();
+                });
+            });
+            function buttonClick(button, categoryId) {
+                selectRadioButton(button);
+                fetchSubcategoryData(categoryId);
+            }
+
+            $('input[name="NoOfperson"]').on('input', function () {
+                // Call the function to recalculate the total cost and grand total
+                selectRadioButton(previousButton);
+            });
+            var previousButton = null;
+            function selectRadioButton(button) {
+                // Uncheck all radio buttons in the group
+                $('input[name="categoryRadio"]').prop('checked', false);
+                var radio = button.querySelector('input[type="radio"]');
+                if (radio) {
+                    radio.checked = true;
+                    button.style.backgroundColor = 'white';
+                    if (previousButton) {
+                        previousButton.style.border = '2px solid transparent';
+                    }
+                    previousButton = button;
+                }
+                var categoryPrice = button.getAttribute("data-category-price");
+                var noOfPerson = parseFloat($('input[name="NoOfperson"]').val()) || 0;  
+                var totalCost = categoryPrice * noOfPerson;  
+
+                // Set the value of the FoodCost input to the calculated total cost
+                $('input[name="FoodCost"]').val(totalCost.toFixed(2)); 
+            }
+        </script>
+        <!-- End Grand Total Calculation-->
+        <!-- Start Total Calculation -->
+        <script>
+            $(document).ready(function () {
+                $('#chkSelfCollect, #chkDelivery, #chkBuffet').change(function () {
+                    updateInputValues(this);
+                });
+                updateInputValues(null);
+                function updateInputValues(clickedCheckbox) {
+                    var selfCollectCheckbox = $('#chkSelfCollect');
+                    var deliveryCheckbox = $('#chkDelivery');
+                    var buffetCheckbox = $('#chkBuffet');
+                    // Uncheck all checkboxes if the selfCollect checkbox is clicked
+                    if (clickedCheckbox === selfCollectCheckbox[0]) {
+                        deliveryCheckbox.prop('checked', false);
+                        buffetCheckbox.prop('checked', false);
+                    } else {
+                        // If any other checkbox is clicked, uncheck the selfCollect checkbox
+                        selfCollectCheckbox.prop('checked', false);
+                        // Uncheck the other checkbox that wasn't clicked
+                        if (clickedCheckbox === deliveryCheckbox[0]) {
+                            buffetCheckbox.prop('checked', false);
+                        } else if (clickedCheckbox === buffetCheckbox[0]) {
+                            deliveryCheckbox.prop('checked', false);
+                        }
+                    }
+                    // Set the values based on checkbox state
+                    var transportValue = selfCollectCheckbox.prop('checked') ? 0 : (deliveryCheckbox.prop('checked') ? parseFloat(deliveryCheckbox.data('value')) || 0 : 0);
+                    $('#Transport').val(transportValue);
+                    var buffetSetupValue = selfCollectCheckbox.prop('checked') ? 0 : (buffetCheckbox.prop('checked') ? parseFloat(buffetCheckbox.data('value')) || 0 : 0);
+                    $('#BuffetSetup').val(buffetSetupValue);
+                }
+            });
+        </script>
+        <!-- End Total Calculation -->
+        <!-- Start No Of Person Validation -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var inputElement = document.getElementById('inputAddress');
+                var errorMessageElement = document.getElementById('errorMessage');
+                var minimumValue = parseInt('@ViewBag.Minimum');
+                var lastValidValue = minimumValue;
+                inputElement.value = minimumValue;
+                inputElement.addEventListener('input', function () {
+                    var enteredValue = parseInt(inputElement.value);
+                    if (isNaN(enteredValue) || enteredValue < minimumValue) {
+                        errorMessageElement.textContent = ' @ViewBag.Minimum is the minimum No of Person.';
+                        setTimeout(function () {
+                            inputElement.value = lastValidValue;
+                            errorMessageElement.textContent = '';
+                            selectRadioButton(previousButton);
+                            calculateGrandTotal();
+                        }, 1000);
+                    } else {
+                        lastValidValue = enteredValue;
+                        errorMessageElement.textContent = '';
+                    }
+
+                });
+                inputElement.addEventListener('blur', function () {
+                    if (inputElement.value === '') {
+                        inputElement.value = minimumValue;
+                        lastValidValue = minimumValue;
+                        calculateGrandTotal();
+                    }
+                });
+            });
+
+            function calculateGrandTotal() {
+                try {
+                    var transport = parseFloat($('#Transport').val()) || 0;
+                    var buffetSetup = parseFloat($('#BuffetSetup').val()) || 0;
+                    var taxPercentage = parseFloat($('#Tax').val()) || 0;
+                    var categoryPrice = parseFloat($('input[name="FoodCost"]').val()) || 0;
+                    var subtotal = categoryPrice + transport + buffetSetup;
+                    var taxValue = (subtotal * taxPercentage) / 100;
+                    var grandTotal = subtotal + taxValue;
+                    $('#GrandTotal').val(grandTotal.toFixed(2));
+                } catch (error) {
+                    console.error("Error calculating GrandTotal:", error);
+                }
+            }
+        </script>
+        <!-- End No Of Person Validation -->
+        <!-- Start Form Show Hide -->
+        <script>
+            $(document).ready(function () {
+                $("#form2").hide();
+                $("#proceedButtonForm1").click(function () {
+                    $("#form1, #form3").slideUp("slow");
+                    $("#form2").slideDown("slow");
+                });
+                $("#backButtonForm2").click(function () {
+                    $("#form2").slideUp("slow");
+                    $("#form1, #form3").slideDown("slow");
+                });
+            });
+        </script>
+        <!-- End Form Show Hide -->
+        <!-- Start SelfCollect, Delivery, Buffet -->
+        <script>
+            function handleButtonClick(radioButtonId) {
+                $('#' + radioButtonId).prop('checked', true);
+                $('#' + radioButtonId).change();
+            }
+            $(document).ready(function () {
+                $("#deliveryAddress").hide();
+                $("#address").hide();
+                function showLeftToRight(element) {
+                    element.css({
+                        'width': '0',
+                        'display': 'block'
+                    }).animate({
+                        'width': '100%'
+                    }, 500);
+                }
+                function hideRightToLeft(element) {
+                    element.animate({
+                        'width': '0'
+                    }, 500, function () {
+                        $(this).hide();
+                    });
+                }
+                $("#chkDelivery").change(function () {
+                    if ($(this).is(":checked")) {
+                        showLeftToRight($("#deliveryAddress"));
+                        hideRightToLeft($("#address"));
+                        $("#chkSelfCollect, #chkBuffet").prop("checked", false);
+                    }
+                });
+                $("#chkSelfCollect, #chkBuffet").change(function () {
+                    if ($(this).is(":checked")) {
+                        showLeftToRight($("#address"));
+                        hideRightToLeft($("#deliveryAddress"));
+                        $("#chkDelivery").prop("checked", false);
+                    }
+                });
+                $("#chkBuffet").change();
+                $("input[type='checkbox']").click(function () {
+                    if (!$(this).is(":checked")) {
+                        return false;
+                    }
+                });
+                $("input[type='checkbox']").click(function () {
+                    if (!$(this).is(":checked")) {
+                        return false;
+                    }
+                });
+            });
+        </script>
+        <!-- End SelfCollect, Delivery, Buffet -->
+        <!-- Start Cash, Card -->
+        <script>
+            $(document).ready(function () {
+                $(".card-inputs").slideUp();
+                $("#cashCheckbox").change(function () {
+                    if ($(this).is(":checked")) {
+                        $("#cardCheckbox").prop("checked", false);
+                        $(".card-inputs").slideUp();
+                        $(".card-inputs input").prop("required", false);
+                    }
+                });
+                $("#cardCheckbox").change(function () {
+                    if ($(this).is(":checked")) {
+                        $("#cashCheckbox").prop("checked", false);
+                        $(".card-inputs").slideDown();
+                        $(".card-inputs input").prop("required", true);
+                    } else {
+                        $(".card-inputs").slideUp();
+                        $(".card-inputs input").prop("required", false);
+                    }
+                });
+            });
+        </script>
+        <!-- End Cash, Card -->
+        <!-- Start Get CateringCategory, SubCategory, ItemName, Extras, SelectedList  -->
+        <script>
+            var selectedListData;
+            $('#proceedButtonForm1').prop('disabled', true);
+            $(document).ready(function () {
+                $('.category-button').on('click', function () {
+                    $('#selectedItemsList').empty();
+                    $('#proceedButtonForm1').prop('disabled', true);
+                    $('.category-button').removeClass('active');
+                    $(this).addClass('active');
+                    var categoryId = $(this).data('category-id');
+                    $('#CateringCategoryId').val(categoryId);
+                    $.ajax({
+                        url: '@Url.Action("GetSubcategories", "OrderDetailWebsites")',
+                        type: 'GET',
+                        data: { categoryId: categoryId },
+                        dataType: 'json',
+                        success: function (data) {
+                            $('#subcategoriesDiv').empty();
+                            // Generate a row for each subcategory
+                            var row = $('<div class="row"></div>');
+                            data.forEach(function (subcategory) {
+                                // Generate a new row for each subcategory
+                                var row = $('<div class="row"></div>');
+                                // Generate a column for the subcategory
+                                var column = $('<div class="col-md-12 mb-2"></div>');
+                                // Generate a button for the subcategory
+                                var button = $('<h5></h5>').css('color', 'goldenrod')
+                                    .text(subcategory)
+                                    .data('subcategory', subcategory);
+                                var container = $('<div class="subcategory-container"></div>');
+                                var itemList = $('<ul class="list-group"></ul>');
+                                fetchDataForSubcategory(categoryId, subcategory);
+                                // Fetch and display data from GetSelectedListForSubcategory
+                                function fetchDataForSubcategory(categoryId, subcategory) {
+                                $.ajax({
+                                    url: '@Url.Action("GetSelectedListForSubcategory", "OrderDetailWebsites")',
+                                    type: 'GET',
+                                    data: { categoryId: categoryId, subcategory: subcategory },
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        // Fetch and display data from GetSelectedListForSubcategory
+                                        $.ajax({
+                                            url: '@Url.Action("GetSelectedListForSubcategory", "OrderDetailWebsites")',
+                                            type: 'GET',
+                                            data: { categoryId: categoryId, subcategory: subcategory },
+                                            dataType: 'json',
+                                            success: function (data) {
+                                                var subcategorySelectedListData = data;
+                                                var pTag = $('<p style="color: red;"></p>').text('Select Any ' + subcategorySelectedListData + ' Item');
+                                                container.append(pTag);
+                                                // Enable all checkboxes initially
+                                                $('.item-checkbox[data-subcategory="' + subcategory + '"]').prop('disabled', false);
+                                                // Handle checkbox change
+                                                $('.item-checkbox[data-subcategory="' + subcategory + '"]').on('change', function () {
+                                                    var checkboxes = $('.item-checkbox[data-subcategory="' + subcategory + '"]');
+                                                    var checkedCheckboxes = checkboxes.filter(':checked');
+                                                    // Disable unselected checkboxes within the specific subcategory
+                                                    checkboxes.not(':checked').prop('disabled', checkedCheckboxes.length === parseInt(subcategorySelectedListData));
+                                                    // Update the color of the pTag based on the condition
+                                                    pTag.css('color', checkedCheckboxes.length === parseInt(subcategorySelectedListData) ? 'gray' : 'red');
+                                                    // Check if all pTags in the subcategory-container have gray color
+                                                    var allGray = $('.subcategory-container p').toArray().every(function (element) {
+                                                        return $(element).css('color') === 'rgb(128, 128, 128)';
+                                                    });
+                                                    // Enable or disable the "Proceed" button based on the condition
+                                                    $('#proceedButtonForm1').prop('disabled', !allGray);
+                                                });
+                                            },
+                                            error: function () {
+                                                console.log('Error fetching data from the SelectedList column.');
+                                            }
+                                        });
+                                    },
+                                    error: function () {
+                                        console.log('Error fetching subcategories.');
+                                    }
+                                });
+                                }
+                                // Fetch and display items for the current category and subcategory
+                                $.ajax({
+                                    url: '@Url.Action("GetItemsForCategoryAndSubcategory", "OrderDetailWebsites")',
+                                    type: 'GET',
+                                    data: { categoryId: categoryId, subcategory: subcategory },
+                                    dataType: 'json',
+                                    // Inside the success callback of fetching items for category and subcategory
+                                    success: function (items) {
+                                        // Clear itemList before populating with items
+                                        itemList.empty();
+                                        var row = $('<div class="row"></div>');
+                                        // Generate the first column for items with larger width
+                                        var column1 = $('<div class="col-md-6 mb-2"></div>'); // First column with larger width
+                                        // Generate the second column for items with larger width
+                                        var column2 = $('<div class="col-md-6 mb-2"></div>'); // Second column
+
+                                        row.append(column1);
+                                        row.append(column2);
+
+                                        // Iterate over the items and distribute them between the two columns
+                                        items.forEach(function (item, index) {
+                                            var listItem = $('<li class="list-group-item d-flex align-items-center" style="font-size: 18px; padding: 15px; cursor: pointer;"></li>');
+                                            var checkbox = $('<div class="custom-control custom-checkbox">' +
+                                                '<input type="checkbox" class="custom-control-input item-checkbox mr-3" ' +
+                                                'id="customCheck' + item.cateringItemId + '" ' +
+                                                'data-item-id="' + item.cateringItemId + '" ' +
+                                                'data-item-name="' + item.itemName + '" ' +
+                                                'data-item-price="' + item.itemPrice + '" ' +
+                                                'data-subcategory="' + subcategory + '" ' +
+                                                'style="width: 20px; height: 20px; margin-right: 10px;">' +
+                                                '<label class="custom-control-label" for="customCheck' + item.cateringItemId + '"> </label>' +
+                                                '</div>');
+
+                                            listItem.on('click', function () {
+                                                if (!checkbox.find('input').prop('disabled')) {
+                                                    checkbox.find('input').prop('checked', !checkbox.find('input').prop('checked'));
+                                                    checkbox.find('input').trigger('change');
+                                                }
+                                            });
+                                            listItem.append(checkbox);
+                                            listItem.append(' ' + item.itemName);
+                                            itemList.append(listItem);
+
+                                            // Distribute items between the two columns
+                                            if (index < items.length / 2) {
+                                                column1.append(listItem);
+                                            } else {
+                                                column2.append(listItem);
+                                            }
+                                        });
+
+                                        $('.item-checkbox').on('change', function () {
+                                            updateSelectedItems();
+                                            var checkbox = $(this);
+                                            var isChecked = checkbox.prop('checked');
+                                            var subcategory = checkbox.data('subcategory');
+                                            var checkboxes = $('.item-checkbox[data-subcategory="' + subcategory + '"]');
+                                            var checkedCheckboxes = checkboxes.filter(':checked');
+                                            // Disable unselected checkboxes within the specific subcategory
+                                            checkboxes.not(':checked').prop('disabled', checkedCheckboxes.length === parseInt(selectedListData));
+                                        });
+
+                                        // Append the columns to the row
+                                        row.append(column1);
+                                        row.append(column2);
+
+                                        // Append the row to the itemList container
+                                        itemList.append(row);
+                                    },
+
+
+                                    error: function () {
+                                        console.log('Error fetching items for category and subcategory.');
+                                    }
+                                });
+
+                                $(document).on('change', '.item-checkbox', function () {
+                                    var checkbox = $(this);
+                                    var extrasContainer = checkbox.closest('.list-group-item').find('.extras-container');
+                                    // Enable or disable radio buttons based on checkbox state
+                                    extrasContainer.find('.item-radio').prop('disabled', !checkbox.prop('checked'));
+                                    // Unselect radio buttons when checkbox is deselected
+                                    if (!checkbox.prop('checked')) {
+                                        extrasContainer.find('.item-radio').prop('checked', false);
+                                    }
+                                });
+
+                                //Fetch Extras
+                                function fetchExtrasForCateringItem(cateringItemId, listItem) {
+                                    $.ajax({
+                                        url: '@Url.Action("GetExtrasForCateringItem", "OrderDetailWebsites")',
+                                        type: 'GET',
+                                        data: { cateringItemId: cateringItemId },
+                                        dataType: 'json',
+                                        success: function (extras) {
+                                            // Process the fetched extras (update UI, etc.)
+                                            console.log('Extras:', extras);
+                                            // If there are extras, append them to the list item as radio buttons
+                                            if (extras.length > 0) {
+                                                var extrasContainer = $('<div class="extras-container"></div>');
+                                                extras.forEach(function (extra, index) {
+                                                    var radioId = 'radio_' + cateringItemId + '_' + index;
+                                                    var radioLabel = $('<label class="radio-label"></label>').html('<span class="extra-name">' + extra.extraName + '</span> ');
+                                                    var radioButton = $('<input type="radio" class="item-radio" name="extrasRadio_' + cateringItemId + '" id="' + radioId + '">');
+                                                    radioButton
+                                                        .data('extra-name', extra.extraName)
+                                                        .data('extra-price', extra.extraPrice)
+                                                        .data('extra-id', extra.cateringExtrasId);
+                                                    radioLabel.attr('for', radioId);
+                                                    extrasContainer.append(radioButton);
+                                                    extrasContainer.append(radioLabel);
+                                                });
+                                                listItem.append(extrasContainer);
+                                                extrasContainer.find('.item-radio').prop('disabled', true);
+                                                // Attach the change event handler to radio buttons after they are loaded
+                                                extrasContainer.find('.item-radio').on('change', function () {
+                                                    updateSelectedExtras();
+                                                });
+                                            }
+                                        },
+                                        error: function () {
+                                            console.log('Error fetching extras for catering item.');
+                                        }
+                                    });
+                                }
+
+                                //Start to store the ExtraName, ExtraPrice, ExtraId
+                                function updateSelectedExtras() {
+                                    var selectedExtraNames = [];
+                                    var selectedExtraPrices = [];
+                                    var selectedExtraIds = [];
+                                    // Loop through all radio buttons to get selected extras
+                                    $('.item-radio:checked').each(function () {
+                                        selectedExtraNames.push($(this).data('extra-name'));
+                                        selectedExtraPrices.push(parseFloat($(this).data('extra-price')) || 0);
+                                        selectedExtraIds.push($(this).data('extra-id'));
+                                    });
+                                    console.log('Selected Extra Names:', selectedExtraNames);
+                                    console.log('Selected Extra Prices:', selectedExtraPrices);
+                                    console.log('Selected Extra IDs:', selectedExtraIds);
+                                    // Update the corresponding input fields for extras
+                                    $('#ExtrasName').val(selectedExtraNames.join(','));
+                                    $('#ExtraPrice').val(selectedExtraPrices.join(','));
+                                    $('#ExtraId').val(selectedExtraIds.join(','));
+                                    console.log('Updated ExtraId:', $('#ExtraId').val());
+                                }
+                                // Define a global array to store selected items
+                                var selectedItems = [];
+                                function updateSelectedItems() {
+                                    selectedItems = [];
+                                    $('.item-checkbox:checked').each(function () {
+                                        var selectedItem = {
+                                            Subcategory: $(this).closest('.subcategory-container').siblings('h5').data('subcategory'),
+                                            ItemId: $(this).data('item-id'),
+                                            ItemName: $(this).data('item-name'),
+                                            ItemPrice: parseFloat($(this).data('item-price')) || 0
+                                        };
+                                        selectedItems.push(selectedItem);
+                                    });
+                                    // Update the corresponding input fields
+                                    var selectedCateringItemIds = selectedItems.map(item => item.ItemId);
+                                    var selectedItemNames = selectedItems.map(item => item.ItemName);
+                                    var selectedItemPrices = selectedItems.map(item => item.ItemPrice);
+                                    $('#CateringItemId').val(selectedCateringItemIds.join(','));
+                                    $('#ItemName').val(selectedItemNames.join(','));
+                                    $('#ItemPrice').val(selectedItemPrices.join(','));
+                                    updateOrderSummaryList(selectedItems);
+                                }
+                                container.append(itemList);
+                                column.append(button);
+                                column.append(container);
+                                row.append(column);
+
+                                // Append row to subcategoriesDiv
+                                $('#subcategoriesDiv').append(row);
+
+                            });
+                            var subcategoryNames = data.join(', ');
+                            $('input[name="Subcategory"]').val(subcategoryNames);
+                        },
+                        error: function () {
+                            console.log('Error fetching subcategories.');
+                        }
+                    });
+                });
+                // Handle item checkbox click
+                $('#subcategoriesDiv').on('change', '.item-checkbox', function () {
+                    var itemName = $(this).data('item-name');
+                    var itemPrice = $(this).data('item-price');
+                });
+            });
+
+            //Start Order Summarry
+            function updateOrderSummaryList(selectedItems) {
+                var orderedList = $('#selectedItemsList');
+                orderedList.empty();
+                var groupedItems = {};
+                selectedItems.forEach(function (selectedItem) {
+                    var subcategory = selectedItem.Subcategory || 'Uncategorized';
+                    if (!groupedItems.hasOwnProperty(subcategory)) {
+                        groupedItems[subcategory] = [];
+                    }
+                    groupedItems[subcategory].push(selectedItem.ItemName);
+                });
+                // Add each subcategory and its items as a list item
+                for (var subcategory in groupedItems) {
+                    if (groupedItems.hasOwnProperty(subcategory)) {
+                        var subcategoryItems = groupedItems[subcategory];
+                        var listItem = $('<li class="list-group-item"></li>').text(subcategory + ':').css({
+                            'color': 'black',
+                            'font-weight': 'bold',
+                            'font-size': '25px'
+                        });
+                        var itemList = $('<p></p>').css({
+                            'color': 'black',
+                            'font-size': '20px',
+                        });
+                        subcategoryItems.forEach(function (item, index) {
+                            itemList.append(item);
+                            if (index < subcategoryItems.length - 1) {
+                                itemList.append('<br>');
+                            }
+                        });
+                        listItem.append(itemList);
+                        orderedList.append(listItem);
+                    }
+                }
+            }
+            //End Order Summary
+        </script>
+        <!-- End Get CateringCategory, SubCategory, ItemName, Extras, SelectedList  -->
+    }
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <script src="../../assets/js/plugins/chartjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/plugins/moment/moment.min.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/adminlte.js"></script>
+    <script src="~/dist/js/pages/dashboard.js"></script>
+</body>
+</html>

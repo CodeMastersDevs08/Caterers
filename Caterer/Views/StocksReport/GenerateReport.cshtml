@@ -1,0 +1,114 @@
+﻿@model List<StockAdjustment>
+@{
+    ViewData["Title"] = "Stock Report";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Stock Report";
+}
+
+<head>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <!-- Add DataTables Buttons CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.2/css/buttons.dataTables.min.css">
+    <!-- Add Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Stock Adjustment</h2>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-secondary buttons-print" tabindex="0" aria-controls="stockTable" title="Print">
+                                <span><i class="fas fa-print"></i></span>
+                            </button>
+                            <button type="button" class="btn btn-secondary buttons-excel" tabindex="0" aria-controls="stockTable" title="Export to Excel">
+                                <span><i class="far fa-file-excel"></i></span>
+                            </button>
+                            <button type="button" class="btn btn-secondary buttons-pdf" tabindex="0" aria-controls="stockTable" title="Export to PDF">
+                                <span><i class="far fa-file-pdf"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Product</th>
+                                        <th>StockDate</th>
+                                        <th>Adjustment Type</th>
+                                        <th>Quantity</th>
+                                        <th>Adjustment Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var stockAdjustment in Model)
+                                    {
+                                        <tr>
+                                            <td>@stockAdjustment.StockAdjustmentId</td>
+                                            <td>@stockAdjustment.Product.ProductName</td>
+                                            <td>@stockAdjustment.StockDate.ToString("dd-MM-yyyy")</td>
+                                            <td>@stockAdjustment.AdjustmentType</td>
+                                            <td>@stockAdjustment.Quantity</td>
+                                            <td>@(stockAdjustment.AdjustmentReason ?? "N/A")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#table').DataTable({
+                "pageLength": 25,
+                "columnDefs": [
+                    { "type": "datetime-moment", "targets": 2, "momentFormat": "YYYY-MM-DD" }
+                ]
+            });
+
+            $('#dateFilter').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear',
+                    format: 'YYYY-MM-DD'
+                },
+                startDate: moment().subtract(7, 'days'),
+                endDate: moment()
+            });
+
+            $('#dateFilter').on('apply.daterangepicker', function (ev, picker) {
+                var startDate = picker.startDate.format('YYYY-MM-DD');
+                var endDate = picker.endDate.format('YYYY-MM-DD');
+
+                table.column(2).search(startDate + ' to ' + endDate).draw();
+            });
+
+            $('#dateFilter').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+                table.column(2).search('').draw();
+            });
+        });
+    </script>
+}

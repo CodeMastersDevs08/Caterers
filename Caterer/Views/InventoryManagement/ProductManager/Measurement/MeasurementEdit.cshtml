@@ -1,0 +1,66 @@
+﻿@model Caterer.Models.Measurement
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Measurements";
+}
+    <div class="container-fluid py-8">
+        <div class="row">
+        <div class="col-md-5 col-sm-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                      
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Edit Units</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary btn-sm ms-auto" asp-controller="Measurement" asp-action="MeasurementList">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="MeasurementEdit">
+                            <div  >
+                                <div>
+                                    <div class="row">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <input type="hidden" asp-for="MeasurementId" />
+                                    <input asp-for="RestaurantId" type="hidden" placeholder="RestaurantId"   class="form-control"   />
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                             
+                                                <label asp-for="MeasurementName" class="control-label">Units Name</label>
+                                                <input asp-for="MeasurementName" class="form-control" placeholder=" Please Enter Units Name" required />
+                                                <span asp-validation-for="MeasurementName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <br /><br />
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class=" text-center custom-pro-edt-ds">
+                                                <button type="submit" class="btn btn-success">
+                                                    Update
+                                                </button>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @section Scripts {
+                    @{
+                        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                    }
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                }
+            </div>
+        </div>
+    </div>

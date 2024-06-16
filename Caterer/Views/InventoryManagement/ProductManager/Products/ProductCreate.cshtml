@@ -1,0 +1,752 @@
+﻿@model Caterer.Models.ProductViewModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Products";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-md-8 col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Add New Products</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary text-right btn-sm ms-auto mb-3" asp-controller="Products" asp-action="ProductList">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ProductCreate" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label asp-for="ProductType" class="control-label">Product Type</label>
+                            <div class="input-group">
+                                <select asp-for="ProductType" required class="form-control">
+                                    <option>Inventory </option>
+                                    <option>Ingredient</option>
+                                    <option>Semi Ingredient</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="ProductType" class="text-danger"></span>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="warehouseId">Warehouse Id</label>
+                                    <input asp-for="WarehouseId" id="warehouseId" name="WarehouseId" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="warehouseName">Warehouse Name</label>
+                                    <input asp-for="WarehouseName" id="warehouseName" name="WarehouseName" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="RestaurantId" placeholder="RestaurantId" type="hidden" class="form-control" value="@ViewBag.RestaurantId" />
+                                    <label asp-for="ProductName" class="control-label">
+                                        Product Name <span style="color:red;" class="info-icon" data-toggle="tooltip" title="Special Characters will not accept">*</span>
+                                    </label>
+                                    <input asp-for="ProductName" autocomplete="off" required class="form-control" placeholder="Please Enter Product Name" />
+                                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                                    <input type="hidden" asp-for="productcode" value="@Model.productcode" />
+                                </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('[data-toggle="tooltip"]').tooltip();
+                                    });
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Barcode" class="control-label">Barcode</label>
+                                    <input asp-for="Barcode" autocomplete="off" class="form-control" placeholder="Please Enter Barcode" />
+                                    <span asp-validation-for="Barcode" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MeasurementId" class="control-label">Unit</label>
+                                    <div class="input-group">
+                                        <select asp-for="MeasurementId" asp-items="new SelectList(Model.MeasurementName, nameof(Measurement.MeasurementId), nameof(Measurement.MeasurementName))" class="form-control pro-edt-select form-control-primary ">
+                                            <option value="0">Select a Unit</option>
+                                        </select>
+
+                                        <div class="input-group-append">
+                                            <a class="btn btn-info" id="addMeasurementBtnId">+</a>
+                                        </div>
+                                    </div>
+
+                                    <span asp-validation-for="MeasurementId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CategoryId" class="control-label">Category</label>
+                                    <div class="input-group">
+                                        <select asp-for="CategoryId" asp-items="new SelectList(Model.CategoryName, nameof(Category.CategoryId), nameof(Category.CategoryName))" class="form-control pro-edt-select form-control-primary ">
+                                            <option value="">Select a Category</option>
+                                        </select>
+
+                                        <div class="input-group-append">
+                                            <a class="btn btn-info" id="addCategoryBtnId"> +</a>
+                                        </div>
+                                    </div>
+
+                                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="expiryToggle">
+                                        <label for="expiryToggle" class="form-check-label control-label">Product Expiry Date</label>
+                                        <input type="hidden" name="ExpireDate" id="expiryInput" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="SafetyStock" class="control-label">Safety Stock</label>
+                                    <input autocomplete="off" asp-for="SafetyStock" class="form-control" placeholder="0.00" />
+                                    <span asp-validation-for="SafetyStock" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Price & Tax</h4>
+                        <hr class="my-2" />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="TaxId" class="control-label">Tax</label>
+                                    <div class="input-group">
+                                        <select asp-for="TaxId" asp-items="Model.TaxNameWithPercentage" class="form-control pro-edt-select form-control-primary ">
+                                            <option value="">@ViewData["DefaultTaxText"]</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="TaxId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Quantity" class="control-label">Current Quantity</label>
+                                    <input asp-for="Quantity" autocomplete="off" class="form-control" id="exampleFormControlTextarea1" placeholder="Please Enter Quantity">
+                                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="OpeningStockDate" class="control-label"> Current Stock Date</label>
+                                    <input asp-for="OpeningStockDate" autocomplete="off" type="date" class="form-control" id="openingStockDate" placeholder="Please Enter OpeningStockDate">
+                                    <span asp-validation-for="OpeningStockDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var currentDate = new Date().toISOString().split('T')[0];
+                                document.getElementById('openingStockDate').value = currentDate;
+                            });
+                        </script>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="UnitPrice" class="control-label">Purchase Unit Price</label>
+                                    <input asp-for="UnitPrice" autocomplete="off" class="form-control" placeholder="0.00" id="purchaseUnitPrice" />
+                                    <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="UnitCost" class="control-label">Selling Unit Price</label>
+                                    <input asp-for="UnitCost" autocomplete="off" class="form-control" placeholder="0.00" id="sellingUnitPrice" />
+                                    <span asp-validation-for="UnitCost" class="text-danger"></span>
+                                    <span id="sellingPriceError" class="text-danger"></span>
+                                </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#sellingUnitPrice').on('change', function () {
+                                            var sellingPrice = parseFloat($(this).val());
+                                            var purchasePrice = parseFloat($('#purchaseUnitPrice').val());
+                                            var errorMessage = 'Selling price must be higher than the purchase price.';
+                                            if (sellingPrice <= purchasePrice) {
+                                                $('#sellingPriceError').text(errorMessage);
+                                                $(this).val('');
+                                            } else {
+                                                $('#sellingPriceError').text('');
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Mrp" class="control-label">Mrp</label>
+                                    <input asp-for="Mrp" autocomplete="off" class="form-control" id="exampleFormControlTextarea1" placeholder="0.00">
+                                    <span asp-validation-for="Mrp" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="display:none">
+                            <div class="form-group ">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" checked type="checkbox" id="posCheckboxToggle">
+                                    <label for="posCheckboxToggle" class="custom-control-label">Stock Control</label>
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Custom Fields</h4>
+                        <hr class="my-2" />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Product Image</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input asp-for="ProductImage" type="file" name="ProductImage" accept=".png,.jpeg,.jpg" class="custom-file-input" id="fileInput" onchange="previewImage()" />
+                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="ProductImage" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <img id="imagePreview" style="display: none; max-width: 100px; max-height: 100px; margin-top: 10px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ProductDescription" class="control-label">Product Description</label>
+                                    <textarea asp-for="ProductDescription" autocomplete="off" class="form-control" id="exampleFormControlTextarea1" placeholder="Please Enter Product Description" rows="3"> </textarea>
+                                    <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input asp-for="Instock" type="hidden" value="0" class="form-control" placeholder="Current Stock" />
+                                <span asp-validation-for="Instock" autocomplete="off" class="text-danger"></span>
+                                <input value="0" asp-for="OpeningStock" type="hidden" />
+                            </div>
+                        </div>
+                        @if (Model.productcode >= 100)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                The maximum limit of 100 products has been reached. You cannot create more products at this time.
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="text-center custom-pro-edt-ds">
+                                        <button type="submit" class="btn btn-success m-r-10" onclick="validateName()">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </form>
+                </div>
+            </div>
+            @* ------**Units Modal Popup***------- *@
+            <div class="modal fade modal" id="AddUnitsModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="text-info model-title">Add New Unit</h1>
+                            <button aria-label="Close" class="btn-close bg-danger" onclick="CloseUnitsModalPopup();"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" id="AddUnits_form">
+                                <div class="form-group" style="display: none;">
+                                    <label>RestaurantId</label>
+                                    <input type="text" class="form-control" id="RestaurantId" value="@ViewBag.RestaurantId" placeholder=" Please Enter RestaurantId" autocomplete="off" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Measurement Name</label>
+                                    <input type="text" class="form-control" id="MeasurementName" placeholder=" Please Enter Warehouse Name" autocomplete="off" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" onclick="AddUnits();">Save</button>
+                            <button class="btn btn-danger" onclick="CloseUnitsModalPopup();">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            @* -------*** Category Modal popup **------- *@
+            <div class="modal fade modal" id="AddCategoryModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="text-info model-title">Add New Category</h1>
+                            <button aria-label="Close" class="btn-close bg-danger" onclick="CloseCategoryModalPopup();"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" id="AddUnits_form">
+                                <div class="form-group" style="display: none;">
+                                    <label>RestaurantId</label>
+                                    <input type="text" class="form-control" id="RestaurantId" value="@ViewBag.RestaurantId" placeholder=" Please Enter RestaurantId" autocomplete="off" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Category Name</label>
+                                    <input type="text" class="form-control" id="CategoryName" placeholder=" Please Enter Warehouse Name" autocomplete="off" required>
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <label>Category Logo</label>
+                                    <input type="text" class="form-control" id="CategoryLogo" value="00" placeholder=" Please Enter Warehouse Name" autocomplete="off" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" onclick="AddCategories();">Save</button>
+                            <button class="btn btn-danger" onclick="CloseCategoryModalPopup();">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* -------*** Tax Modal popup****------------ *@
+            <div class="modal fade modal" id="AddTaxModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="text-info model-title">Add New Tax</h1>
+                            <button aria-label="Close" class="btn-close bg-danger" onclick="CloseTaxModalPopup();"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" id="AddTax_form">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" style="display: none;">
+                                                <input id="RestaurantId" placeholder="RestaurantId" class="form-control" value="@ViewBag.RestaurantId" />
+                                                <input id="TaxNo" class="form-control" />
+                                                <label class="control-label">Tax Type</label>
+                                                <input id="TaxType" value="Single" class="form-control TaxType" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Tax Name</label>
+                                                <input id="TaxName" class="form-control TaxName" placeholder="Please Enter Tax Name" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Tax Percentage %</label>
+                                                <input id="TaxPercentage" class="form-control" placeholder="Please Enter Tax Percentage" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="additionalTaxFields" style="display: none;">
+                                    </div>
+                                    <div class="input-data" id="addNewButtonDiv" style="display: none;">
+                                        <button type="button" id="addTaxFieldsButton" class="btn btn-info btn-sm ms-auto"> + Add New </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" onclick="AddTax();">Save</button>
+                            <button class="btn btn-danger" onclick="CloseTaxModalPopup();">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" rel="stylesheet">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+            @section Scripts {
+                @*  @Begin Stockcontrol and Expiredate to store 0 or 1@*@
+                <script>
+                    $(document).ready(function () {
+                        $('.selectpicker').selectpicker();
+                    });
+                    $(document).ready(function () {
+                        $("#addWarehouseBtnId").click(function () {
+                            $("#AddWarehouseModal").modal("show");
+                        });
+                    });
+                    function CloseModalPopup() {
+                        console.log("Closing modal popup");
+                        $("#AddWarehouseModal").modal('hide');
+                    }
+                    function AddWarehouse() {
+                        var objData = {
+                            RestaurantId: $('#RestaurantId').val(),
+                            WarehouseName: $('#WarehouseName').val(),
+                            PhoneNumber: $('#PhoneNumber').val(),
+                            Email: $('#Email').val(),
+                            BillingAddress: $('#BillingAddress').val(),
+                            BankDetails: $('#BankDetails').val()
+                        }
+                        $.ajax({
+                            url: '/Products/SaveWarehouse',
+                            type: 'POST',
+                            data: objData,
+                            dataType: 'json',
+                            success: function (response) {
+                                alert("Warehouse Saved Successfully..!");
+                                $('#WarehouseId').append($('<option>', {
+                                    value: response,
+                                    text: objData.WarehouseName
+                                }));
+                                ClearText();   
+                                CloseModalPopup();
+                            },
+                            error: function (request, status, error) {
+                                alert("Something Went Wrong!");
+                            },
+                        });
+                    };
+                    function ClearText() {
+                        console.log("Clearing text fields");
+                        $('#WarehouseName').val('');
+                        $('#PhoneNumber').val('');
+                        $('#Email').val('');
+                        $('#BillingAddress').val('');
+                        $('#BankDetails').val('');
+                    }
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        $("#addMeasurementBtnId").click(function () {
+                            $("#AddUnitsModal").modal("show");
+                        });
+                    });
+                    function CloseUnitsModalPopup() {
+                        console.log("Closing modal popup");
+                        $("#AddUnitsModal").modal('hide');
+                    }
+                    function AddUnits() {
+                        var objData = {
+                            RestaurantId: $('#RestaurantId').val(),
+                            MeasurementName: $('#MeasurementName').val(),
+                        };
+                        $.ajax({
+                            url: '/Products/SaveUnits',
+                            type: 'POST',
+                            data: objData,
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.success) {
+                                    alert("Unit Saved Successfully..!");
+                                    $('#MeasurementId').append($('<option>', {
+                                        value: response.measurementId,
+                                        text: objData.MeasurementName
+                                    }));
+                                    ClearTextUnits();
+                                    CloseUnitsModalPopup();
+                                } else {
+                                    alert("Error: " + response.message);
+                                }
+                            },
+                            error: function (request, status, error) {
+                                alert("Something Went Wrong!");
+                            },
+                        });
+                    };
+                    function ClearTextUnits() {
+                        console.log("Clearing text fields");
+                        $('#MeasurementName').val('');
+                    }
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        $("#addCategoryBtnId").click(function () {
+                            $("#AddCategoryModal").modal("show");
+                        });
+                    });
+                    function CloseCategoryModalPopup() {
+                        console.log("Closing modal popup");
+                        $("#AddCategoryModal").modal('hide');
+                    }
+                    function AddCategories() {
+                        var objData = {
+                            RestaurantId: $('#RestaurantId').val(),
+                            CategoryName: $('#CategoryName').val(),
+                            CategoryLogo: $('#CategoryLogo').val(),
+                        };
+                        $.ajax({
+                            url: '/Products/SaveCategories',
+                            type: 'POST',
+                            data: objData,
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.success) {
+                                    alert("Category Saved Successfully..!");
+
+                                    $('#CategoryId').append($('<option>', {
+                                        value: response.categoryId,
+                                        text: objData.CategoryName
+                                    }));
+                                    ClearTextCategories();
+                                    CloseCategoryModalPopup();
+                                } else {
+                                    alert("Error: " + response.message);
+                                }
+                            },
+                            error: function (request, status, error) {
+                                alert("Something Went Wrong!");
+                            },
+                        });
+                    };
+                    function ClearTextCategories() {
+                        console.log("Clearing text fields");
+                        $('#CategoryName').val('');
+                    }
+                </script>
+               
+                <script>
+                    $(document).ready(function () {
+                        $("#addTaxBtnId").click(function () {
+                            $("#AddTaxModal").modal("show");
+                            generateNewNumber(); 
+                        });
+
+                        $('#AddTaxModal').on('show.bs.modal', function (e) {
+                            generateNewNumber();
+                        });
+                    });
+
+                    function generateNewNumber() {
+                        var randomNumber = Math.floor(Math.random() * 1000) + 1;
+                        $('#TaxNo').val(randomNumber);
+                    }
+
+                    function CloseTaxModalPopup() {
+                        console.log("Closing modal popup");
+                        $("#AddTaxModal").modal('hide');
+                    }
+
+                    function AddTax() {
+                        var objData = {
+                            RestaurantId: $('#RestaurantId').val(),
+                            TaxName: $('#TaxName').val(),
+                            TaxType: $('#TaxType').val(),
+                            TaxPercentage: $('#TaxPercentage').val(),
+                            TaxNo: $('#TaxNo').val(),
+                        };
+
+                        $.ajax({
+                            url: '/Products/SaveTax',
+                            type: 'POST',
+                            data: objData,
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.success) {
+                                    alert("Tax Saved Successfully..!");
+
+                                    $('#TaxId').append($('<option>', {
+                                        value: response.taxId,
+                                        text: objData.TaxName
+                                    }));
+
+                                    ClearTextTax();
+                                    CloseTaxModalPopup();
+                                } else {
+                                    alert("Error: " + response.message);
+                                }
+                            },
+                            error: function (request, status, error) {
+                                alert("Something Went Wrong!");
+                            },
+                        });
+                    }
+
+                    function ClearTextTax() {
+                        console.log("Clearing text fields");
+                        $('#TaxType').val('');
+                        $('#TaxNo').val('');
+                        $('#TaxName').val('');
+                        $('#TaxPercentage').val('');
+                    }
+
+                </script>
+
+
+                <script>
+                    $(document).ready(function () {
+                        $("#posCheckboxToggle").change(function () {
+                            if ($(this).prop("checked")) {
+                                $("#stockControlInput").val("1");
+                                $("#safetyStockContainer").show();  
+                            } else {
+                                $("#stockControlInput").val("0");
+                                $("#safetyStockContainer").hide();  
+                            }
+                        });
+
+                        $("#posCheckboxToggle").trigger("change");
+                    });
+                    $(document).ready(function () {
+                        $("#expiryToggle").change(function () {
+                            if ($(this).prop("checked")) {
+                                $("#expiryInput").val("1");
+                            } else {
+                                $("#expiryInput").val("0");
+                            }
+                        });
+                    });
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        var productCode = @Model.productcode;  
+                        if (productCode >= 110) {
+                            $("input[type='submit']").hide();
+                        }
+                    });
+                </script>
+                <script>
+                    function previewImage() {
+                        var fileInput = document.getElementById('fileInput');
+                        var imagePreview = document.getElementById('imagePreview');
+                        imagePreview.innerHTML = '';
+                        if (fileInput.files && fileInput.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                var img = document.createElement('img');
+                                img.setAttribute('src', e.target.result);
+                                img.setAttribute('class', 'img-fluid');
+                                img.setAttribute('style', 'width: 150px; height: 150;');
+                                imagePreview.appendChild(img);
+                            }
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
+                    }
+                </script>
+                <script>
+                    function previewImage() {
+                        var fileInput = document.getElementById('fileInput');
+                        var imagePreview = document.getElementById('imagePreview');
+                        if (fileInput.files.length > 0) {
+                            var file = fileInput.files[0];
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                imagePreview.src = e.target.result;
+                                imagePreview.style.display = 'block'; 
+                            };
+                            reader.readAsDataURL(file);
+                        } else {
+                            imagePreview.style.display = 'none';
+                        }
+                    }
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        function openModal(url) {
+                            var scrollTop = $(window).scrollTop();
+                            $.ajax({
+                                url: url,
+                                type: 'GET',
+                                success: function (data) {
+                                    var modal = $('<div class="modal" style="margin-top:15%;" tabindex="-1" role="dialog"></div>');
+                                    modal.html(data);
+                                    $('body').append(modal);
+                                    var modalDialog = $('<div class="modal-dialog modal-dialog-centered" role="document"></div>');
+                                    modal.find('.modal-content').wrap(modalDialog);
+                                    modal.modal('show');
+                                    $(window).scrollTop(scrollTop);
+                                    modal.on('hidden.bs.modal', function () {
+                                        modal.remove();
+                                    });
+                                },
+                                error: function () {
+                                    alert('Error loading the action content.');
+                                }
+                            });
+                        }
+                        $("#addMeasurementBtn").click(function (e) {
+                            e.preventDefault();
+                            openModal('@Url.Action("MeasurementCreate", "Measurement")');
+                        });
+                    });
+                </script>
+
+                <script>
+                    $(document).ready(function () {
+                        $(".addCategoryBtn1").click(function () {
+                            var categoryIdValue = $(this).closest('[data-category-id]').data('category-id');
+                            $.ajax({
+                                url: '@Url.Action("CategoryCreate", "Categories")' + '?categoryId=' + categoryIdValue,
+                                type: 'GET',
+                                success: function (data) {
+                                    var modal = $('<div class="modal" style="margin-top:15%;" tabindex="-1" role="dialog"></div>');
+                                    modal.html(data);
+                                    $('body').append(modal);
+                                    var modalDialog = $('<div class="modal-dialog modal-dialog-centered" role="document"></div>');
+                                    modal.find('.modal-content').wrap(modalDialog);
+                                    modal.modal('show');
+                                    modal.on('hidden.bs.modal', function () {
+                                        modal.remove();
+                                    });
+                                },
+                                error: function () {
+                                    alert('Error loading the "Create" action content.');
+                                }
+                            });
+                        });
+                    });
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        function openModal(url) {
+                            var scrollTop = $(window).scrollTop();
+                            $.ajax({
+                                url: url,
+                                type: 'GET',
+                                success: function (data) {
+                                    var modal = $('<div class="modal" style="margin-top:15%;" tabindex="-1" role="dialog"></div>');
+                                    modal.html(data);
+                                    $('body').append(modal);
+                                    var modalDialog = $('<div class="modal-dialog modal-dialog-centered" role="document"></div>');
+                                    modal.find('.modal-content').wrap(modalDialog);
+                                    modal.modal('show');
+                                    $(window).scrollTop(scrollTop);
+                                    modal.on('hidden.bs.modal', function () {
+                                        modal.remove();
+                                    });
+                                },
+                                error: function () {
+                                    alert('Error loading the action content.');
+                                }
+                            });
+                        }
+                        $("#addTaxBtn").click(function (e) {
+                            e.preventDefault();
+                            openModal('@Url.Action("TaxCreate", "Taxes")');
+                        });
+                    });
+                </script>
+                @{
+                    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                }
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,146 @@
+﻿
+@model Caterer.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_SuperAdminDashboard.cshtml";
+   }
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+    <title>
+        Caterers
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="./assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+</head>
+<body class="g-sidenav-show   bg-gray-100">
+    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+    <div class="container-fluid py-12">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p>Add New Super Admin</p>
+                            <div class="d-flex">
+                                <div class="ms-auto">
+                                    <a class="btn btn-success btn-sm ms-auto" asp-action="SuperAdminList">Back to List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                    <div class="card-body">
+                            <form asp-action="RegisterSuperAdmin" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="form-group">
+                                   <input asp-for="RestaurantName" type="hidden" value="" class="form-control" />
+                                    <span asp-validation-for="RestaurantName" class="text-danger"></span>
+                                </div>
+                               
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input asp-for="UserName" class="form-control" aria-label="Name" placeholder="Name" />
+                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                <div class="form-group">
+                                     <input asp-for="Email" class="form-control" aria-label="Email" placeholder="Email" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                </div>
+                                            <div class="col-md-6">
+                                <div class="form-group">
+                                   <input asp-for="PhoneNumber" class="form-control" aria-label="Phone Number" placeholder="Phone Number" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                </div>
+                                                <div class="col-md-6">
+								 <div class="form-group">
+                                   <input asp-for="Password" class="form-control" aria-label="Password" placeholder="Password" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                </div>
+								 <div class="form-group">
+                                   <input asp-for="Role" type="hidden" value="SuperAdmin" class="form-control" />
+                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+								  <div class="form-check form-check-info text-start ms-3">
+                                    <input class="form-check-input" type="checkbox"   id="flexCheckDefault"  >
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                                    </label>
+                                </div>
+                                </div>
+                            </div>
+                            <br />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                   <input type="submit" value="Create Account" class="btn btn-primary" />  
+                                </div>
+                                    <p class="text-sm mt-3 mb-0">Already have an account? <a href="/Users/Login" class="text-dark font-weight-bolder">Sign in</a></p>
+                                    </div>
+                           
+                        </form>
+                    </div>
+                </div>
+                @section Scripts {
+                    @{
+                        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                    }
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            // Bind an input event to the 'Name' field
+                            $('#nameInput').on('input', function () {
+                                // Get the value of the 'Name' field
+                                var nameValue = $(this).val();
+                                // Replace spaces with hyphens and update the 'Slug' field
+                                var slugValue = nameValue.toLowerCase().replace(/ /g, '-');
+                                $('#slugInput').val(slugValue);
+                            });
+                        });
+                    </script>
+                }
+            </div>
+        </div>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+</body>
+</html>

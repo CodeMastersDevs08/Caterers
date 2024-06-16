@@ -1,0 +1,305 @@
+﻿@model Caterer.Models.MenuItemViewModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Heading"] = "Products";
+}
+<div class="container-fluid py-8">
+    <div class="row justify-content-center">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0 mr-auto">Add Menu Item</h5>
+                        <a class="btn btn-danger btn-sm " asp-action="Index" asp-controller="MenuItems">X</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="RestaurantId" placeholder="RestaurantId" type="hidden" class="form-control" value="@ViewBag.RestaurantId" />
+
+                                    <label asp-for="ItemName" class="control-label">Item Name</label>
+                                    <input asp-for="ItemName" placeholder="Item Name" class="form-control" id="ItemNameTextBox" />
+                                    <span asp-validation-for="ItemName" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MenuCategoryId" class="control-label">Select Categories</label>
+                                    <select asp-for="MenuCategoryId" asp-items="@ViewBag.MenuCategories" class="form-control">
+                                        <option value="">Select a Category</option>
+                                    </select>
+                                    <span asp-validation-for="MenuCategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemPrice" class="control-label">Item Price</label>
+                                    <input asp-for="ItemPrice" placeholder="Item Price" class="form-control" />
+                                    <span asp-validation-for="ItemPrice" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ItemDescription" class="control-label">Item Description</label>
+                                    <input asp-for="ItemDescription" placeholder="Item Description" class="form-control" />
+                                    <span asp-validation-for="ItemDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Category Image</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input asp-for="ProductImage" type="file" name="ProductImage" id="fileInput" onchange="previewImage()" accept=".png,.jpeg,.jpg" class="custom-file-input" placeholder="ItemImage"/>
+                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                        </div>
+                                    </div>
+                                    <span asp-validation-for="ProductImage" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div id="imagePreview" class="mt-2"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:none;">
+                            <div class="form-group">
+                                <label asp-for="ExtrasId" class="control-label"></label>
+                                <input asp-for="ExtrasId" class="form-control" />
+                                <span asp-validation-for="ExtrasId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DineInPrice" class="control-label"></label>
+                                <input asp-for="DineInPrice" class="form-control" />
+                                <span asp-validation-for="DineInPrice" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DiscountedPrice" class="control-label"></label>
+                                <input asp-for="DiscountedPrice" class="form-control" />
+                                <span asp-validation-for="DiscountedPrice" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="VATPercentage" class="control-label"></label>
+                                <input asp-for="VATPercentage" class="form-control" />
+                                <span asp-validation-for="VATPercentage" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="ItemAvailable" checked /> @Html.DisplayNameFor(model => model.ItemAvailable)
+                                </label>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="EnableVariants" /> @Html.DisplayNameFor(model => model.EnableVariants)
+                                </label>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="EnableAlwaysAvailable" /> @Html.DisplayNameFor(model => model.EnableAlwaysAvailable)
+                                </label>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Monday" /> @Html.DisplayNameFor(model => model.Monday)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MondayStart" class="control-label"></label>
+                                <input asp-for="MondayStart" class="form-control" />
+                                <span asp-validation-for="MondayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MondayEnd" class="control-label"></label>
+                                <input asp-for="MondayEnd" class="form-control" />
+                                <span asp-validation-for="MondayEnd" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Tuesday" /> @Html.DisplayNameFor(model => model.Tuesday)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="TuesdayStart" class="control-label"></label>
+                                <input asp-for="TuesdayStart" class="form-control" />
+                                <span asp-validation-for="TuesdayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="TuesdayEnd" class="control-label"></label>
+                                <input asp-for="TuesdayEnd" class="form-control" />
+                                <span asp-validation-for="TuesdayEnd" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Wednesday" /> @Html.DisplayNameFor(model => model.Wednesday)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="WednesdayStart" class="control-label"></label>
+                                <input asp-for="WednesdayStart" class="form-control" />
+                                <span asp-validation-for="WednesdayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="WednesdayEnd" class="control-label"></label>
+                                <input asp-for="WednesdayEnd" class="form-control" />
+                                <span asp-validation-for="WednesdayEnd" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Thursday" /> @Html.DisplayNameFor(model => model.Thursday)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ThursdayStart" class="control-label"></label>
+                                <input asp-for="ThursdayStart" class="form-control" />
+                                <span asp-validation-for="ThursdayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ThursdayEnd" class="control-label"></label>
+                                <input asp-for="ThursdayEnd" class="form-control" />
+                                <span asp-validation-for="ThursdayEnd" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Friday" /> @Html.DisplayNameFor(model => model.Friday)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FridayStart" class="control-label"></label>
+                                <input asp-for="FridayStart" class="form-control" />
+                                <span asp-validation-for="FridayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="FridayEnd" class="control-label"></label>
+                                <input asp-for="FridayEnd" class="form-control" />
+                                <span asp-validation-for="FridayEnd" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Saturday" /> @Html.DisplayNameFor(model => model.Saturday)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SaturdayStart" class="control-label"></label>
+                                <input asp-for="SaturdayStart" class="form-control" />
+                                <span asp-validation-for="SaturdayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SaturdayEnd" class="control-label"></label>
+                                <input asp-for="SaturdayEnd" class="form-control" />
+                                <span asp-validation-for="SaturdayEnd" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="Sunday" /> @Html.DisplayNameFor(model => model.Sunday)
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SundayStart" class="control-label"></label>
+                                <input asp-for="SundayStart" class="form-control" />
+                                <span asp-validation-for="SundayStart" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SundayEnd" class="control-label"></label>
+                                <input asp-for="SundayEnd" class="form-control" />
+                                <span asp-validation-for="SundayEnd" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="text-center custom-pro-edt-ds">
+                            <button type="submit" class="btn btn-success m-r-10" onclick="validateName()">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @section Scripts {
+                <script>
+                    var selectedCategoryId = @ViewBag.SelectedCategoryId;
+                    if (selectedCategoryId !== undefined && selectedCategoryId !== null) {
+                        document.querySelector('select[name="MenuCategoryId"]').value = selectedCategoryId.toString();
+                    }
+                </script>
+                <script>
+                    function previewImage() {
+                        var fileInput = document.getElementById('fileInput');
+                        var imagePreview = document.getElementById('imagePreview');
+                        imagePreview.innerHTML = '';
+
+                        if (fileInput.files && fileInput.files[0]) {
+                            var file = fileInput.files[0];
+                            var fileSize = file.size;  
+                            var maxSize = 30 * 1024;  
+
+                            if (fileSize > maxSize) {
+                                alert("Image size exceeds 30KB limit. Please choose a smaller image.");
+                                fileInput.value = '';  
+                                return;
+                            }
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = document.createElement('img');
+                                img.setAttribute('src', e.target.result);
+                                img.setAttribute('class', 'img-fluid');
+                                img.setAttribute('style', 'width: 150px; height: 150;');
+                                imagePreview.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                </script>
+                @*TO CHECK DUPLICATES*@
+                <script>
+                    $(document).ready(function () {
+                        $('#ItemNameTextBox').blur(function () {
+                            var itemName = $(this).val();
+                            var restaurantId = $('#RestaurantId').val();
+
+                            $.ajax({
+                                url: '@Url.Action("CheckDuplicateItemName", "MenuItems")',
+                                type: 'POST',
+                                data: { itemName: itemName, restaurantId: restaurantId },
+                                success: function (response) {
+                                    if (response.exists) {
+                                        $('#ItemNameTextBox').addClass('is-invalid');
+                                        $('#ItemNameTextBox').closest('.form-group').find('.text-danger').text('Item name already exists.');
+                                    } else {
+                                        $('#ItemNameTextBox').removeClass('is-invalid');
+                                        $('#ItemNameTextBox').closest('.form-group').find('.text-danger').text('');
+                                    }
+                                    toggleSaveButton(response.exists);
+                                },
+                                error: function () {
+                                    alert('Error checking duplicate item name.');
+                                    toggleSaveButton(true);
+                                }
+                            });
+                        });
+                        function toggleSaveButton(disabled) {
+                            if (disabled) {
+                                $('#saveButton').prop('disabled', true);
+                            } else {
+                                $('#saveButton').prop('disabled', false);
+                            }
+                        }
+                    });
+                </script>
+                @{
+                    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                }
+            }
+        </div>
+    </div>
+</div>

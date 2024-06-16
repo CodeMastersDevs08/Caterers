@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Caterer.Models.Production>
+@{
+
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Production Orders</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Production Date</th>
+                                    <th>Production Status</th>
+                                    <th>Order Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    int Slno = 1;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@Slno</td>
+                                            <td>@(item.ProductionDate.HasValue ? item.ProductionDate.Value.ToString("dd-MM-yyyy") : "")</td>
+
+                                            <td>
+                                                @if (item.ProductionStatus == "Process")
+                                                {
+                                                    <span class="badge badge-secondary" style="background-color: red; color: white;">@item.ProductionStatus</span>
+
+                                                }
+                                                else if (item.ProductionStatus == "Completed")
+                                                {
+                                                    <span class="badge badge-secondary" style="background-color: green; color: white;">@item.ProductionStatus</span>
+                                                }
+
+                                            </td>
+                                            <td>
+                                                @if (item.OrderStatus == "Accept")
+                                                {
+                                                    <span class="badge badge-secondary" style="background-color: green; color: white;">@item.OrderStatus</span>
+                                                }
+                                            <td>
+                                                @if (item.ProductionStatus != "Completed")
+                                                {
+                                                    <a asp-action="ProductionEdit" asp-controller="Productions" asp-route-id="@item.OrderDetailsWebsiteId"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    <span style="color: grey;"><i class="fa-solid fa-pen-to-square"></i></span>
+                                                }|
+                                                <a asp-action="ProductionDetails" asp-controller="Productions" asp-route-id="@item.OrderDetailsWebsiteId">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        Slno++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+    }

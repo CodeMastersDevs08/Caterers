@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Caterer.Models.Restaurant>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <div class="container-fluid py-8">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-8">
+                                <h4>Restaurant</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                    <div class="table-responsive">
+                    <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                <th>S.No</th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Logo
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                         Email
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                       Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @{
+                                int counter = 1;  
+                            }
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                    <td>@counter</td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.RestaurantName)
+                                        </td>
+                                        <td>
+                                            <img src="/Images/RestaurantLogo/@Html.DisplayFor(modelItem => item.Logo)" style="width:60px; border-radius:10px; height:60px">
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.OwnerName)
+                                        </td>
+                                        <td class="ps-3">
+                                            @Html.DisplayFor(modelItem => item.OwnerEmail)
+                                        </td>
+                                    <td class="ps-3">
+                                        @{
+                                            string statusColor = item.Active ? "green" : "red";
+                                            string statusText = item.Active ? "Active" : "Inactive";
+                                        }
+                                        <div style="color: @statusColor; font-weight: bold;">@statusText</div>
+                                    </td>
+                                    <td>
+                                        <a asp-action="RestaurantEdit" asp-route-id="@item.RestaurantId">   <i class="fa-solid fa-pen-to-square"></i> </a>
+                                    </td>
+                                    @{
+                                        counter++;  
+                                    }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+    }
+
+

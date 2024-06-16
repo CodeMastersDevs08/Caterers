@@ -1,0 +1,179 @@
+﻿@model Caterer.Models.GRN
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Purchase Order";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4> GRN Details</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-success btn-sm ms-auto" asp-controller="GRNs" asp-action="Index">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-md-6">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td class="align-right" style="color: midnightblue;font-weight:600;">@Model.Supplier.SupplierName</td>
+                                </tr>
+                                <tr>
+                                    <td class="align-right">@Model.Supplier.ShippingAddress</td>
+                                </tr>
+                                <tr>
+                                    <td class="align-right">@Model.Supplier.PhoneNumber</td>
+                                </tr>
+                                <tr>
+                                    <td class="align-right">@Model.Supplier.Email</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <div class="text-right btn-sm ms-auto">
+
+                                    <table style="width:100%;">
+
+                                        <tr>
+                                            <td><h5>GRN No: @Model.GRNNO</h5></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: left;">Order Date</th>
+                                            <td class="align-right">@DateTime.Now.ToString("MM-dd-yyyy")</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: left;">Expected Date:</th>
+                                            <td class="align-right"> @Model.GRNDate.ToString("MM-dd-yyyy")</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: left;">Payment Method: </th>
+                                            <td class="align-right">@Model.Paymentmethod</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: left;">Based Po: </th>
+                                            <td class="align-right">@Model.PurchaseOrderNo</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" style="margin-top:50PX;">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Product Name</th>
+                                    <th>Measurement</th>
+                                    <th>Expiry Date</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Cost</th>
+                                    <th>Total Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int counter = 1;
+                                }
+                                @foreach (var relatedPurchaseOrder in (List<Caterer.Models.GRN>)ViewData["RelatedPurchaseOrders"])
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@relatedPurchaseOrder.ProductName</td>
+                                        <td>@relatedPurchaseOrder.Measurement</td>
+                                        <td>
+                                            @{
+                                                var expiryDate = relatedPurchaseOrder.ExpiryDate?.Date;
+
+                                                if (expiryDate.HasValue && expiryDate != DateTime.MinValue)
+                                                {
+                                                    <text>@expiryDate.Value.ToString("MM/dd/yyyy")</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>N/A</text>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @relatedPurchaseOrder.Quantity
+                                        </td>
+                                        <td>@relatedPurchaseOrder.UnitCost</td>
+                                        <td>@relatedPurchaseOrder.TotalCost</td>
+                                        @{
+                                            counter++;
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="col-md-12" style="width:100%;margin-top:20PX;padding-right:25PX;">
+                                <div class="d-flex">
+                                    <div class="ms-auto">
+                                        <div class="text-right btn-sm ms-auto">
+                                            <div class="total">
+                                                <div><h6>Total Amount:  <strong> @Model.Total</strong></h6></div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-md-4">
+                            <div class="signature">
+                                <div class="signature-line">
+                                    <span class="signature-label"><b>Store Keeper Signature:</b></span>
+                                    <div class="signature-box"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="signature">
+                                <div class="signature-line">
+                                    <span class="signature-label"><b>Approved by</b></span>
+                                    <div class="signature-box"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="signature">
+                                <div class="signature-line">
+                                    <span class="signature-label"><b>Received by:</b></span>
+                                    <div class="signature-box"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                @if (Model.Status == "Pending")
+                                {
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @section Scripts {
+                @{
+                    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                }
+            }
+        </div>
+    </div>
+</div>

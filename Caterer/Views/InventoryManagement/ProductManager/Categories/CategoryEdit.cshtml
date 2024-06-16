@@ -1,0 +1,89 @@
+﻿@model Caterer.Models.Category
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Categories";
+}
+    <div class="container-fluid py-4">
+        <div class="row">
+        <div class="col-md-5 col-sm-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Edit Categories</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary btn-sm ms-auto" asp-controller="Categories" asp-action="CategoryList">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="CategoryEdit" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CategoryName" class="control-label">Category Name</label>
+                                        <input asp-for="CategoryName" class="form-control" placeholder="Category Name" required />
+                                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                        <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input asp-for="CategoryLogo" type="hidden" class="form-control" />
+                                        @if (!string.IsNullOrEmpty(Model.CategoryLogo))
+                                        {
+                                            <img src="/Images/CategoryImages/@Model.CategoryLogo" style="width:100px; border-radius:10px; height:80px" />
+                                        }
+                                        <label class="btn btn-default">
+                                            Change Image
+                                            <input asp-for="CategoryLogo" type="file" name="ProductImage" accept=".png,.jpeg,.jpg" class="d-none" id="fileInput" onchange="previewImage()" />
+                                        </label>
+                                        <span asp-validation-for="CategoryLogo" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <img id="imagePreview" style="display: none; max-width: 100px; max-height: 100px; margin-top: 10px;" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="text-center custom-pro-edt-ds">
+                                        <button type="submit" class="btn btn-success" onclick="validateName()">
+                                           Update
+                                        </button>                                 
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @section Scripts {
+                    <script>
+                        function previewImage() {
+                            var fileInput = document.getElementById('fileInput');
+                            var imagePreview = document.getElementById('imagePreview');
+                            if (fileInput.files.length > 0) {
+                                var file = fileInput.files[0];
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    imagePreview.src = e.target.result;
+                                    imagePreview.style.display = 'block'; 
+                                };
+                                reader.readAsDataURL(file);
+                            } else {
+                                imagePreview.style.display = 'none';
+                            }
+                        }
+                    </script>
+                    @{
+                        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                    }
+                }
+            </div>
+        </div>
+    </div>

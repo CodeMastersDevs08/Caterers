@@ -1,0 +1,135 @@
+﻿@model Caterer.Models.Supplier
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["Heading"] = "Supplier";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-md-8 col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Edit Supplier</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary btn-sm ms-auto" asp-action="SupplierList" asp-controller="Supplier">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="SupplierEdit" asp-route-id="@Model.SupplierId" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="SupplierId" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="WarehouseId" class="control-label">Select Warehouse</label>
+                                    <select asp-for="WarehouseId" class="form-control" asp-items="@(ViewData["Warehouses"] as List<SelectListItem>)">
+                                        <option value="">Select Warehouse</option>
+                                    </select>
+                                    <span asp-validation-for="WarehouseId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="RestaurantId" type="hidden" class="form-control" value="@ViewData["RestaurantId"]" />
+                                    <label asp-for="SupplierName" class="control-label"></label>
+                                    <input asp-for="SupplierName" required class="form-control" placeholder="Supplier Name" />
+                                    <span asp-validation-for="SupplierName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="control-label"></label>
+                                    <input asp-for="Email" type="email" required class="form-control" placeholder="Email" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="PhoneNumber" class="control-label"></label>
+                                    <input asp-for="PhoneNumber" required class="form-control" placeholder="Phone" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Status" class="control-label"></label>
+                                    <select asp-for="Status" class="form-control">
+                                        <option value="Enable" selected="@(Model.Status == "Enable")">Enable</option>
+                                        <option value="Disable" selected="@(Model.Status == "Disable")">Disable</option>
+                                    </select>
+                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="OpeningBalance" class="control-label"></label>
+                                    <input asp-for="OpeningBalance" required class="form-control" placeholder="OpeningBalance" />
+                                    <span asp-validation-for="OpeningBalance" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CreditPeriod" class="control-label"></label>
+                                    <input asp-for="CreditPeriod" required class="form-control" placeholder="CreditPeriod" />
+                                    <span asp-validation-for="CreditPeriod" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CreditLimit" class="control-label"></label>
+                                    <input asp-for="CreditLimit" required class="form-control" placeholder="CreditLimit" />
+                                    <span asp-validation-for="CreditLimit" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ShippingAddress" class="control-label"></label>
+                                    <textarea asp-for="ShippingAddress" required class="form-control" placeholder="ShippingAddress"></textarea>
+                                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="BillingAddress" class="control-label"></label>
+                                    <textarea asp-for="BillingAddress" required class="form-control" placeholder="BillingAddress"></textarea>
+                                    <span asp-validation-for="BillingAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="text-center custom-pro-edt-ds">
+                                    <button type="submit" class="btn btn-success" onclick="validateName()">
+                                        Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            @section Scripts {
+                @{
+                    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                }
+            }
+        </div>
+    </div>
+</div>
+

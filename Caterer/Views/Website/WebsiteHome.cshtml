@@ -1,0 +1,360 @@
+﻿@model List<Caterer.Models.Restaurant>
+@using System.Security.Claims
+@{
+    Layout = null;
+    var userRole = (User.Identity.IsAuthenticated) ? User.FindFirst(ClaimTypes.Role)?.Value : null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - CaterersClientDashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.min.css">`
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <style>
+        .dropbtn {
+            font-size: 14px;
+            border-radius: 3px;
+            background-color: white;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 12px;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 14px 18px;
+                text-decoration: none;
+                display: block;
+                border-radius: 12px;
+            }
+
+                .dropdown-content a:hover {
+                    border-radius: 12px;
+                    background-color: #ddd;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            border-radius: 12px;
+        }
+
+        .dropdown:hover .dropbtn {
+            border-radius: 12px;
+        }
+
+        #btns {
+            border-radius: 5px;
+            background-color: white;
+            color: rgb(94,114,228);
+            width: 100px;
+            padding: 12Px;
+        }
+
+        .hotel-image {
+            transition: transform 0.3s ease-in-out;
+            border-radius: 6%;
+        }
+
+            .hotel-image:hover {
+                transform: scale(1.1);
+            }
+    </style>
+</head>
+<body >
+    <nav class="navbar navbar-expand-xl custom_nav-container fixed-top " style="background-color:whitesmoke;">
+        <a class="navbar-brand" href="#" style="margin-left:3%;">
+            <span>
+                Caterers
+            </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+            </div>
+
+
+            <form class="form-inline">
+                <input class="form-control mr-sm-2 custom-input" type="search" placeholder="Search for Dishes and Restaurant" aria-label="Search">
+                <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </form>
+            <style>
+                .custom-input {
+                    width: 400px;
+                    border-radius: 10px;
+                }
+            </style>
+            <a asp-action="RestaurantCreate" asp-controller="Restaurants" data-mode="popup" class="button nav-link nav-link-icon">Partner With Us</a>
+            <div class="" style="margin-right:4%;">
+                @if (userRole == "Restaurant")
+                {
+                    <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item  dropdown show">
+                                <div class="dropdown">
+                                    <button class="btn btn-neutral btn-icon  dropbtn" id="btns" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                    <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="dropdown-content">
+                                            <a id="btncolor" type="button" asp-action="OrderList" asp-controller="Restaurants"><i class="bi bi-cart4"></i> Orders List  </a>
+                                            <a type="button" asp-action="Index" asp-controller="OrderDetailWebsites"><i class="bi bi-geo-fill"></i>  Live Orders     </a>
+                                            <a id="btncolor" type="button" asp-action="RestaurantList" asp-controller="Restaurants"><i class="bi bi-cart4"></i>Restaurants</a>
+                                            <a type="button" asp-action="Index" asp-controller="MenuItems"><i class="bi bi-geo-fill"></i>   MenuItems  </a>
+                                            <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                <i class="bi bi-box-arrow-right"></i> Logout
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item" style="display:none">
+                                <span class="nav-link nav-link-icon">
+                                    <span class="btn btn-neutral btn-icon web-menu">
+                                        <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                    </span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else if (userRole == "SuperAdmin")
+                {
+                    <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item  dropdown show">
+                                <div class="dropdown">
+                                    <button class="btn btn-neutral btn-icon  dropbtn" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                    <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="dropdown-content">
+
+                                            <a id="btncolor" type="button" asp-action="SuperAdminRestaurantList" asp-controller="Restaurants"><i class="bi bi-cart4"></i>Restaurants</a>
+                                            <a type="button" asp-action="SuperAdminList" asp-controller="Users"><i class="bi bi-person"></i>   Users List     </a>
+                                            <a type="button" asp-action="SuperAdminList" asp-controller="Users"><i class="bi bi-person"></i>   Users      </a>
+                                            <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                <i class="bi bi-box-arrow-right"></i> Logout
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item" style="display:none">
+                                <span class="nav-link nav-link-icon">
+                                    <span class="btn btn-neutral btn-icon web-menu">
+                                        <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+
+                                    </span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else if (userRole == "Client")
+                {
+                    <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item  dropdown show">
+                                <div class="dropdown">
+                                    <button class="btn btn-neutral btn-icon  dropbtn" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                    <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="dropdown-content">
+                                            <a type="button" asp-action="ClientDashboard" asp-controller="ClientDashboards"><i class="bi bi-cart4"></i>  My Orders   </a>
+                                            <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                <i class="bi bi-box-arrow-right"></i> Logout
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item" style="display:none">
+                                <span class="nav-link nav-link-icon">
+                                    <span class="btn btn-neutral btn-icon web-menu">
+                                        <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                    </span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <a asp-action="Login" asp-controller="Users" class="btn btn-neutral btn-icon web-menu"><i class="bi bi-person"></i>Login</a>
+                }
+
+            </div>
+
+        </div>
+    </nav>
+
+    <style>
+        .carousel-item {
+            height: 380px;
+        }
+
+            .carousel-item img {
+                object-fit: cover;
+                height: 100%;
+            }
+    </style>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="~/Img/4.jpg" alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Fresh and Organic</h2>
+                    <p>We make sure that we follow a strict healthy routine to deliver hygienic wedding catering services in singapore with fresh organic ingredients to our esteemed clients.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="~/Img/1.jpg" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Affordable Price</h2>
+                    <p>We take pride in satisfying our valuable clients by providing them with staunch reinforcement and countable wedding catering services in singapore at the most effective prices that mutually profit both of us. We are engaged in providing a wide range of Marriage Catering Services in singapore at an affordable price.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="~/Img/2.jpg" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Industry Leading Chefs</h2>
+                    <p>Our well-established chefs with years of experience in this field have an impeccable knowledge of all the functions and practices that you follow, so they take extra interest in your wedding catering services like it's theirs.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.carousel').carousel({
+                interval: 5000
+            });
+        });
+    </script>
+    <!-- furniture section -->
+    <section class="furniture_section layout_padding " id="main-content">
+        <div class="container mt-4">
+            <div class="heading_container">
+                <h2>
+                    Popular restaurants
+                </h2>
+
+            </div>
+            <hr class="my-6">
+            <div class="row">
+                @if (Model != null)
+                {
+                    foreach (var restaurant in Model)
+                    {
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="box h-100" style="border-radius: 10px;">
+                                <a href="@Url.Action("OrderDetails", "OrderDetailWebsites", new
+                                        {
+                                            imageUrl = Url.Content("~/Images/RestaurantCover/" + restaurant.Cover),
+                                              logourl = Url.Content("~/Images/RestaurantLogo/" + restaurant.Logo),
+                                            restaurantName = restaurant.RestaurantName,
+                                            email = User.FindFirst(ClaimTypes.Email)?.Value,
+                                            restaurantDescription = restaurant.Description,
+                                            restaurantAddress = restaurant.Address,
+                                            restaurantId = restaurant.RestaurantId,
+                                            delivery=restaurant.Delivery,
+                                            buffet=restaurant.Buffet,
+                                            servicetax=restaurant.ServiceTax,
+                                            username=  User.Identity.Name,
+			                                minumumOrder=restaurant.Minimum,
+                                            userId = (User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A",
+                                            taxId = restaurant.TaxId,
+                                        })">
+                                    <img src="@Url.Content("~/Images/RestaurantLogo/" + restaurant.Logo)" alt="Restaurant Image" class="hotel-image" width="300" height="200">
+                                </a>
+                                <div class="detail-box  ">
+                                    <h5 class="text-dark font-weight-bold">
+                                        @restaurant.RestaurantName
+                                    </h5>
+                                    <p class="hotel-description text-dark">@restaurant.Description</p>
+                                    <div class="price_box">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No restaurants found.</p>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- end furniture section -->
+    <!-- footer section -->
+    <footer class="footer_section" style="background-color:whitesmoke;">
+        <div class="container">
+            <p>
+                &copy; <span id="displayYear"></span> All Rights Reserved By
+                <a href="#">Foodnow.co</a>
+            </p>
+        </div>
+    </footer>
+    <!-- footer section -->
+</body>
+</html>

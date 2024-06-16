@@ -1,0 +1,49 @@
+﻿@model Caterer.Models.MenuCategory
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+    ViewData["Heading"] = "Products";
+}
+<div class="container-fluid py-15">
+    <div class="row justify-content-center">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 mr-auto">Edit Menu Category</p>
+                        <a class="btn btn-danger btn-sm " asp-action="Index" asp-controller="MenuItems">X</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="MenuCategoryId" />
+                        <div class="form-group">
+                            <label asp-for="MenuCategoryName" class="control-label"></label>
+                            <input asp-for="MenuCategoryName" class="form-control" />
+                            <span asp-validation-for="MenuCategoryName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SelectedItem" class="control-label"></label>
+                            <input asp-for="SelectedItem" class="form-control" />
+                            <span asp-validation-for="SelectedItem" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="ItemAvailable" /> @Html.DisplayNameFor(model => model.ItemAvailable)
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

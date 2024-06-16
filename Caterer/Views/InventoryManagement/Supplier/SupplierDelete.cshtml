@@ -1,0 +1,47 @@
+﻿@model Caterer.Models.Supplier
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Add New Supplier</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary btn-sm ms-auto" asp-action="SupplierList" asp-controller="Supplier">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                        <div>
+                            <h4>Supplier Delete</h4>
+                            <hr />
+                            <dl class="row">
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.SupplierName)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.SupplierName)
+                                </dd>
+                            </dl>
+                            <form asp-action="SupplierDelete" asp-controller="Supplier" asp-route-id="@Model.SupplierId" method="post">
+                                <input type="hidden" asp-for="SupplierId" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    @section Scripts {
+                        @{
+                            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>

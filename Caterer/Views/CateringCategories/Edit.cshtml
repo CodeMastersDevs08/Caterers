@@ -1,0 +1,50 @@
+﻿@model Caterer.Models.CateringCategory
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Heading"] = "Products";
+}
+    <div class="container-fluid py-8">
+        <div class="row justify-content-center">
+            <div class="col-md-4 mx-auto">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0 mr-auto">Edit Catering Category</p>
+                            <a class="btn btn-danger btn-sm " asp-action="Index" asp-controller="CateringItems">X</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Edit" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="CateringCategoryId" />
+                            <div class="form-group">
+                                <input type="hidden" asp-for="RestaurantId" value="@ViewData["RestaurantId"]" />
+                                <label asp-for="CateringCategoryName" class="control-label">Catering Category Name</label>
+                                <input asp-for="CateringCategoryName" class="form-control" />
+                                <span asp-validation-for="CateringCategoryName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CategoryPrice" class="control-label">Category Price</label>
+                                <input asp-for="CategoryPrice" placeholder="Category Price" class="form-control" />
+                                <span asp-validation-for="CategoryPrice" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="ItemAvailable" /> @Html.DisplayNameFor(model => model.ItemAvailable)
+                                </label>
+                            </div>
+                            <div class="text-center custom-pro-edt-ds">
+                                <input type="submit" value="Update" class="btn btn-success" />
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }

@@ -1,0 +1,154 @@
+﻿@model Caterer.Models.Tax
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-md-5 col-sm-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Add Tax</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-primary btn-sm ms-auto" asp-action="TaxList" asp-controller="Taxes">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="TaxCreate" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <input type="hidden" asp-for="TaxNo" value="@Model.TaxNo" />
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input asp-for="RestaurantId" placeholder="RestaurantId" type="hidden" class="form-control" value="@ViewBag.RestaurantId" />
+                                            <label asp-for="TaxType" class="control-label">Tax Type</label>
+                                            <select asp-for="TaxType" class="form-control">
+                                                <option value="">Select a Tax Type</option>
+                                                <option>Single</option>
+                                                <option>Multiple</option>
+                                            </select>
+                                            <span asp-validation-for="TaxType" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="TaxName" class="control-label">Tax Name</label>
+                                            <input asp-for="TaxName" class="form-control" placeholder="Please Enter Tax Name" required />
+                                            <span asp-validation-for="TaxName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="TaxPercentage" class="control-label">Tax Percentage %</label>
+                                            <input asp-for="TaxPercentage" class="form-control" placeholder="Please Enter Tax Percentage" required />
+                                            <span asp-validation-for="TaxPercentage" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="additionalTaxFields" style="display: none;">
+                                </div>
+                                <div class="input-data" id="addNewButtonDiv" style="display: none;">
+                                    <button type="button" id="addTaxFieldsButton" class="btn btn-info btn-sm ms-auto"> + Add New </button>
+                                </div>
+                            </div>
+                        </div><br /><br />
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="text-center custom-pro-edt-ds">
+                                    <button type="submit" class="btn btn-success" onclick="validateName()">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @section Scripts {
+                @{
+                    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                }
+                <script>
+                    var taxTypeDropdown = document.getElementById("TaxType");
+                    var additionalTaxFieldsDiv = document.getElementById("additionalTaxFields");
+                    var addNewButtonDiv = document.getElementById("addNewButtonDiv");
+                    var addTaxFieldsButton = document.getElementById("addTaxFieldsButton");
+                    var taxPercentageInputs = [];
+                    function addAdditionalTaxFields() {
+                        if (taxTypeDropdown.value === "Multiple") {
+                            var taxNameInput = document.createElement("input");
+                            taxNameInput.className = "form-control col-md-12";
+                            taxNameInput.name = "TaxName";
+                            taxNameInput.placeholder = "Please Enter Tax Name";
+
+                            var taxNameLabel = document.createElement("label");
+                            taxNameLabel.innerHTML = "Tax Name";
+                            taxNameLabel.setAttribute("for", "TaxName");
+
+                            var taxPercentageInput = document.createElement("input");
+                            taxPercentageInput.className = "form-control col-md-12";
+                            taxPercentageInput.name = "TaxPercentage";
+                            taxPercentageInput.placeholder = "Please Enter Tax Percentage";
+
+                            var taxPercentageLabel = document.createElement("label");
+                            taxPercentageLabel.innerHTML = "Tax Percentage";
+                            taxPercentageLabel.setAttribute("for", "TaxPercentage");
+
+                            taxNameInput.classList.add("placeholder-black");
+                            taxPercentageInput.classList.add("placeholder-black");
+                            var rowDiv = document.createElement("div");
+                            rowDiv.className = "row";
+                            var colDiv1 = document.createElement("div");
+                            colDiv1.className = "col-md-6";
+                            colDiv1.appendChild(taxNameLabel);
+                            colDiv1.appendChild(taxNameInput);
+
+                            var colDiv2 = document.createElement("div");
+                            colDiv2.className = "col-md-6";
+                            colDiv2.appendChild(taxPercentageLabel);
+                            colDiv2.appendChild(taxPercentageInput);
+                            rowDiv.appendChild(colDiv1);
+                            rowDiv.appendChild(colDiv2);
+                            var lineBreak = document.createElement("br");
+
+                            taxPercentageInput.addEventListener("input", function () {
+                                var total = 0;
+                                taxPercentageInputs.forEach(function (input) {
+                                    var inputValue = parseInt(input.value);
+                                    if (!isNaN(inputValue)) {
+                                        total += inputValue;
+                                    }
+                                });
+                                document.querySelector('input[name="TaxPercentage"]').value = total;
+                            });
+                            additionalTaxFieldsDiv.appendChild(rowDiv);
+                            additionalTaxFieldsDiv.appendChild(lineBreak);  
+                            taxPercentageInputs.push(taxPercentageInput);
+                            additionalTaxFieldsDiv.style.display = "block";
+                            addNewButtonDiv.style.display = "block";
+                        } else {
+                            additionalTaxFieldsDiv.style.display = "none";
+                            addNewButtonDiv.style.display = "none";
+                            additionalTaxFieldsDiv.innerHTML = "";
+                            taxPercentageInputs = [];
+                            document.querySelector('input[name="TaxPercentage"]').value = "";
+                        }
+                    }
+
+                    taxTypeDropdown.addEventListener("change", addAdditionalTaxFields);
+                    addTaxFieldsButton.addEventListener("click", addAdditionalTaxFields);
+                    addAdditionalTaxFields();
+                </script>
+            }
+        </div>
+    </div>
+</div>

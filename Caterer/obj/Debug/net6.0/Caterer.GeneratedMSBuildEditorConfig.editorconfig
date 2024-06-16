@@ -1,0 +1,605 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Caterer
+build_property.RootNamespace = Caterer
+build_property.ProjectDir = D:\Works\Caterer\Caterer\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\Works\Caterer\Caterer
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/Works/Caterer/Caterer/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringCategories/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdDYXRlZ29yaWVzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringCategories/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdDYXRlZ29yaWVzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringCategories/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdDYXRlZ29yaWVzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringCategories/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdDYXRlZ29yaWVzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringExtras/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdFeHRyYXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringExtras/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdFeHRyYXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringExtras/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdFeHRyYXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringExtras/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdFeHRyYXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringExtras/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdFeHRyYXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringItems/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdJdGVtc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringItems/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdJdGVtc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringItems/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdJdGVtc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/CateringItems/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZXJpbmdJdGVtc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Client/ClientDashboards/ClientDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XENsaWVudERhc2hib2FyZHNcQ2xpZW50RGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Client/ClientDashboards/ClientOrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XENsaWVudERhc2hib2FyZHNcQ2xpZW50T3JkZXJEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Dashboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Extras/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXh0cmFzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Extras/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXh0cmFzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Extras/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXh0cmFzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Extras/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXh0cmFzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Extras/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXh0cmFzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/GRNs/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1JOc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/GRNs/CreateGRN.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1JOc1xDcmVhdGVHUk4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/GRNs/CreateUpdateGRN.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1JOc1xDcmVhdGVVcGRhdGVHUk4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/GRNs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1JOc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/GRNs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR1JOc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Home/brand.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxicmFuZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Home/category.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxjYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Categories/CategoryCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxDYXRlZ29yaWVzXENhdGVnb3J5Q3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Categories/CategoryDelete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxDYXRlZ29yaWVzXENhdGVnb3J5RGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Categories/CategoryEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxDYXRlZ29yaWVzXENhdGVnb3J5RWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Categories/CategoryList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxDYXRlZ29yaWVzXENhdGVnb3J5TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Categories/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxDYXRlZ29yaWVzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Measurement/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxNZWFzdXJlbWVudFxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Measurement/MeasurementCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxNZWFzdXJlbWVudFxNZWFzdXJlbWVudENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Measurement/MeasurementDelete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxNZWFzdXJlbWVudFxNZWFzdXJlbWVudERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Measurement/MeasurementEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxNZWFzdXJlbWVudFxNZWFzdXJlbWVudEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Measurement/MeasurementList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxNZWFzdXJlbWVudFxNZWFzdXJlbWVudExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Products/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxQcm9kdWN0c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Products/ProductCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxQcm9kdWN0c1xQcm9kdWN0Q3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Products/ProductDelete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxQcm9kdWN0c1xQcm9kdWN0RGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Products/ProductEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxQcm9kdWN0c1xQcm9kdWN0RWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Products/ProductList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxQcm9kdWN0c1xQcm9kdWN0TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Products/StockAlert.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxQcm9kdWN0c1xTdG9ja0FsZXJ0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Taxes/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxUYXhlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Taxes/TaxCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxUYXhlc1xUYXhDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Taxes/TaxDelete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxUYXhlc1xUYXhEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Taxes/TaxEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxUYXhlc1xUYXhFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/ProductManager/Taxes/TaxList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQcm9kdWN0TWFuYWdlclxUYXhlc1xUYXhMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/PurchaseOrders/PurchaseOrderCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQdXJjaGFzZU9yZGVyc1xQdXJjaGFzZU9yZGVyQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/PurchaseOrders/PurchaseOrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQdXJjaGFzZU9yZGVyc1xQdXJjaGFzZU9yZGVyRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/PurchaseOrders/PurchaseOrderEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQdXJjaGFzZU9yZGVyc1xQdXJjaGFzZU9yZGVyRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/PurchaseOrders/PurchaseOrderList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxQdXJjaGFzZU9yZGVyc1xQdXJjaGFzZU9yZGVyTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/StockAdjustments/StockAdjustmentCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdG9ja0FkanVzdG1lbnRzXFN0b2NrQWRqdXN0bWVudENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/StockAdjustments/StockAdjustmentEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdG9ja0FkanVzdG1lbnRzXFN0b2NrQWRqdXN0bWVudEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/StockAdjustments/StockAdjustmentList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdG9ja0FkanVzdG1lbnRzXFN0b2NrQWRqdXN0bWVudExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/Supplier/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdXBwbGllclxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/Supplier/SupplierCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdXBwbGllclxTdXBwbGllckNyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/Supplier/SupplierDelete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdXBwbGllclxTdXBwbGllckRlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/Supplier/SupplierEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdXBwbGllclxTdXBwbGllckVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/InventoryManagement/Supplier/SupplierList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW52ZW50b3J5TWFuYWdlbWVudFxTdXBwbGllclxTdXBwbGllckxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuCategories/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUNhdGVnb3JpZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuCategories/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUNhdGVnb3JpZXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuCategories/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUNhdGVnb3JpZXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuCategories/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUNhdGVnb3JpZXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuCategories/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUNhdGVnb3JpZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuItems/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUl0ZW1zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuItems/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUl0ZW1zXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuItems/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUl0ZW1zXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuItems/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUl0ZW1zXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuItems/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudUl0ZW1zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuRecipes/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVJlY2lwZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuRecipes/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVJlY2lwZXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuRecipes/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVJlY2lwZXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuRecipes/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVJlY2lwZXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/MenuRecipes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVJlY2lwZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/AcceptDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xBY2NlcHREZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/AcceptedItems.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xBY2NlcHRlZEl0ZW1zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/OrderDetailDelete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xPcmRlckRldGFpbERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/OrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xPcmRlckRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/OrderDetailsEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xPcmRlckRldGFpbHNFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/PaymentMethod.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xQYXltZW50TWV0aG9kLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/RestaurantLiveOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xSZXN0YXVyYW50TGl2ZU9yZGVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/RestaurantOrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xSZXN0YXVyYW50T3JkZXJEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/SuperAdminOrderDetailDelete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xTdXBlckFkbWluT3JkZXJEZXRhaWxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/OrderDetailWebsites/SuperAdminOrderDetailsEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJEZXRhaWxXZWJzaXRlc1xTdXBlckFkbWluT3JkZXJEZXRhaWxzRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/PreProductions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlUHJvZHVjdGlvbnNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/PreProductions/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlUHJvZHVjdGlvbnNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/PreProductions/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlUHJvZHVjdGlvbnNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/PreProductions/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlUHJvZHVjdGlvbnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/PreProductions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlUHJvZHVjdGlvbnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Productions/ProductionCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdGlvbnNcUHJvZHVjdGlvbkNyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Productions/ProductionDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdGlvbnNcUHJvZHVjdGlvbkRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Productions/ProductionEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdGlvbnNcUHJvZHVjdGlvbkVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Productions/ProductionIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdGlvbnNcUHJvZHVjdGlvbkluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/RestaurantDashboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudERhc2hib2FyZFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Restaurant/Restaurants/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxSZXN0YXVyYW50c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Restaurant/Restaurants/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxSZXN0YXVyYW50c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Restaurant/Restaurants/OrderList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxSZXN0YXVyYW50c1xPcmRlckxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Restaurant/Restaurants/RestaurantDeletedOrderList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxSZXN0YXVyYW50c1xSZXN0YXVyYW50RGVsZXRlZE9yZGVyTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Restaurant/Restaurants/RestaurantEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxSZXN0YXVyYW50c1xSZXN0YXVyYW50RWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Restaurant/Restaurants/RestaurantList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxSZXN0YXVyYW50c1xSZXN0YXVyYW50TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Restaurant/Restaurants/SuperAdminDeletedOrderList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdGF1cmFudFxSZXN0YXVyYW50c1xTdXBlckFkbWluRGVsZXRlZE9yZGVyTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/StocksReport/GenerateReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvY2tzUmVwb3J0XEdlbmVyYXRlUmVwb3J0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/RestaurantCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xSZXN0YXVyYW50Q3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/SuperAdminClientList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xTdXBlckFkbWluQ2xpZW50TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/SuperAdminLiveOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xTdXBlckFkbWluTGl2ZU9yZGVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/SuperAdminOrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xTdXBlckFkbWluT3JkZXJEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/SuperAdminOrderList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xTdXBlckFkbWluT3JkZXJMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/SuperAdminRestaurantEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xTdXBlckFkbWluUmVzdGF1cmFudEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Restaurants/SuperAdminRestaurantList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxSZXN0YXVyYW50c1xTdXBlckFkbWluUmVzdGF1cmFudExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Users/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxVc2Vyc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Users/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxVc2Vyc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Users/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxVc2Vyc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Users/LoginAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxVc2Vyc1xMb2dpbkFkbWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Users/RegisterSuperAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxVc2Vyc1xSZWdpc3RlclN1cGVyQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/SuperAdmin/Users/SuperAdminList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxVc2Vyc1xTdXBlckFkbWluTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Togs/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9nc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Togs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9nc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Togs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9nc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Warehouses/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2FyZWhvdXNlc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Warehouses/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2FyZWhvdXNlc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Warehouses/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2FyZWhvdXNlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Warehouses/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2FyZWhvdXNlc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Warehouses/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2FyZWhvdXNlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Website/Users/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vic2l0ZVxVc2Vyc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Website/Users/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vic2l0ZVxVc2Vyc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Website/Users/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vic2l0ZVxVc2Vyc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Website/Users/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vic2l0ZVxVc2Vyc1xMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Website/Users/RegisterClient.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vic2l0ZVxVc2Vyc1xSZWdpc3RlckNsaWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Website/Users/UserList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vic2l0ZVxVc2Vyc1xVc2VyTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Website/WebsiteHome.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vic2l0ZVxXZWJzaXRlSG9tZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Works/Caterer/Caterer/Views/Shared/_CaterersDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DYXRlcmVyc0Rhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-yxhwfi2r6b
+
+[D:/Works/Caterer/Caterer/Views/Shared/_ClientDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DbGllbnREYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-l1aduwsk43
+
+[D:/Works/Caterer/Caterer/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-bjwc97l3w9
+
+[D:/Works/Caterer/Caterer/Views/Shared/_Layouts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-x8isihz43m
+
+[D:/Works/Caterer/Caterer/Views/Shared/_SuperAdminDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TdXBlckFkbWluRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-sbyvev6lg5

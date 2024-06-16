@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Caterer.Models.Tog>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Products";
+}
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Transfer of Goods</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-success btn-sm ms-auto" asp-action="Create" asp-controller="Togs">Add Tog</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Tog NO</th>
+                                    <th>Warehouse</th>
+                                    <th>TogDate</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int counter = 1;
+                                }
+                                @{
+                                    var uniquePNos = new HashSet<int>();
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    if (!uniquePNos.Contains(item.TNo))
+                                    {
+                                        <tr>
+                                            <td>@counter</td>
+                                            <td>@item.TogNO</td>
+                                            <td>@item.WarehouseName</td>
+                                            <td>@item.TogDate.ToString("dd-MM-yyyy"?? "N/A")</td>
+                                            <td>@item.Total</td>
+                                            <td>
+
+                                                <span class="badge badge-secondary" style="background-color: green; color: white;"> @item.Status</span>
+                                            </td>
+
+                                            <td>
+                                                <a asp-action="Details" asp-route-id="@item.TogId"><i class="fa-solid fa-eye"></i></a>
+                                            </td>
+                                            @{
+                                                counter++;
+                                            }
+                                        </tr>
+                                        uniquePNos.Add(item.TNo);
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+    }

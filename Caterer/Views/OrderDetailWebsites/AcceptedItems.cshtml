@@ -1,0 +1,91 @@
+﻿@model Tuple<List<OrderDetailWebsite>, List<Production>>
+@{
+    ViewData["Title"] = "Accepted Items";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Accepted Items";
+}
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <div class="container-fluid py-8">
+        <div class="card">
+            <div class="card-body">
+                <h2>Accepted Orders</h2>
+                <div class="table-responsive">
+                    <table id="table" class="table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Restaurant Name</th>
+                            <th>Name</th>
+                            <th>PhoneNumber</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int counter = 1; 
+                        }
+                        @foreach (var orderDetail in Model.Item1)
+                        {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@orderDetail.OrderDetailsWebsiteId</td>
+                                <td>
+                                    @(orderDetail.SelectedDate != null ? DateTime.Parse(orderDetail.SelectedDate).ToString("dd-MM-yyyy") : "")
+                                </td>
+                                <td>@orderDetail.RestaurantName</td>
+                                <td>@orderDetail.Name</td>
+                                <td>@orderDetail.PhoneNumber</td>
+                                <td>
+                                    @{
+                                        var production = Model.Item2.FirstOrDefault(p => p.OrderDetailsWebsiteId == orderDetail.OrderDetailsWebsiteId);
+                                    }
+
+                                    @if (production != null && (production.ProductionStatus == "Process" || production.ProductionStatus == "Completed"))
+                                    {
+                                        @if (production.ProductionStatus == "Process")
+                                        {
+                                            <span class="badge badge-secondary" style="background-color: gold; color: black;">@production.ProductionStatus</span>
+                                        }
+                                        else if (production.ProductionStatus == "Completed")
+                                        {
+                                            <span class="badge badge-secondary" style="background-color: green; color: white;">@production.ProductionStatus</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a class="badge badge-success" asp-route-id="@orderDetail.OrderDetailsWebsiteId" asp-action="ProductionCreate" asp-controller="Productions" style="background-color: darkorange; color: white; text-decoration: none;">Go to Production</a>
+                                    }
+
+                                </td>
+                                     <td>
+                                    <a  asp-route-id="@orderDetail.OrderDetailsWebsiteId" asp-action="AcceptDetails" asp-controller="OrderDetailWebsites">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                </td>
+                                @{
+                                    counter++;
+                                }
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 25
+            });
+        });
+    </script>
+
+    }

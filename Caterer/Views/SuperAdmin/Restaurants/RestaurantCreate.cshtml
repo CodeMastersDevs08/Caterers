@@ -1,0 +1,655 @@
+﻿@model Caterer.Models.Restaurant
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Login Page</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .login-container {
+            max-width: 700px; /* Adjust container size as needed */
+            margin: auto;
+            margin-top: 70px; /* Adjust margin-top as needed */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-check {
+            margin-bottom: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn-login {
+            background-color: #dc3545;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-login:hover {
+                background-color: #c82333;
+            }
+
+        .form-control,
+        .btn {
+            border-radius: 4px;
+        }
+
+        .form-check-label {
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            font-size: 24px;
+            margin: 0 10px;
+            color: #343a40;
+            transition: color 0.3s ease;
+        }
+
+            .social-icon:hover {
+                color: #dc3545;
+            }
+    </style>
+</head>
+<body class="" style="background-color: #e4eefc;">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="container position-sticky z-index-sticky top-0">
+        <div class="row">
+            <div class="col-12">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="login-container" style="background-color: #ffffff;">
+            <div class="text-center">
+                <img src="/Img/WhatsApp Image 2024-01-12 at 11.18.42 AM.jpeg" alt="Caters Logo" style="width: 150px; height: 100px; ">
+            </div>
+            <h2 class="text-center mb-4">Partner With Us</h2>
+            <form asp-action="RestaurantCreate" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+
+                    <input asp-for="Role" class="form-control" type="hidden" value="Restaurant" />
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="RestaurantName" class="control-label">Restaurant Name</label>
+                            <input asp-for="RestaurantName" class="form-control" placeholder="Please Enter Restaurant Name" />
+                            <span asp-validation-for="RestaurantName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="OwnerName" class="control-label">Name</label>
+                            <input asp-for="OwnerName" class="form-control" placeholder="Please Enter Name" required />
+                            <span asp-validation-for="OwnerName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="OwnerEmail" class="control-label">Email</label>
+                            <input asp-for="OwnerEmail" class="form-control" placeholder="Please Enter Email" required />
+                            <span asp-validation-for="OwnerEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="OwnerPhone" class="control-label">Phone Number</label>
+                            <input asp-for="OwnerPhone" class="form-control" placeholder="Please Enter Phone Number" required />
+                            <span asp-validation-for="OwnerPhone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label">Address</label>
+                            <input asp-for="Address" class="form-control" placeholder="Please Enter Address" required />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="display:none;">
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Please Enter Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" placeholder="Please Enter Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div style="display:none">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsFeatured" /> @Html.DisplayNameFor(model => model.IsFeatured)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanAutoReject" /> @Html.DisplayNameFor(model => model.CanAutoReject)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanAutoAccept" /> @Html.DisplayNameFor(model => model.CanAutoAccept)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanPickup" /> @Html.DisplayNameFor(model => model.CanPickup)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanDeliver" /> @Html.DisplayNameFor(model => model.CanDeliver)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanFreeDeliver" /> @Html.DisplayNameFor(model => model.CanFreeDeliver)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanPreorder" /> @Html.DisplayNameFor(model => model.CanPreorder)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Disableordering" /> @Html.DisplayNameFor(model => model.Disableordering)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanDineIn" /> @Html.DisplayNameFor(model => model.CanDineIn)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="DisableCOD" /> @Html.DisplayNameFor(model => model.DisableCOD)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="DisableCardpayment" /> @Html.DisplayNameFor(model => model.DisableCardpayment)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="DisablePayNow" /> @Html.DisplayNameFor(model => model.DisablePayNow)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="DoConversion" /> @Html.DisplayNameFor(model => model.DoConversion)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanDispalyAllergensOnMenu" /> @Html.DisplayNameFor(model => model.CanDispalyAllergensOnMenu)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanEnableCoupons" /> @Html.DisplayNameFor(model => model.CanEnableCoupons)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanShowTax" /> @Html.DisplayNameFor(model => model.CanShowTax)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanEnableDrivers" /> @Html.DisplayNameFor(model => model.CanEnableDrivers)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanShowGoogleTranslate" /> @Html.DisplayNameFor(model => model.CanShowGoogleTranslate)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanShowAllLanguages" /> @Html.DisplayNameFor(model => model.CanShowAllLanguages)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanEnableKitchenDisplaySystem" /> @Html.DisplayNameFor(model => model.CanEnableKitchenDisplaySystem)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanEnableOrderAfterWorkingTimeOfTheStore" /> @Html.DisplayNameFor(model => model.CanEnableOrderAfterWorkingTimeOfTheStore)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanShowDateTimePickerEvenIfStoreIsOpen" /> @Html.DisplayNameFor(model => model.CanShowDateTimePickerEvenIfStoreIsOpen)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanEnableCustomDeliveyCost" /> @Html.DisplayNameFor(model => model.CanEnableCustomDeliveyCost)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="CanEnableCostBasedOnRange" /> @Html.DisplayNameFor(model => model.CanEnableCostBasedOnRange)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Monday" /> @Html.DisplayNameFor(model => model.Monday)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Tuesday" /> @Html.DisplayNameFor(model => model.Tuesday)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Wednesday" /> @Html.DisplayNameFor(model => model.Wednesday)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Thursday" /> @Html.DisplayNameFor(model => model.Thursday)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Friday" /> @Html.DisplayNameFor(model => model.Friday)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Saturday" /> @Html.DisplayNameFor(model => model.Saturday)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Sunday" /> @Html.DisplayNameFor(model => model.Sunday)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Logo" class="control-label"></label>
+                        <input asp-for="Logo" class="form-control" value="LogoImage.jpg" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cover" class="control-label"></label>
+                        <input asp-for="Cover" class="form-control" value="img" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Minimum" class="control-label"></label>
+                        <input asp-for="Minimum" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TakeawayMin" class="control-label"></label>
+                        <input asp-for="TakeawayMin" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Minutes" class="control-label"></label>
+                        <input asp-for="Minutes" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AutoRejectWaitTime" class="control-label"></label>
+                        <input asp-for="AutoRejectWaitTime" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="QRPaymentWaitTime" class="control-label"></label>
+                        <input asp-for="QRPaymentWaitTime" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AverageOrderPrepareTimeInMinutes" class="control-label"></label>
+                        <input asp-for="AverageOrderPrepareTimeInMinutes" class="form-control" value="0" />
+                        <span asp-validation-for="AverageOrderPrepareTimeInMinutes" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TimeSlotSeparatedInMinutes" class="control-label"></label>
+                        <input asp-for="TimeSlotSeparatedInMinutes" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DeliveryPreparationTime" class="control-label"></label>
+                        <input asp-for="DeliveryPreparationTime" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ServiceTax" class="control-label"></label>
+                        <input asp-for="ServiceTax" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StripeServiceTax" class="control-label"></label>
+                        <input asp-for="StripeServiceTax" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PayNowServiceTax" class="control-label"></label>
+                        <input asp-for="PayNowServiceTax" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ServiceTaxDineIn" class="control-label"></label>
+                        <input asp-for="ServiceTaxDineIn" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FreeDeliveryCost" class="control-label"></label>
+                        <input asp-for="FreeDeliveryCost" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DefaultLanguage" class="control-label"></label>
+                        <input asp-for="DefaultLanguage" class="form-control" value="English" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Currency" class="control-label"></label>
+                        <input asp-for="Currency" class="form-control" value="0" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TaxId" class="control-label"></label>
+                        <input asp-for="TaxId" class="form-control" value="18" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Domain" class="control-label"></label>
+                        <input asp-for="Domain" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LanguageCode" class="control-label"></label>
+                        <input asp-for="LanguageCode" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TitleOfImpressum" class="control-label"></label>
+                        <input asp-for="TitleOfImpressum" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Impressum" class="control-label"></label>
+                        <input asp-for="Impressum" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ManagerEmail" class="control-label"></label>
+                        <input asp-for="ManagerEmail" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PrintNodeApiKey" class="control-label"></label>
+                        <input asp-for="PrintNodeApiKey" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MainThermalPrinterId" class="control-label"></label>
+                        <input asp-for="MainThermalPrinterId" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SecondMainPrinterId" class="control-label"></label>
+                        <input asp-for="SecondMainPrinterId" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="KitchenThermalPrinterId" class="control-label"></label>
+                        <input asp-for="KitchenThermalPrinterId" class="form-control" />
+                        <span asp-validation-for="KitchenThermalPrinterId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SecondKitchenThermalPrinterId" class="control-label"></label>
+                        <input asp-for="SecondKitchenThermalPrinterId" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StandardPrinterId" class="control-label"></label>
+                        <input asp-for="StandardPrinterId" class="form-control" />
+                        <span asp-validation-for="StandardPrinterId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PrintA4StandardOrderWhen" class="control-label"></label>
+                        <input asp-for="PrintA4StandardOrderWhen" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PrintOnMainThermalPrinterWhen" class="control-label"></label>
+                        <input asp-for="PrintOnMainThermalPrinterWhen" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PrintOnKitchenThermalPrinterWhen" class="control-label"></label>
+                        <input asp-for="PrintOnKitchenThermalPrinterWhen" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SelectYoutMenuTemplate" class="control-label"></label>
+                        <input asp-for="SelectYoutMenuTemplate" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TimeZone" class="control-label"></label>
+                        <input asp-for="TimeZone" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TimeLanguage" class="control-label"></label>
+                        <input asp-for="TimeLanguage" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TimeFormatForOrders" class="control-label"></label>
+                        <input asp-for="TimeFormatForOrders" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TimeFormatForClosingTime" class="control-label"></label>
+                        <input asp-for="TimeFormatForClosingTime" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="WebhookCalledApprovedBySystem" class="control-label"></label>
+                        <input asp-for="WebhookCalledApprovedBySystem" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="WebhookCalledApprovedByvendor" class="control-label"></label>
+                        <input asp-for="WebhookCalledApprovedByvendor" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FirstRange" class="control-label"></label>
+                        <input asp-for="FirstRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SecondRange" class="control-label"></label>
+                        <input asp-for="SecondRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ThirdRange" class="control-label"></label>
+                        <input asp-for="ThirdRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FourthRange" class="control-label"></label>
+                        <input asp-for="FourthRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FifthRange" class="control-label"></label>
+                        <input asp-for="FifthRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PriceForFirstRange" class="control-label"></label>
+                        <input asp-for="PriceForFirstRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PriceForSecondRange" class="control-label"></label>
+                        <input asp-for="PriceForSecondRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PriceForThirdRange" class="control-label"></label>
+                        <input asp-for="PriceForThirdRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PriceForFourthRange" class="control-label"></label>
+                        <input asp-for="PriceForFourthRange" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PriceForFifthRange" class="control-label"></label>
+                        <input asp-for="PriceForFifthRange" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="MondayStart" class="control-label"></label>
+                        <input asp-for="MondayStart" class="form-control" />
+                        <span asp-validation-for="MondayStart" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MondayEnd" class="control-label"></label>
+                        <input asp-for="MondayEnd" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TuesdayStart" class="control-label"></label>
+                        <input asp-for="TuesdayStart" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TuesdayEnd" class="control-label"></label>
+                        <input asp-for="TuesdayEnd" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="WednesdayStart" class="control-label"></label>
+                        <input asp-for="WednesdayStart" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="WednesdayEnd" class="control-label"></label>
+                        <input asp-for="WednesdayEnd" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ThursdayStart" class="control-label"></label>
+                        <input asp-for="ThursdayStart" class="form-control" />
+                        <span asp-validation-for="ThursdayStart" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ThursdayEnd" class="control-label"></label>
+                        <input asp-for="ThursdayEnd" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FridayStart" class="control-label"></label>
+                        <input asp-for="FridayStart" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FridayEnd" class="control-label"></label>
+                        <input asp-for="FridayEnd" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SaturdayStart" class="control-label"></label>
+                        <input asp-for="SaturdayStart" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SaturdayEnd" class="control-label"></label>
+                        <input asp-for="SaturdayEnd" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SundayStart" class="control-label"></label>
+                        <input asp-for="SundayStart" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SundayEnd" class="control-label"></label>
+                        <input asp-for="SundayEnd" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PayNowPayOutDays" class="control-label"></label>
+                        <input asp-for="PayNowPayOutDays" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CardPayoutdays" class="control-label"></label>
+                        <input asp-for="CardPayoutdays" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RestaurantBankShortCode" class="control-label"></label>
+                        <input asp-for="RestaurantBankShortCode" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RestaurantBankAccountNo" class="control-label"></label>
+                        <input asp-for="RestaurantBankAccountNo" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RestaurantBankHolderName" class="control-label"></label>
+                        <input asp-for="RestaurantBankHolderName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CurrentPlan" class="control-label"></label>
+                        <input asp-for="CurrentPlan" class="form-control" />
+                    </div>
+                </div>
+                <div class="text-center custom-pro-edt-ds">
+                    <input type="submit" value="Save" class="btn btn-success" data-toggle="modal" data-target="#notificationModal" />
+                    <a class="btn btn-secondary" asp-controller="Websites" asp-action="WebsiteHome">Go To Home</a>
+                </div>
+            </form>
+            <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="notificationModalLabel">Notification</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Thank you for contacting us .....!</p>
+                            <p>We will send you Email & Password soon</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="social-icons mt-4">
+                <i class="fab fa-facebook social-icon"></i>
+                <i class="fab fa-twitter social-icon"></i>
+                <i class="fab fa-linkedin social-icon"></i>
+                <i class="fab fa-instagram social-icon"></i>
+            </div>
+            <div class="extra-content text-center mt-4">
+                <a class="btn btn-light" type="button" href="@Url.Action("RegisterClient", "Users")" style="color: black;">Create new account</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script> <!-- Replace with your FontAwesome kit link -->
+    @section Scripts {
+        <script>
+            // Add this script to close the modal after a delay (e.g., 2000 milliseconds or 2 seconds)
+            $(document).ready(function () {
+                setTimeout(function () {
+                    $('#notificationModal').modal('hide');
+                }, 5000); // Adjust the delay as needed
+            });
+        </script>
+        @{
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+
+    }
+</body>
+</html>
+
+
+

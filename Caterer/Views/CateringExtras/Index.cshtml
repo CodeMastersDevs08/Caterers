@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Caterer.Models.CateringExtra>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Index</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CateringItemId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExtraName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExtraPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddonCategory)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CateringItemId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExtraName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExtraPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddonCategory)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CateringExtrasId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CateringExtrasId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CateringExtrasId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

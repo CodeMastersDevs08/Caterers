@@ -1,0 +1,265 @@
+﻿@using System.Security.Claims
+@{
+    var userRole = (User.Identity.IsAuthenticated) ? User.FindFirst(ClaimTypes.Role)?.Value : null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CaterersClientDashboard</title>
+    <link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/dist/css/adminlte.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <script>
+        function toggleSubMenu(element) {
+            var submenu = element.nextElementSibling;
+            submenu.style.display = (submenu.style.display === 'none' || submenu.style.display === '') ? 'block' : 'none';
+            var arrowIcon = element.querySelector('i.fa-angle-down');
+            arrowIcon.classList.toggle('fa-angle-up');
+        }
+    </script>
+    <style>
+        .submenu {
+            display: none;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+            .submenu li {
+                margin: 0;
+                padding: 0;
+            }
+    </style>
+    <style>
+        .navbar-nav .nav-item .dropdown-menu {
+            margin-top: 0;
+        }
+
+            .navbar-nav .nav-item .dropdown-menu li {
+                margin-bottom: 0;
+            }
+
+            .navbar-nav .nav-item .dropdown-menu a {
+                padding: 8px 16px;
+            }
+
+        #chart {
+            max-width: 650px;
+        }
+
+        .actions {
+            margin-top: -10px;
+        }
+
+        button {
+            color: #fff;
+            background: #6cbcff;
+            border: 0;
+            padding: 10px 20px;
+            margin: 5px;
+            font-weight: bold;
+            font-size: 13px;
+            box-shadow: 1px 1px 2px 1px #ccc;
+        }
+
+        .dropbtn {
+            font-size: 14px;
+            border-radius: 3px;
+            background-color: white;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 12px;
+        }
+
+            .dropdown-content a {
+                color: black;
+                padding: 14px 18px;
+                text-decoration: none;
+                display: block;
+                border-radius: 12px;
+            }
+
+                .dropdown-content a:hover {
+                    border-radius: 12px;
+                    background-color: #ddd;
+                }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            border-radius: 12px;
+        }
+
+        .dropdown:hover .dropbtn {
+            border-radius: 12px;
+        }
+
+        #btns {
+            border-radius: 5px;
+            background-color: white;
+            color: rgb(94,114,228);
+            width: 100px;
+            padding: 12Px;
+        }
+    </style>
+
+</head>
+<body class="g-sidenav-show bg-gray-100">
+    <main class="main-content position-relative ">
+        <!-- Navbar -->
+        <nav id="navbar-main" class="navbar navbar-light navbar-expand-lg fixed-top">
+            <div class="container-fluid" style="display:none;">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar_global">
+                    <div class="navbar-collapse-header">
+                        <div class="row">
+                            <div class="col-6 collapse-brand">
+                                <a href="#">
+                                    <img src="/Im/settings/ed987127-b383-44a7-b10b-e31db89e1915_logo.jpg">
+                                </a>
+                            </div>
+                            <div class="col-6 collapse-close">
+                                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                        @if (userRole == "Restaurant")
+                        {
+                            <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item  dropdown show">
+                                        <div class="dropdown">
+                                            <button class="btn btn-neutral btn-icon  dropbtn" id="btns" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                            <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <div class="dropdown-content">
+                                                    <a id="btncolor" type="button" asp-action="OrderList" asp-controller="Restaurants"><i class="bi bi-cart4"></i> Orders List  </a>
+                                                    <a type="button" asp-action="Index" asp-controller="OrderDetailWebsites"><i class="bi bi-geo-fill"></i>  Live Orders     </a>
+                                                    <a id="btncolor" type="button" asp-action="RestaurantList" asp-controller="Restaurants"><i class="bi bi-cart4"></i>Restaurants</a>
+                                                    <a type="button" asp-action="Index" asp-controller="MenuItems"><i class="bi bi-geo-fill"></i>   MenuItems  </a>
+                                                    <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                                    </a>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item" style="display:none">
+                                        <span class="nav-link nav-link-icon">
+                                            <span class="btn btn-neutral btn-icon web-menu">
+                                                <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                            </span>
+                                        </span>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else if (userRole == "SuperAdmin")
+                        {
+                            <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item  dropdown show">
+                                        <div class="dropdown">
+                                            <button class="btn btn-neutral btn-icon  dropbtn" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                            <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <div class="dropdown-content">
+                                                    <a id="btncolor" type="button" asp-action="SuperAdminRestaurantList" asp-controller="Restaurants"><i class="bi bi-cart4"></i>Restaurants</a>
+                                                    <a type="button" asp-action="SuperAdminList" asp-controller="Users"><i class="bi bi-person"></i>   Users List     </a>
+                                                    <a type="button" asp-action="SuperAdminList" asp-controller="Users"><i class="bi bi-person"></i>   Users      </a>
+                                                    <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                                    </a>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item" style="display:none">
+                                        <span class="nav-link nav-link-icon">
+                                            <span class="btn btn-neutral btn-icon web-menu">
+                                                <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                            </span>
+                                        </span>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else if (userRole == "Client")
+                        {
+                            <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item  dropdown show">
+                                        <div class="dropdown">
+                                            <button class="btn btn-neutral btn-icon  dropbtn" style=" border-radius: 3px;"> <span class="nav-link-inner--text"><i class="bi bi-person"></i>   @User.Identity.Name</span></button>
+                                            <form id="logoutForm" asp-controller="Websites" asp-action="Logout" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <div class="dropdown-content">
+                                                    <a type="button" asp-action="ClientDashboard" asp-controller="ClientDashboards"><i class="bi bi-cart4"></i>  My Orders   </a>
+                                                    <a type="button" asp-action="ClientDashboard" asp-controller="ClientDashboards"><i class="bi bi-geo-fill"></i>  My Address     </a>
+                                                    <a id="Logout" onclick="document.getElementById('logoutForm').submit();">
+                                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                                    </a>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item" style="display:none">
+                                        <span class="nav-link nav-link-icon">
+                                            <span class="btn btn-neutral btn-icon web-menu">
+                                                <span class="userId">@((User.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? "N/A")</span>
+                                            </span>
+                                        </span>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <a asp-action="Login" asp-controller="Users" class="btn btn-neutral btn-icon web-menu"><i class="bi bi-person"></i>Login</a>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+        @RenderBody()
+    </main>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/chartjs.min.js"></script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <!--chart1 donet script and style end-->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

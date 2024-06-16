@@ -1,0 +1,49 @@
+﻿@model Caterer.Models.OrderDetailWebsite
+@{
+    ViewData["Title"] = "OrderDetails";
+    Layout = "~/Views/Shared/_SuperAdminDashboard.cshtml";
+}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Delete Order</h4>
+                        <div class="d-flex">
+                            <div class="ms-auto">
+                                <a class="btn btn-success btn-sm ms-auto" asp-controller="OrderDetailWebsites" asp-action="OrderDetailDelete" asp>Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <h5>Order Information</h5>
+                        <hr class="my-3">
+                        <dl class="row">
+                            <dt class="col-sm-3">Order#:</dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.OrderDetailsWebsiteId)
+                            </dd>
+                            <dt class="col-sm-3">Restaurant Name:</dt>
+                            <dd class="col-sm-9">
+                                @Html.DisplayFor(model => model.RestaurantName)
+                            </dd>
+                        </dl>
+                        <form asp-controller="OrderDetailWebsites" asp-action="SuperAdminOrderDetailDelete" asp-route-id="@Model.OrderDetailsWebsiteId" method="post">
+                            <input type="hidden" asp-for="OrderDetailsWebsiteId" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+
+                    </div>
+                </div>
+                @section Scripts {
+                    @{
+                        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

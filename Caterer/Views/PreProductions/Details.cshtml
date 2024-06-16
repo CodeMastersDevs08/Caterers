@@ -1,0 +1,116 @@
+﻿@model Caterer.Models.PreProduction
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_CaterersDashboard.cshtml";
+    ViewData["Heading"] = "Pre-Production Order";
+}
+
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>Pre-Production Details</h4>
+                            <div class="d-flex">
+                                <div class="ms-auto">
+                                    <a class="btn btn-success btn-sm ms-auto" asp-controller="PreProductions" asp-action="Index">Back to List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row">
+                          
+                            <dt class="col-sm-2">
+                                Menu Category
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Model.MenuCategory
+                            </dd>
+                            <dt class="col-sm-2">
+                                Item Name
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Model.MenuItemName
+                            </dd>
+                            <dt class="col-sm-2">
+                                Prepared Date
+                            </dt>
+                            <dd class="col-sm-10">
+                                @(Model.PreProductionDate.HasValue ? Model.PreProductionDate.Value.ToString("dd-MM-yyyy") : "")
+                            </dd>
+
+                            <dt class="col-sm-2">
+                                Expiry Date
+                            </dt>
+                            <dd class="col-sm-10">
+                                @(Model.ExpiryDate.HasValue ? Model.ExpiryDate.Value.ToString("dd-MM-yyyy") : "")
+                            </dd>
+
+                            <!-- Add other details as needed -->
+
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="container mt-4">
+
+                    @{
+
+                        @foreach (var group in (List<IGrouping<string, Caterer.Models.PreProduction>>)ViewData["GroupedPreProductions"])
+                        {
+                            <div class="card">
+                                <div class="menu-item-section mt-2">
+                                    <h2 class="text-center">@group.Key</h2>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr class="bg-info text-white">
+                                                    <th>S.No</th>
+                                                    <th> Name</th>
+                                                    <th> Category</th>
+                                                    <th>Unit</th>
+                                                    <th>Total Pack</th>
+                                                    <th>Total Quantity</th>
+
+                                                    <!-- Add other columns based on your requirements -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int counter = 1;
+                                                }
+                                                @foreach (var relatedProduction in group)
+                                                {
+                                                    <tr>
+                                                        <td>@counter</td>
+                                                        <td>@relatedProduction.ProductName</td>
+                                                        <td>@relatedProduction.ProductCategory</td>
+                                                        <td>@relatedProduction.ProductUnit</td>
+                                                        <td>@relatedProduction.TotalPack</td>
+                                                        <td>@relatedProduction.TotalQuantity</td>
+
+
+                                                        <!-- Add other related Production properties -->
+                                                        @{
+                                                            counter++;
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

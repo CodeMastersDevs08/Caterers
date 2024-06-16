@@ -1,0 +1,54 @@
+﻿@model Caterer.Models.Extra
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+    ViewData["Heading"] = "Products";
+}
+<div class="container-fluid py-8">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 mr-auto">Add Extras </p>
+                        <a class="btn btn-danger btn-sm " asp-action="Edit" asp-controller="MenuItems" asp-route-id="@Model.MenuItemId">X</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="ExtrasId" />
+                        <div class="form-group">
+                            <label asp-for="MenuItemId" class="control-label"></label>
+                            <input asp-for="MenuItemId" type="hidden" class="form-control" />
+                            <span asp-validation-for="MenuItemId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ExtraName" class="control-label"></label>
+                            <input asp-for="ExtraName" required class="form-control" />
+                            <span asp-validation-for="ExtraName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ExtraPrice" class="control-label"></label>
+                            <input asp-for="ExtraPrice" required class="form-control" />
+                            <span asp-validation-for="ExtraPrice" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AddonCategory" class="control-label"></label>
+                            <input asp-for="AddonCategory" class="form-control" />
+                            <span asp-validation-for="AddonCategory" class="text-danger"></span>
+                        </div>
+                        <div class="text-center custom-pro-edt-ds">
+                            <input type="submit" value="Update" class="btn btn-success" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
